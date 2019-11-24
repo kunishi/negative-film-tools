@@ -1,3 +1,4 @@
+brew "exiftool"
 brew "negfix8"
 
 tap "int128/gpup"
