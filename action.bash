@@ -14,7 +14,7 @@ for f in "$@"; do
     /usr/local/bin/negfix8 "$SRC/$f" "$WORK/$f" && \
       /usr/local/bin/autotone -G -n "$WORK/$f" "$WORK/${f%%.*}.jpg" && \
       cp -p "$WORK/${f%%.*}.jpg" $DONEDIR && \
-      rm -f "$SRC/$f" "$WORK/${ff%%.*}.jpg" "${WORK}/$f"
+      rm -f "$SRC/$f" "$WORK/${f%%.*}.jpg" "${WORK}/$f"
   fi
 done
 
