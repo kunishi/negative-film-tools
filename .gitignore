@@ -1,0 +1,5 @@
+Brewfile.lock.json
+
+# scripts for image processing
+autotone
+autowhite
