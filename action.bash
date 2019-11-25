@@ -34,4 +34,4 @@ for f in "$@"; do
   fi
 done
 
-#rm -rf "$WORK"
+rm -rf "$WORK"
