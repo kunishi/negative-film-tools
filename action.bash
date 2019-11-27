@@ -26,12 +26,17 @@ for f in "$@"; do
         '-offsettimeoriginal=+09:00' \
         "$WORK/$f" && \
       /usr/local/bin/negfix8 "$WORK/$f" "$WORK/P_$f" && \
-      /usr/local/bin/autotone -G -n "$WORK/P_$f" "$WORK/${f%%.*}.jpg" && \
+      /usr/local/bin/autotone -P 0.1 -GN a -WN a -n "$WORK/P_$f" "$WORK/PP_$f" && \
+      convert -normalize "$WORK/PP_$f" "$WORK/${f%%.*}.jpg" && \
       exiftool -overwrite_original \
         -TagsFromFile "$WORK/$f" "-all:all>all:all" "${WORK}/${f%%.*}.jpg" && \
       cp -p "$WORK/${f%%.*}.jpg" $DONEDIR && \
-      rm -f "$WORK/${f%%.*}.jpg" "${WORK}/$f" "${WORK}/P_$f"
+      rm -f "$WORK/${f%%.*}.jpg" "${WORK}/$f" "${WORK}/P_$f" "${WORK}/PP_$f"
   fi
 done
 
-rm -rf "$WORK"
+function cleanup() {
+  rm -rf "$WORK"
+}
+
+trap cleanup EXIT
