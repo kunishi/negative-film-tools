@@ -20,7 +20,7 @@ def cv2_gamma(gamma):
     return table
 
 raw = rawpy.imread(sys.argv[1])
-rgb = raw.postprocess(gamma=(1, 1), no_auto_bright=True, use_camera_wb=False, use_auto_wb=True, output_bps=8)
+rgb = raw.postprocess(no_auto_bright=False, use_camera_wb=False, use_auto_wb=True, output_bps=8)
 
 # read image from array
 #image = Image.fromarray(rgb)
@@ -34,7 +34,7 @@ inverted = cv2.bitwise_not(image)
 #inverted = rgb
 
 # gamma correction
-#GAMMA = 4.8
+#GAMMA = 1.8
 GAMMA = 1.0 
 #gamma_img = contrasted.point(gamma(GAMMA, GAMMA, GAMMA))
 #gamma_img.save('out.tif')
@@ -44,16 +44,15 @@ rgb_gamma = cv2.LUT(inverted, cv2_gamma(GAMMA))
 # auto contrast
 #contrasted = PIL.ImageOps.autocontrast(inverted, cutoff=1)
 img_yuv = cv2.cvtColor(rgb_gamma, cv2.COLOR_BGR2YUV)
-clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-img_yuv[:, :, 0] = cv2.equalizeHist(img_yuv[:, :, 0])
-#img_yuv[:, :, 0] = clahe.apply(img_yuv[:, :, 0])
-contrasted = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
-#contrasted = rgb_gamma
+clahe = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(8, 8))
+#img_yuv[:, :, 0] = cv2.equalizeHist(img_yuv[:, :, 0])
+img_yuv[:, :, 0] = clahe.apply(img_yuv[:, :, 0])
+#contrasted = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
+contrasted = rgb_gamma
 
 result = contrasted
 height = result.shape[0]
 width = result.shape[1]
-print(height, width)
 #cv2.imwrite('out.tif', result)
 cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
 cv2.imshow('image', cv2.resize(result, (width // 6, height // 6)))
