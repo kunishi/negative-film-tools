@@ -48,17 +48,13 @@ for x in range(rangex):
 #rgb_gamma = inverted
 
 # auto contrast
-#contrasted = PIL.ImageOps.autocontrast(inverted, cutoff=1)
-#img_yuv = cv2.cvtColor(rgb_gamma, cv2.COLOR_BGR2YUV)
-clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-#img_yuv[:, :, 0] = cv2.equalizeHist(img_yuv[:, :, 0])
-#img_yuv[:, :, 0] = clahe.apply(img_yuv[:, :, 0])
-#contrasted = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
 if len(rgb_gamma.shape) == 3:
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     for channel in range(0, 3):
         rgb_gamma[:, :, channel] = clahe.apply(rgb_gamma[:, :, channel])
 else:
-    rgb_gamma[:, :, 0] = clahe.apply(rgb_gamma[:, :, 0])
+    #rgb_gamma[:, :, 0] = clahe.apply(rgb_gamma[:, :, 0])
+    rgb_gamma[:, :, 0] = cv2.equalizeHist(rgb_gamma[:, :, 0])
 contrasted = rgb_gamma
 
 result = contrasted
