@@ -60,7 +60,7 @@ contrasted = rgb_gamma
 result = contrasted
 height = result.shape[0]
 width = result.shape[1]
-#cv2.imwrite('out.tif', result)
-cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
-cv2.imshow('image', cv2.resize(result, (width // 4, height // 4)))
-cv2.waitKey(0)
+cv2.imwrite('out.tif', result)
+#cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
+#cv2.imshow('image', cv2.resize(result, (width // 4, height // 4)))
+#cv2.waitKey(0)
