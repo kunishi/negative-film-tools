@@ -11,6 +11,8 @@ matplotlib = "*"
 pillow = "*"
 imageio = "*"
 opencv-python = "*"
+scikit-image = "*"
+tifffile = "*"
 
 [requires]
 python_version = "3.7"
