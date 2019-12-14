@@ -34,16 +34,18 @@ if args.bw:
     if image.shape[2] == 3:
         bw = color.rgb2grey(inverted)
     else:
-        bw = inverted
-    rgb_gamma = exposure.adjust_gamma(bw, gamma=args.gamma)
-    contrasted = exposure.rescale_intensity(rgb_gamma)
+        bw = inverted.copy()
+    rgb_gamma = exposure.adjust_gamma(bw, gamma=1)
+    img_c = exposure.rescale_intensity(rgb_gamma)
+    contrasted = util.invert(exposure.adjust_gamma(util.invert(img_c), gamma=1/args.gamma))
 else:
     rgb_gamma = exposure.adjust_gamma(inverted, gamma=args.gamma)
     r, g, b = cv2.split(rgb_gamma)
     r_c = exposure.rescale_intensity(r)
     g_c = exposure.rescale_intensity(g)
     b_c = exposure.rescale_intensity(b)
-    contrasted = cv2.merge((r_c, g_c, b_c))
+    img_c = cv2.merge((r_c, g_c, b_c))
+    contrasted = img_c
 
 result = contrasted
 if args.out:
