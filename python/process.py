@@ -31,7 +31,10 @@ inverted = util.invert(image)
 
 # gamma correction and auto contrast
 if args.bw:
-    bw = color.rgb2grey(inverted)
+    if image.shape[2] == 3:
+        bw = color.rgb2grey(inverted)
+    else:
+        bw = inverted
     rgb_gamma = exposure.adjust_gamma(bw, gamma=args.gamma)
     contrasted = exposure.rescale_intensity(rgb_gamma)
 else:
