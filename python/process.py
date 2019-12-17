@@ -19,7 +19,7 @@ rgb = raw.postprocess(no_auto_bright=False, use_camera_wb=False, use_auto_wb=Tru
 
 # gamma correction and auto contrast
 if rgb.shape[2] == 1:
-    args.bw == True
+    args.bw = True
     img_src = rgb
 else:   # color, rgb.shape[2] == 3
     if args.bw:
