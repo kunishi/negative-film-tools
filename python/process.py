@@ -23,7 +23,7 @@ if args.rgb:
         rgb = exposure.adjust_gamma(util.invert(image), gamma=2.2)
 else:
     raw = rawpy.imread(args.src)
-    rgb = raw.postprocess(no_auto_bright=False, use_camera_wb=False, use_auto_wb=True, output_bps=16)
+    rgb = util.invert(raw.postprocess(no_auto_bright=False, use_camera_wb=False, use_auto_wb=True, output_bps=16))
 
 # gamma correction and auto contrast
 if len(rgb.shape) == 2 or rgb.shape[2] == 1:
