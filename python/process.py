@@ -43,5 +43,5 @@ result = exposure.adjust_gamma(util.invert(contrasted), gamma=args.gamma)
 if args.out:
     io.imsave(os.path.abspath(args.out), result)
 else:
-    io.imshow((result / 255).astype('uint8'))
+    io.imshow(result)
     io.show()
