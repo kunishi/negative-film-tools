@@ -23,7 +23,7 @@ if args.rgb:
         rgb = exposure.adjust_gamma(util.invert(image), gamma=2.2)
 else:
     raw = rawpy.imread(args.src)
-    rgb = util.invert(raw.postprocess(no_auto_bright=False, use_camera_wb=False, use_auto_wb=True, output_bps=16))
+    rgb = util.invert(raw.postprocess(gamma=(2.222, 4.5), no_auto_bright=False, auto_bright_thr=0.01, use_camera_wb=False, use_auto_wb=True, output_bps=16))
 
 # gamma correction and auto contrast
 if len(rgb.shape) == 2 or rgb.shape[2] == 1:
@@ -44,7 +44,10 @@ else:
     b_c = exposure.equalize_adapthist(b, clip_limit = 0.004, kernel_size = 96)
     contrasted = cv2.merge((r_c, g_c, b_c))
 
-result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
+v_min, v_max = np.percentile(contrasted, (0.2, 99.8))
+better = exposure.rescale_intensity(contrasted, in_range=(v_min, v_max))
+
+result = exposure.adjust_gamma(better, gamma=args.gamma)
 
 if args.out:
     io.imsave(os.path.abspath(args.out), result)
