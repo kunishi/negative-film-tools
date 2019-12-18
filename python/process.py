@@ -10,17 +10,21 @@ parser = argparse.ArgumentParser()
 parser.add_argument("src", help="source RAW file")
 parser.add_argument("--bw", help="run in bw mode", action="store_true")
 parser.add_argument("--gamma", help="specify gamma value", type=float, default=1.0)
+parser.add_argument("--noadapt", help="run without adaptive histogram equalization", action="store_true")
 parser.add_argument("--positive", help="input the positive image", action="store_true")
 parser.add_argument("--rgb", help="input RGB image", action="store_true")
 parser.add_argument("--out", help="specify the destination TIFF file")
 args = parser.parse_args()
+
+def adaptive_hist(img):
+    return exposure.equalize_adapthist(img, clip_limit=0.004, kernel_size=96)
 
 if args.rgb:
     image = io.imread(args.src, as_gray=args.bw)
     if args.positive:
         rgb = image
     else:
-        rgb = exposure.adjust_gamma(util.invert(image), gamma=2.2)
+        rgb = exposure.adjust_gamma(util.invert(image), gamma=2.222)
 else:
     raw = rawpy.imread(args.src)
     rgb = util.invert(raw.postprocess(gamma=(2.222, 4.5), no_auto_bright=False, auto_bright_thr=0.01, use_camera_wb=False, use_auto_wb=True, output_bps=16))
@@ -35,16 +39,20 @@ else:   # color, rgb.shape[2] == 3
     else:
         img_src = rgb
 
-if args.bw:
-    contrasted = exposure.equalize_adapthist(img_src, clip_limit = 0.004, kernel_size = 96)
+if args.noadapt:
+    contrasted = img_src / 65536
 else:
-    r, g, b = cv2.split(img_src)
-    r_c = exposure.equalize_adapthist(r, clip_limit = 0.004, kernel_size = 96)
-    g_c = exposure.equalize_adapthist(g, clip_limit = 0.004, kernel_size = 96)
-    b_c = exposure.equalize_adapthist(b, clip_limit = 0.004, kernel_size = 96)
-    contrasted = cv2.merge((r_c, g_c, b_c))
+    if args.bw:
+        contrasted = adaptive_hist(img_src)
+    else:
+        r, g, b = cv2.split(img_src)
+        r_c = adaptive_hist(r)
+        g_c = adaptive_hist(g)
+        b_c = adaptive_hist(b)
+        contrasted = cv2.merge((r_c, g_c, b_c))
 
 v_min, v_max = np.percentile(contrasted, (0.2, 99.8))
+print(v_min, v_max)
 better = exposure.rescale_intensity(contrasted, in_range=(v_min, v_max))
 
 result = exposure.adjust_gamma(better, gamma=args.gamma)
