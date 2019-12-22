@@ -54,7 +54,7 @@ elif args.globalrescale:
     r_c = adaptive_hist(r)
     g_c = adaptive_hist(g)
     b_c = adaptive_hist(b)
-    contrasted = rescale_intensity(cv2.merge((r_c, g_c, b_c))
+    contrasted = rescale_intensity(cv2.merge((r_c, g_c, b_c)))
 else:
     r, g, b = cv2.split(img_src)
     r_c = rescale_intensity(adaptive_hist(r))
