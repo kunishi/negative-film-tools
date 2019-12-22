@@ -1,8 +1,7 @@
-Brewfile.lock.json
-
-# scripts for image processing
-autotone
-autowhite
+*.dng
+*.jpg
+*.tif
+*.tiff
 ### https://raw.github.com/github/gitignore/e2e54ce6be90a3ca9c1da57031dc70bf62ed7921/Global/macOS.gitignore
 
 # General
