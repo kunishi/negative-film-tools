@@ -47,9 +47,9 @@ else:   # color, rgb.shape[2] == 3
 
 if args.noadapt:
     contrasted = img_src / 65536
-else if args.bw:
+elif args.bw:
     contrasted = rescale_intensity(adaptive_hist(img_src))
-else if args.globalrescale:
+elif args.globalrescale:
     r, g, b = cv2.split(img_src)
     r_c = adaptive_hist(r)
     g_c = adaptive_hist(g)
