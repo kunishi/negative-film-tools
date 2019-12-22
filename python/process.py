@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("src", help="source RAW file")
 parser.add_argument("--bw", help="run in bw mode", action="store_true")
 parser.add_argument("--gamma", help="specify gamma value", type=float, default=1.0)
+parser.add_argument("--globalrescale", help="rescaling globally", action="store_true")
 parser.add_argument("--noadapt", help="run without adaptive histogram equalization", action="store_true")
 parser.add_argument("--positive", help="input the positive image", action="store_true")
 parser.add_argument("--rgb", help="input RGB image", action="store_true")
@@ -18,6 +19,11 @@ args = parser.parse_args()
 
 def adaptive_hist(img):
     return exposure.equalize_adapthist(img, clip_limit=0.004, kernel_size=96)
+
+def rescale_intensity(img):
+    v_min, v_max = np.percentile(img, (0.2, 99.8))
+    print(v_min, v_max)
+    return exposure.rescale_intensity(img, in_range=(v_min, v_max))
 
 if args.rgb:
     image = io.imread(args.src, as_gray=args.bw)
@@ -41,21 +47,22 @@ else:   # color, rgb.shape[2] == 3
 
 if args.noadapt:
     contrasted = img_src / 65536
+else if args.bw:
+    contrasted = rescale_intensity(adaptive_hist(img_src))
+else if args.globalrescale:
+    r, g, b = cv2.split(img_src)
+    r_c = adaptive_hist(r)
+    g_c = adaptive_hist(g)
+    b_c = adaptive_hist(b)
+    contrasted = rescale_intensity(cv2.merge((r_c, g_c, b_c))
 else:
-    if args.bw:
-        contrasted = adaptive_hist(img_src)
-    else:
-        r, g, b = cv2.split(img_src)
-        r_c = adaptive_hist(r)
-        g_c = adaptive_hist(g)
-        b_c = adaptive_hist(b)
-        contrasted = cv2.merge((r_c, g_c, b_c))
+    r, g, b = cv2.split(img_src)
+    r_c = rescale_intensity(adaptive_hist(r))
+    g_c = rescale_intensity(adaptive_hist(g))
+    b_c = rescale_intensity(adaptive_hist(b))
+    contrasted = cv2.merge((r_c, g_c, b_c))
 
-v_min, v_max = np.percentile(contrasted, (0.2, 99.8))
-print(v_min, v_max)
-better = exposure.rescale_intensity(contrasted, in_range=(v_min, v_max))
-
-result = exposure.adjust_gamma(better, gamma=args.gamma)
+result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
 
 if args.out:
     io.imsave(os.path.abspath(args.out), result)
