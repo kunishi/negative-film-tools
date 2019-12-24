@@ -19,7 +19,7 @@ for arg in "$@"; do
   mkdir -p ${OUTDIR} ${TMPDIR}
   base=`basename "${arg}" .dng`
   echo ${base}
-  python3 ${HOME}/git/negative-film-tools/python/process.py ${BW} ${GAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
+  python3 process.py ${BW} ${GAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
   convert "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
   exiftool -overwrite_original \
         -TagsFromFile "${arg}" "-all:all>all:all" \
