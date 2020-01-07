@@ -25,6 +25,11 @@ def rescale_intensity(img):
     print(v_min, v_max)
     return exposure.rescale_intensity(img, in_range=(v_min, v_max))
 
+def rgb2gray(img, gamma):
+    linear = exposure.adjust_gamma(img, 1/gamma)
+    bnw = color.rgb2gray(linear)
+    return exposure.adjust_gamma(bnw, gamma)
+
 if args.rgb:
     image = io.imread(args.src, as_gray=args.bw)
     if args.positive:
@@ -35,20 +40,10 @@ else:
     raw = rawpy.imread(args.src)
     rgb = util.invert(raw.postprocess(gamma=(2.222, 4.5), no_auto_bright=False, auto_bright_thr=0.01, use_camera_wb=False, use_auto_wb=True, output_bps=16))
 
-# gamma correction and auto contrast
-if len(rgb.shape) == 2 or rgb.shape[2] == 1:
-    args.bw = True
-    img_src = rgb
-else:   # color, rgb.shape[2] == 3
-    if args.bw:
-        img_src = color.rgb2gray(rgb)
-    else:
-        img_src = rgb
+img_src = rgb
 
 if args.noadapt:
     contrasted = img_src / 65536
-elif args.bw:
-    contrasted = rescale_intensity(adaptive_hist(img_src))
 elif args.globalrescale:
     r, g, b = cv2.split(img_src)
     r_c = adaptive_hist(r)
@@ -62,7 +57,12 @@ else:
     b_c = rescale_intensity(adaptive_hist(b))
     contrasted = cv2.merge((r_c, g_c, b_c))
 
-result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
+if args.bw:
+    final = rgb2gray(contrasted, 2.222)
+else:
+    final = contrasted
+
+result = exposure.adjust_gamma(final, gamma=args.gamma)
 
 if args.out:
     io.imsave(os.path.abspath(args.out), result)
