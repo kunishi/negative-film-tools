@@ -20,7 +20,11 @@ for arg in "$@"; do
   base=`basename "${arg}" .dng`
   echo ${base}
   python3 process.py ${ARGS} ${GAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
-  convert "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
+  if [[ `/usr/bin/which -s autotone` -eq 0 ]]; then
+    autotone -n -p -s -b -GN a -WN a "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
+  else
+    convert "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
+  fi
   exiftool -overwrite_original \
         -TagsFromFile "${arg}" "-all:all>all:all" \
         '-createdate<fileaccessdate' \

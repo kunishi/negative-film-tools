@@ -60,7 +60,7 @@ else:
 if args.bw:
     final = rgb2gray(contrasted, 1.0)
 else:
-    final = exposure.adjust_gamma(contrasted, 1.8)
+    final = contrasted
 
 result = exposure.adjust_gamma(final, gamma=args.gamma)
 
