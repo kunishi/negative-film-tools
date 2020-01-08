@@ -38,7 +38,7 @@ if args.rgb:
         rgb = exposure.adjust_gamma(util.invert(image), gamma=2.222)
 else:
     raw = rawpy.imread(args.src)
-    rgb = util.invert(raw.postprocess(gamma=(2.222, 4.5), no_auto_bright=False, auto_bright_thr=0.01, use_camera_wb=False, use_auto_wb=True, output_bps=16))
+    rgb = util.invert(raw.postprocess(gamma=(1.0, 1.0), no_auto_bright=False, auto_bright_thr=0.01, use_camera_wb=False, use_auto_wb=True, output_bps=16))
 
 img_src = rgb
 
@@ -58,9 +58,9 @@ else:
     contrasted = cv2.merge((r_c, g_c, b_c))
 
 if args.bw:
-    final = rgb2gray(contrasted, 2.222)
+    final = rgb2gray(contrasted, 1.0)
 else:
-    final = contrasted
+    final = exposure.adjust_gamma(contrasted, 1.8)
 
 result = exposure.adjust_gamma(final, gamma=args.gamma)
 
