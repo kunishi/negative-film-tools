@@ -11,6 +11,15 @@ for arg in "$@"; do
     GAMMA=`echo "${arg}" | sed -e 's/=/ /'`
     shift
     continue
+  elif [[ "${arg}" == "--autotone" ]]; then
+    AUTOTONE=TRUE
+    shift
+    continue
+  elif [[ "${arg}" == "--autogray" ]]; then
+    AUTOTONE=TRUE
+    AUTOGAMMA="-G"
+    shift
+    continue
   elif [[ "${arg}" == "--"* ]]; then
     ARGS="${ARGS} ${arg}"
     shift
@@ -20,8 +29,8 @@ for arg in "$@"; do
   base=`basename "${arg}" .dng`
   echo ${base}
   python3 process.py ${ARGS} ${GAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
-  if [[ `/usr/bin/which -s autotone` -eq 0 ]]; then
-    autotone -n -p -s -b -GN a -WN a "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
+  if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
+    autotone -n -p -s -b ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
   else
     convert "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
   fi
