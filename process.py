@@ -48,7 +48,7 @@ else:
                                 output_bps=16))
     else:
         rgb = util.invert(
-                raw.postprocess(gamma=(1.0, 1.0),
+                raw.postprocess(gamma=(1.8, 1.0),
                                 no_auto_bright=False,
                                 auto_bright_thr=0.01,
                                 use_camera_wb=False,
@@ -73,9 +73,9 @@ else:
     contrasted = cv2.merge((r_c, g_c, b_c))
 
 if args.bw:
-    final = rgb2gray(contrasted, 1.800)
+    final = rgb2gray(contrasted, 1.8)
 else:
-    final = exposure.adjust_gamma(contrasted, gamma=2.222)
+    final = exposure.adjust_gamma(contrasted, gamma=1.4)
 
 result = exposure.adjust_gamma(final, gamma=args.gamma)
 
