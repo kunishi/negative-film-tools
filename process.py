@@ -12,6 +12,7 @@ parser.add_argument("--bw", help="run in bw mode", action="store_true")
 parser.add_argument("--gamma", help="specify gamma value", type=float, default=1.0)
 parser.add_argument("--globalrescale", help="rescaling globally", action="store_true")
 parser.add_argument("--noadapt", help="run without adaptive histogram equalization", action="store_true")
+parser.add_argument("--linearraw", help="process RAW image without gamma correction", action="store_true")
 parser.add_argument("--positive", help="input the positive image", action="store_true")
 parser.add_argument("--rgb", help="input RGB image", action="store_true")
 parser.add_argument("--out", help="specify the destination TIFF file")
@@ -46,6 +47,14 @@ else:
                                 use_camera_wb=False,
                                 use_auto_wb=True,
                                 output_bps=16))
+    elif args.linearraw:
+        rgb = util.invert(
+                raw.postprocess(gamma=(1.0, 1.0),
+                                no_auto_bright=False,
+                                auto_bright_thr=0.01,
+                                use_camera_wb=False,
+                                use_auto_wb=True,
+                                output_bps=16))
     else:
         rgb = util.invert(
                 raw.postprocess(gamma=(1.8, 1.0),
@@ -74,6 +83,8 @@ else:
 
 if args.bw:
     final = rgb2gray(contrasted, 1.8)
+elif args.linearraw:
+    final = exposure.adjust_gamma(contrasted, gamma=2.2)
 else:
     final = exposure.adjust_gamma(contrasted, gamma=1.4)
 
