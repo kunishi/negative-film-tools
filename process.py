@@ -9,6 +9,7 @@ from skimage import color, exposure, io, util
 parser = argparse.ArgumentParser()
 parser.add_argument("src", help="source RAW file")
 parser.add_argument("--bw", help="run in bw mode", action="store_true")
+parser.add_argument("--bwitur", help="run in bw mode based on ITU-R BT.601", action="store_true")
 parser.add_argument("--gamma", help="specify gamma value", type=float, default=1.0)
 parser.add_argument("--globalrescale", help="rescaling globally", action="store_true")
 parser.add_argument("--noadapt", help="run without adaptive histogram equalization", action="store_true")
@@ -30,6 +31,10 @@ def rgb2gray(img, gamma):
     linear = exposure.adjust_gamma(img, 1/gamma)
     bnw = color.rgb2gray(linear)
     return exposure.adjust_gamma(bnw, gamma)
+
+def rgb2gray_itur(img, gamma=1.5):
+    coeffs = np.array([0.299, 0.587, 0.114], dtype=img.dtype)
+    return exposure.adjust_gamma(img @ coeffs, gamma)
 
 if args.rgb:
     image = io.imread(args.src, as_gray=args.bw)
@@ -68,7 +73,7 @@ img_src = rgb
 
 if args.noadapt:
     contrasted = img_src / 65536
-elif args.globalrescale:
+elif args.globalrescale or args.bwitur:
     r, g, b = cv2.split(img_src)
     r_c = adaptive_hist(r)
     g_c = adaptive_hist(g)
@@ -81,11 +86,13 @@ else:
     b_c = rescale_intensity(adaptive_hist(b))
     contrasted = cv2.merge((r_c, g_c, b_c))
 
-if args.bw:
+if args.bw:         # for bnw films
     final = rgb2gray(contrasted, 1.8)
-elif args.linearraw:
+elif args.bwitur:   # for color films to bnw
+    final = rgb2gray_itur(contrasted, args.gamma)
+elif args.linearraw:    # for Lomochrome Metropolis
     final = exposure.adjust_gamma(contrasted, gamma=2.2)
-else:
+else:               # for color films
     final = exposure.adjust_gamma(contrasted, gamma=1.4)
 
 result = exposure.adjust_gamma(final, gamma=args.gamma)
