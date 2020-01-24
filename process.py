@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("src", help="source RAW file")
 parser.add_argument("--bw", help="run in bw mode", action="store_true")
 parser.add_argument("--bwitur", help="run in bw mode based on ITU-R BT.601", action="store_true")
+parser.add_argument("--bwhsv", help="run in bw mode based on HSV", action="store_true")
 parser.add_argument("--gamma", help="specify gamma value", type=float, default=1.0)
 parser.add_argument("--globalrescale", help="rescaling globally", action="store_true")
 parser.add_argument("--noadapt", help="run without adaptive histogram equalization", action="store_true")
@@ -36,6 +37,10 @@ def rgb2gray_itur(img, gamma=1.5):
     coeffs = np.array([0.299, 0.587, 0.114], dtype=img.dtype)
     return exposure.adjust_gamma(img @ coeffs, gamma)
 
+def rgb2gray_hsv(img, gamma=1.0):
+    h, s, v = cv2.split(color.rgb2hsv(img))
+    return exposure.adjust_gamma(v, gamma)
+
 if args.rgb:
     image = io.imread(args.src, as_gray=args.bw)
     if args.positive:
@@ -44,7 +49,7 @@ if args.rgb:
         rgb = exposure.adjust_gamma(util.invert(image), gamma=2.222)
 else:
     raw = rawpy.imread(args.src)
-    if args.bw:
+    if args.bw or args.bwhsv:
         rgb = util.invert(
                 raw.postprocess(gamma=(2.8, 4.5),
                                 no_auto_bright=False,
@@ -73,7 +78,7 @@ img_src = rgb
 
 if args.noadapt:
     contrasted = img_src / 65536
-elif args.globalrescale or args.bwitur:
+elif args.globalrescale or args.bwitur or args.bwhsv:
     r, g, b = cv2.split(img_src)
     r_c = adaptive_hist(r)
     g_c = adaptive_hist(g)
@@ -90,6 +95,8 @@ if args.bw:         # for bnw films
     final = rgb2gray(contrasted, 1.8)
 elif args.bwitur:   # for color films to bnw
     final = rgb2gray_itur(contrasted, args.gamma)
+elif args.bwhsv:
+    final = rgb2gray_hsv(contrasted, args.gamma)
 elif args.linearraw:    # for Lomochrome Metropolis
     final = exposure.adjust_gamma(contrasted, gamma=2.2)
 else:               # for color films
