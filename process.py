@@ -94,9 +94,9 @@ else:
 if args.bw:         # for bnw films
     final = rgb2gray(contrasted, 1.8)
 elif args.bwitur:   # for color films to bnw
-    final = rgb2gray_itur(contrasted, args.gamma)
+    final = rgb2gray_itur(contrasted)
 elif args.bwhsv:
-    final = rgb2gray_hsv(contrasted, args.gamma)
+    final = rgb2gray_hsv(contrasted)
 elif args.linearraw:    # for Lomochrome Metropolis
     final = exposure.adjust_gamma(contrasted, gamma=2.2)
 else:               # for color films
