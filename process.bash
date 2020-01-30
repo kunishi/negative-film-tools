@@ -1,14 +1,16 @@
 #!/bin/bash
 
 TMPDIR=/tmp/process
-
-OUTDIR=${HOME}/Dropbox/Photos/process/Done_$(date +%Y%m%d_%H%M%S)
-
+PREFIX=Done
+DATE=$(date +%Y%m%d_%H%M%S)
 
 for arg in "$@"; do
   if [[ "${arg}" == "--gamma="* ]]; then
+    GAMMA=`echo "${arg}" | sed -e 's/^=/ /'`
     shift
-    GAMMA=`echo "${arg}" | sed -e 's/=/ /'`
+    continue
+  elif [[ "${arg}" == "--prefix="* ]]; then
+    PREFIX=`echo "${arg}" | sed -e 's/^.*=//'`
     shift
     continue
   elif [[ "${arg}" == "--autotone" ]]; then
@@ -25,6 +27,8 @@ for arg in "$@"; do
     shift
     continue
   fi
+  
+  OUTDIR=${HOME}/Dropbox/Photos/process/${PREFIX}_${DATE}
   mkdir -p ${OUTDIR} ${TMPDIR}
   base=`basename "${arg}" .dng`
   echo ${base}
