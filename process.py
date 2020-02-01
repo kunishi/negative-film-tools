@@ -52,6 +52,8 @@ else:
     if args.bw or args.bwhsv:
         rgb = util.invert(
                 raw.postprocess(gamma=(2.8, 4.5),
+                                demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
+                                dcb_enhance=True,
                                 no_auto_bright=False,
                                 auto_bright_thr=0.01,
                                 use_camera_wb=False,
@@ -60,6 +62,8 @@ else:
     elif args.linearraw:
         rgb = util.invert(
                 raw.postprocess(gamma=(1.0, 1.0),
+                                demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
+                                dcb_enhance=True,
                                 no_auto_bright=False,
                                 auto_bright_thr=0.01,
                                 use_camera_wb=False,
@@ -68,6 +72,8 @@ else:
     else:
         rgb = util.invert(
                 raw.postprocess(gamma=(1.8, 1.0),
+                                demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
+                                dcb_enhance=True,
                                 no_auto_bright=False,
                                 auto_bright_thr=0.01,
                                 use_camera_wb=False,
