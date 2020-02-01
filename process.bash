@@ -30,7 +30,8 @@ for arg in "$@"; do
   
   OUTDIR=${HOME}/Dropbox/Photos/process/${PREFIX}_${DATE}
   mkdir -p ${OUTDIR} ${TMPDIR}
-  base=`basename "${arg}" .dng`
+  filename="${arg##*/}"
+  base="${filename%.*}"
   echo ${base}
   python3 process.py ${ARGS} ${GAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
