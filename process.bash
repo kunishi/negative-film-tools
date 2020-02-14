@@ -36,9 +36,9 @@ for arg in "$@"; do
   python3 process.py ${ARGS} ${GAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
     autotone -n -p -s -b ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-    convert -define jpeg:extent=10M "${TMPDIR}/${base}.mpc" "${OUTDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" "${OUTDIR}/${base}.jpg"
   else
-    convert -define jpeg:extent=10M "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
   fi
   exiftool -overwrite_original \
         -TagsFromFile "${arg}" "-all:all>all:all" \
