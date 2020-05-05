@@ -3,6 +3,7 @@
 TMPDIR=/tmp/process
 PREFIX=Done
 DATE=$(date +%Y%m%d_%H%M%S)
+GAMMA='--gamma 1.13'
 
 for arg in "$@"; do
   if [[ "${arg}" == "--gamma="* ]]; then
