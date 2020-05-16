@@ -16,7 +16,7 @@ parser.add_argument("--rawgamma", help="specify gamma value in RAW processing", 
 parser.add_argument("--globalrescale", help="rescaling globally", action="store_true")
 parser.add_argument("--noadapt", help="run without adaptive histogram equalization", action="store_true")
 parser.add_argument("--linearraw", help="process RAW image without gamma correction", action="store_true")
-parser.add_argument("--noautobrightness", help="disable auto brightness mode in libraw", action="store_true")
+parser.add_argument("--useautobrightness", help="disable auto brightness mode in libraw", action="store_true")
 parser.add_argument("--useautowb", help="enable auto white balance mode in libraw", action="store_true")
 parser.add_argument("--greengamma", help="gamma fix only to green channel", action="store_true")
 parser.add_argument("--positive", help="input the positive image", action="store_true")
@@ -60,7 +60,7 @@ else:
         rgb = raw.postprocess(gamma=(1.0, 1.0),
                                 demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
                                 dcb_enhance=True,
-                                no_auto_bright=args.noautobrightness,
+                                no_auto_bright=not args.useautobrightness,
                                 auto_bright_thr=0.01,
                                 use_camera_wb=False,
                                 use_auto_wb=args.useautowb,
@@ -69,7 +69,7 @@ else:
         rgb = raw.postprocess(gamma=(args.rawgamma, 4.5),
                                 demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
                                 dcb_enhance=True,
-                                no_auto_bright=args.noautobrightness,
+                                no_auto_bright=not args.useautobrightness,
                                 auto_bright_thr=0.01,
                                 use_camera_wb=False,
                                 use_auto_wb=args.useautowb,
