@@ -3,11 +3,15 @@
 TMPDIR=/tmp/process
 PREFIX=Done
 DATE=$(date +%Y%m%d_%H%M%S)
-GAMMA='--gamma 1.13'
+GAMMA='--gamma 1.0'
 
 for arg in "$@"; do
   if [[ "${arg}" == "--gamma="* ]]; then
     GAMMA=`echo "${arg}" | sed -e 's/^=/ /'`
+    shift
+    continue
+  elif [[ "${arg}" == "--rawgamma="* ]]; then
+    RAWGAMMA=`echo "${arg}" | sed -e 's/^=/ /'`
     shift
     continue
   elif [[ "${arg}" == "--prefix="* ]]; then
@@ -23,6 +27,11 @@ for arg in "$@"; do
     AUTOGAMMA="-G"
     shift
     continue
+  elif [[ "${arg}" == "--autogamma" ]]; then
+    AUTOTONE=TRUE
+    AUTOWB="-g -w"
+    shift
+    continue
   elif [[ "${arg}" == "--"* ]]; then
     ARGS="${ARGS} ${arg}"
     shift
@@ -34,9 +43,9 @@ for arg in "$@"; do
   filename="${arg##*/}"
   base="${filename%.*}"
   echo ${base}
-  python3 process.py ${ARGS} ${GAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
+  python3 process.py ${ARGS} ${GAMMA} ${RAWGAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
-    autotone -n -p -s -b ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
+    autotone -n -p -s -b ${AUTOWB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
     convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" "${OUTDIR}/${base}.jpg"
   else
     convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
