@@ -84,7 +84,10 @@ elif args.globalrescale:
     r_c = adaptive_hist(r)
     g_c = adaptive_hist(g)
     b_c = adaptive_hist(b)
-    contrasted = util.invert(rescale_intensity(cv2.merge((r_c, g_c, b_c))))
+    if args.positive:
+        contrasted = rescale_intensity(cv2.merge((r_c, g_c, b_c)))
+    else:
+        contrasted = util.invert(rescale_intensity(cv2.merge((r_c, g_c, b_c))))
 elif args.bw or args.bwitur or args.bwhsv:
     if args.bw:         # for bnw films
         gray = rgb2gray(img_src)
@@ -101,7 +104,10 @@ else:
     else:
         g_c = rescale_intensity(adaptive_hist(g))
     b_c = rescale_intensity(adaptive_hist(b))
-    contrasted = util.invert(cv2.merge((r_c, g_c, b_c)))
+    if args.positive:
+        contrasted = cv2.merge((r_c, g_c, b_c))
+    else:
+        contrasted = util.invert(cv2.merge((r_c, g_c, b_c)))
 
 result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
 
