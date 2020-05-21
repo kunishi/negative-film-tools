@@ -79,7 +79,7 @@ img_src = rgb
 
 if args.noadapt:
     contrasted = img_src / 65536
-elif args.globalrescale:
+elif args.globalrescale or args.bwitur:
     r, g, b = cv2.split(img_src)
     r_c = adaptive_hist(r)
     g_c = adaptive_hist(g)
@@ -88,11 +88,11 @@ elif args.globalrescale:
         contrasted = rescale_intensity(cv2.merge((r_c, g_c, b_c)))
     else:
         contrasted = util.invert(rescale_intensity(cv2.merge((r_c, g_c, b_c))))
-elif args.bw or args.bwitur or args.bwhsv:
+        if args.bwitur:
+            contrasted = rgb2gray_itur(contrasted)
+elif args.bw or args.bwhsv:
     if args.bw:         # for bnw films
         gray = rgb2gray(img_src)
-    elif args.bwitur:   # for color films to bnw
-        gray = rgb2gray_itur(img_src)
     elif args.bwhsv:
         gray = rgb2gray_hsv(img_src)
     contrasted = util.invert(rescale_intensity(adaptive_hist(gray)))
