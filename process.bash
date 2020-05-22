@@ -43,6 +43,7 @@ for arg in "$@"; do
   filename="${arg##*/}"
   base="${filename%.*}"
   echo ${base}
+  echo ${ARGS} ${GAMMA} ${RAWGAMMA} > ${OUTDIR}/opt.txt
   python3 process.py ${ARGS} ${GAMMA} ${RAWGAMMA} --out "${TMPDIR}/${base}.tif" "${arg}"
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
     autotone -n -p -s -b ${AUTOWB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
