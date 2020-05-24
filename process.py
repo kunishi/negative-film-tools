@@ -103,7 +103,10 @@ else:
         g_c = exposure.adjust_gamma(rescale_intensity(adaptive_hist(g)), gamma=1.08)
     else:
         g_c = rescale_intensity(adaptive_hist(g))
-    b_c = rescale_intensity(adaptive_hist(b))
+    if args.greengamma:
+        b_c = exposure.adjust_gamma(rescale_intensity(adaptive_hist(b)), gamma=0.96)
+    else:
+        b_c = rescale_intensity(adaptive_hist(b))
     if args.positive:
         contrasted = cv2.merge((r_c, g_c, b_c))
     else:
