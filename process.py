@@ -19,6 +19,7 @@ parser.add_argument("--linearraw", help="process RAW image without gamma correct
 parser.add_argument("--useautobrightness", help="disable auto brightness mode in libraw", action="store_true")
 parser.add_argument("--useautowb", help="enable auto white balance mode in libraw", action="store_true")
 parser.add_argument("--greengamma", help="gamma fix only to green channel", action="store_true")
+parser.add_argument("--bluegamma", help="gamma fix only to blue channel", action="store_true")
 parser.add_argument("--positive", help="input the positive image", action="store_true")
 parser.add_argument("--rgb", help="input RGB image", action="store_true")
 parser.add_argument("--out", help="specify the destination TIFF file")
@@ -109,6 +110,10 @@ else:
         b_c = rescale_intensity(adaptive_hist(b))
     if args.positive:
         contrasted = cv2.merge((r_c, g_c, b_c))
+    elif args.bluegamma:
+        contrasted = cv2.merge((util.invert(r_c),
+                                util.invert(g_c),
+                                exposure.adjust_gamma(util.invert(b_c), gamma=0.93)))
     else:
         contrasted = util.invert(cv2.merge((r_c, g_c, b_c)))
 
