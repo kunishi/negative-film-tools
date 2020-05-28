@@ -21,6 +21,7 @@ parser.add_argument("--useautowb", help="enable auto white balance mode in libra
 parser.add_argument("--greengamma", help="gamma fix only to green channel", action="store_true")
 parser.add_argument("--bluegamma", help="gamma fix only to blue channel", action="store_true")
 parser.add_argument("--positive", help="input the positive image", action="store_true")
+parser.add_argument("--withoutrescale", help="do not process rescaling", action="store_true")
 parser.add_argument("--rgb", help="input RGB image", action="store_true")
 parser.add_argument("--out", help="specify the destination TIFF file")
 args = parser.parse_args()
@@ -31,7 +32,10 @@ def adaptive_hist(img):
 def rescale_intensity(img):
     v_min, v_max = np.percentile(img, (0.2, 99.8))
     print(v_min, v_max)
-    return exposure.rescale_intensity(img, in_range=(v_min, v_max))
+    if not args.withoutrescale:
+        return exposure.rescale_intensity(img, in_range=(v_min, v_max))
+    else:
+        return img
 
 def rgb2gray(img, gamma=1.8):
     #linear = exposure.adjust_gamma(img, 1/gamma)
