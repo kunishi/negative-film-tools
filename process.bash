@@ -11,6 +11,7 @@ WB="-w"
 GB="-g"
 ARGS=""
 PYARGS=""
+COLORSPACE="-colorspace sRGB"
 
 for arg in "$@"; do
   if [[ "${arg}" == "--gamma="* ]]; then
@@ -64,6 +65,16 @@ for arg in "$@"; do
     NORMALIZE='-normalize'
     shift
     continue
+  elif [[ "${arg}" == "--gray" ]]; then
+    ARGS="${ARGS} ${arg}"
+    COLORSPACE="-colorspace Gray"
+    shift
+    continue
+  elif [[ "${arg}" == "--lineargray" ]]; then
+    ARGS="${ARGS} ${arg}"
+    COLORSPACE="-colorspace LinearGray"
+    shift
+    continue
   elif [[ "${arg}" == "--"* ]]; then
     ARGS="${ARGS} ${arg}"
     PYARGS="${PYARGS} ${arg}"
@@ -80,9 +91,9 @@ for arg in "$@"; do
   python3 process.py ${PYARGS} --out "${TMPDIR}/${base}.tif" "${arg}"
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
     autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-    convert -define jpeg:extent=7M -colorspace sRGB ${NORMALIZE} "${TMPDIR}/${base}.mpc" "${OUTDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
   else
-    convert -define jpeg:extent=7M -colorspace sRGB ${NORMALIZE} "${TMPDIR}/${base}.tif" "${OUTDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
   fi
   exiftool -overwrite_original \
         -TagsFromFile "${arg}" "-all:all>all:all" \
