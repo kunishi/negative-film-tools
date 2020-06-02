@@ -69,6 +69,7 @@ else:
                                 auto_bright_thr=0.01,
                                 use_camera_wb=False,
                                 use_auto_wb=args.useautowb,
+                                output_color=rawpy.ColorSpace.raw,
                                 output_bps=16)
     else:
         rgb = raw.postprocess(gamma=(args.rawgamma, 4.5),
@@ -78,6 +79,7 @@ else:
                                 auto_bright_thr=0.01,
                                 use_camera_wb=False,
                                 use_auto_wb=args.useautowb,
+                                output_color=rawpy.ColorSpace.raw,
                                 output_bps=16)
 
 img_src = rgb
