@@ -106,3 +106,5 @@ for arg in "$@"; do
           "${OUTDIR}/${base}.jpg"
 done
 rm -rf ${TMPDIR}
+
+trap "rm -rf ${TMPDIR}" 1 2 3 15
