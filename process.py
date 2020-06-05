@@ -85,7 +85,9 @@ else:
 img_src = rgb
 
 if args.noadapt:
-    contrasted = img_src / 65536
+    contrasted = util.img_as_uint(img_src)
+    if not args.positive:
+        contrasted = util.invert(contrasted)
 elif args.globalrescale or args.bwitur:
     r, g, b = cv2.split(img_src)
     r_c = adaptive_hist(r)
