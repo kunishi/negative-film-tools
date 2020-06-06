@@ -62,7 +62,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--normalize" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-normalize'
+    NORMALIZE='-linear-stretch 0.2%,0.1%'
     shift
     continue
   elif [[ "${arg}" == "--gray" ]]; then
