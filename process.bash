@@ -56,8 +56,9 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--autogamma" ]]; then
     ARGS="${ARGS} ${arg}"
-    AUTOTONE=TRUE
-    AUTOGAMMA=""
+    #AUTOTONE=TRUE
+    #AUTOGAMMA=""
+    IM_AUTOGAMMA="-auto-gamma"
     shift
     continue
   elif [[ "${arg}" == "--normalize" ]]; then
@@ -91,9 +92,9 @@ for arg in "$@"; do
   python3 process.py ${PYARGS} --out "${TMPDIR}/${base}.tif" "${arg}"
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
     autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
   else
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
   fi
   exiftool -overwrite_original \
         -TagsFromFile "${arg}" "-all:all>all:all" \
