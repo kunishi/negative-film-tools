@@ -54,6 +54,12 @@ for arg in "$@"; do
     GB=""
     shift
     continue
+  elif [[ "${arg}" == "--autowhite" ]]; then
+    ARGS="${ARGS} ${arg}"
+    AUTOTONE=TRUE
+    WB=""
+    shift
+    continue
   elif [[ "${arg}" == "--autogamma" ]]; then
     ARGS="${ARGS} ${arg}"
     #AUTOTONE=TRUE
@@ -63,7 +69,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--normalize" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-linear-stretch 0.2%,0.1%'
+    NORMALIZE='-linear-stretch 0.02%,0.01%'
     shift
     continue
   elif [[ "${arg}" == "--gray" ]]; then
