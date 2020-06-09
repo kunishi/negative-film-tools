@@ -72,6 +72,11 @@ for arg in "$@"; do
     NORMALIZE='-linear-stretch 0.02%,0.01%'
     shift
     continue
+  elif [[ "${arg}" == "--strong-normalize" ]]; then
+    ARGS="${ARGS} ${arg}"
+    NORMALIZE='-linear-stretch 1%,1%'
+    shift
+    continue
   elif [[ "${arg}" == "--gray" ]]; then
     ARGS="${ARGS} ${arg}"
     COLORSPACE="-colorspace Gray"
@@ -80,6 +85,12 @@ for arg in "$@"; do
   elif [[ "${arg}" == "--lineargray" ]]; then
     ARGS="${ARGS} ${arg}"
     COLORSPACE="-colorspace LinearGray"
+    shift
+    continue
+  elif [[ "${arg}" == "--imagemagick-bw" ]]; then
+    ARGS="${ARGS} ${arg}"
+    IM=TRUE
+    IM_OPTIONS="-colorspace gray -auto-gamma -linear-stretch 0.01%,0.05% -gamma 1.13 -negate -auto-level -colorspace gray"
     shift
     continue
   elif [[ "${arg}" == "--"* ]]; then
@@ -95,12 +106,16 @@ for arg in "$@"; do
   base="${filename%.*}"
   echo ${base}
   echo ${ARGS} > ${OUTDIR}/opt.txt
-  python3 process.py ${PYARGS} --out "${TMPDIR}/${base}.tif" "${arg}"
-  if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
-    autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
+  if [[ "${IM}" == "TRUE" ]]; then
+    convert -define jpeg:extent=7M "${arg}" ${IM_OPTIONS} "${OUTDIR}/${base}.jpg"
   else
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
+    python3 process.py ${PYARGS} --out "${TMPDIR}/${base}.tif" "${arg}"
+    if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
+      autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
+      convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
+    else
+      convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
+    fi
   fi
   exiftool -overwrite_original \
         -TagsFromFile "${arg}" "-all:all>all:all" \
