@@ -69,12 +69,22 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--normalize" ]]; then
     ARGS="${ARGS} ${arg}"
+    NORMALIZE='-normalize'
+    shift
+    continue
+  elif [[ "${arg}" == "--linear-stretch" ]]; then
+    ARGS="${ARGS} ${arg}"
     NORMALIZE='-linear-stretch 0.02%,0.01%'
     shift
     continue
   elif [[ "${arg}" == "--strong-normalize" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-linear-stretch 1%,1%'
+    NORMALIZE='-linear-stretch 1%,0.3%'
+    shift
+    continue
+  elif [[ "${arg}" == "--contrast-stretch" ]]; then
+    ARGS="${ARGS} ${arg}"
+    NORMALIZE='-contrast-stretch 0.7%,0.2%'
     shift
     continue
   elif [[ "${arg}" == "--gray" ]]; then
