@@ -63,6 +63,7 @@ else:
     raw = rawpy.imread(args.src)
     if args.linearraw:
         rgb = raw.postprocess(gamma=(1.0, 1.0),
+                                half_size=False,
                                 demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
                                 dcb_enhance=True,
                                 no_auto_bright=not args.useautobrightness,
@@ -73,6 +74,7 @@ else:
                                 output_bps=16)
     else:
         rgb = raw.postprocess(gamma=(args.rawgamma, 4.5),
+                                half_size=False,
                                 demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
                                 dcb_enhance=True,
                                 no_auto_bright=not args.useautobrightness,
