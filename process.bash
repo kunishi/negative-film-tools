@@ -50,7 +50,6 @@ for arg in "$@"; do
   elif [[ "${arg}" == "--autogray" ]]; then
     ARGS="${ARGS} ${arg}"
     AUTOTONE=TRUE
-    WB=""
     GB=""
     shift
     continue
