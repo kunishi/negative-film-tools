@@ -2,6 +2,7 @@
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 TMPDIR=/tmp/process
+OUTDIR_BASE=${HOME}/Dropbox/Photos/process
 PREFIX=Done
 DATE=$(date +%Y%m%d_%H%M%S)
 GAMMA='--gamma 1.0'
@@ -25,6 +26,10 @@ for arg in "$@"; do
     ARGS="${ARGS} ${arg}"
     RAWGAMMA=`echo "${arg}" | sed -e 's/^=/ /'`
     PYARGS="${PYARGS} ${RAWGAMMA}"
+    shift
+    continue
+  elif [[ "${arg}" == "--outdir="* ]]; then
+    OUTDIR_BASE=`echo "${arg}" | sed -e 's/^.*=//'`
     shift
     continue
   elif [[ "${arg}" == "--prefix="* ]]; then
@@ -116,7 +121,8 @@ for arg in "$@"; do
     continue
   fi
   
-  OUTDIR=${HOME}/Dropbox/Photos/process/${PREFIX}_${DATE}
+  OUTDIR=${OUTDIR_BASE}/${PREFIX}_${DATE}
+  echo ${OUTDIR}
   mkdir -p ${OUTDIR}
   mkdir -p ${TMPDIR}
   filename="${arg##*/}"
