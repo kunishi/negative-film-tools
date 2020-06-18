@@ -1,5 +1,6 @@
 #!/bin/bash
 
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
 TMPDIR=/tmp/process
 PREFIX=Done
 DATE=$(date +%Y%m%d_%H%M%S)
@@ -96,10 +97,16 @@ for arg in "$@"; do
     COLORSPACE="-colorspace LinearGray"
     shift
     continue
+  elif [[ "${arg}" == "--imagemagick" ]]; then
+    ARGS="${ARGS} ${arg}"
+    IM=TRUE
+    IM_SCRIPT="convert-negafilm-color.bash"
+    shift
+    continue
   elif [[ "${arg}" == "--imagemagick-bw" ]]; then
     ARGS="${ARGS} ${arg}"
     IM=TRUE
-    IM_OPTIONS="-colorspace gray -auto-gamma -linear-stretch 0.01%,0.05% -gamma 1.13 -negate -auto-level -colorspace gray"
+    IM_SCRIPT="convert-negafilm-bw.bash"
     shift
     continue
   elif [[ "${arg}" == "--"* ]]; then
@@ -110,13 +117,14 @@ for arg in "$@"; do
   fi
   
   OUTDIR=${HOME}/Dropbox/Photos/process/${PREFIX}_${DATE}
-  mkdir -p ${OUTDIR} ${TMPDIR}
+  mkdir -p ${OUTDIR}
+  mkdir -p ${TMPDIR}
   filename="${arg##*/}"
   base="${filename%.*}"
   echo ${base}
   echo ${ARGS} > ${OUTDIR}/opt.txt
   if [[ "${IM}" == "TRUE" ]]; then
-    convert -define jpeg:extent=7M "${arg}" ${IM_OPTIONS} "${OUTDIR}/${base}.jpg"
+    (cd ${TMPDIR} && ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}" && mv -f "${base}.jpg" "${OUTDIR}")
   else
     python3 process.py ${PYARGS} --out "${TMPDIR}/${base}.tif" "${arg}"
     if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
