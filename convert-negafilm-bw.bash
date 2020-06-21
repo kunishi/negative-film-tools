@@ -3,8 +3,8 @@
 SRC=$1
 BASE=`basename "$1" .dng`
 
-convert "${SRC}" ${BASE}.mpc
-convert ${BASE}.mpc -colorspace gray -auto-gamma -negate ${BASE}_clahe.mpc
-convert ${BASE}_clahe.mpc -normalize -colorspace gray ${BASE}.jpg
+convert "${SRC}" -colorspace gray ${BASE}.mpc
+convert ${BASE}.mpc -auto-gamma -normalize -negate \
+  -colorspace gray -gamma 0.85 ${BASE}.jpg
 
 rm -f ${BASE}*.mpc ${BASE}*.cache
