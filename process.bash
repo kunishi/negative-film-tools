@@ -33,7 +33,6 @@ for arg in "$@"; do
     shift
     continue
   elif [[ "${arg}" == "--prefix="* ]]; then
-    ARGS="${ARGS} ${arg}"
     PREFIX=`echo "${arg}" | sed -e 's/^.*=//'`
     shift
     continue
@@ -69,7 +68,7 @@ for arg in "$@"; do
     ARGS="${ARGS} ${arg}"
     #AUTOTONE=TRUE
     #AUTOGAMMA=""
-    IM_AUTOGAMMA="-auto-gamma"
+    IM_AUTOGAMMA="-negate -auto-gamma -negate"
     shift
     continue
   elif [[ "${arg}" == "--normalize" ]]; then
@@ -122,7 +121,6 @@ for arg in "$@"; do
   fi
   
   OUTDIR=${OUTDIR_BASE}/${PREFIX}_${DATE}
-  echo ${OUTDIR}
   mkdir -p ${OUTDIR}
   mkdir -p ${TMPDIR}
   filename="${arg##*/}"
