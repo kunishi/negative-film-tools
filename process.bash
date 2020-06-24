@@ -119,6 +119,12 @@ for arg in "$@"; do
     IM_SCRIPT="convert-negafilm-lm.bash"
     shift
     continue
+  elif [[ "${arg}" == "--imagemagick-positive" ]]; then
+    ARGS="${ARGS} ${arg}"
+    IM=TRUE
+    IM_SCRIPT="convert-positive-color.bash"
+    shift
+    continue
   elif [[ "${arg}" == "--"* ]]; then
     ARGS="${ARGS} ${arg}"
     PYARGS="${PYARGS} ${arg}"
@@ -134,14 +140,14 @@ for arg in "$@"; do
   echo ${base}
   echo ${ARGS} > ${OUTDIR}/opt.txt
   if [[ "${IM}" == "TRUE" ]]; then
-    (cd ${TMPDIR} && ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}" && mv -f "${base}.jpg" "${OUTDIR}")
+    (cd ${TMPDIR} && ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}")
   else
     python3 process.py ${PYARGS} --out "${TMPDIR}/${base}.tif" "${arg}"
     if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
       autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-      convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
+      convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
     else
-      convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${OUTDIR}/${base}.jpg"
+      convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
     fi
   fi
   exiftool -overwrite_original \
@@ -152,7 +158,8 @@ for arg in "$@"; do
         '-exifversion=0231' \
         '-offsettime=+09:00' \
         '-offsettimeoriginal=+09:00' \
-          "${OUTDIR}/${base}.jpg"
+          "${TMPDIR}/${base}.jpg"
+  mv -f "${TMPDIR}/${base}.jpg" "${OUTDIR}"
 done
 rm -rf ${TMPDIR}
 
