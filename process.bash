@@ -150,14 +150,8 @@ for arg in "$@"; do
       convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
     fi
   fi
-  exiftool -overwrite_original \
+  exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
-        '-createdate<fileaccessdate' \
-        '-modifydate<fileaccessdate' \
-        '-datetimeoriginal<fileaccessdate' \
-        '-exifversion=0231' \
-        '-offsettime=+09:00' \
-        '-offsettimeoriginal=+09:00' \
           "${TMPDIR}/${base}.jpg"
   mv -f "${TMPDIR}/${base}.jpg" "${OUTDIR}"
 done
