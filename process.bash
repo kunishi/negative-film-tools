@@ -152,6 +152,7 @@ for arg in "$@"; do
   fi
   exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
+        '-iptc:caption-abstract<$iptc:caption-abstract, $make $model, process options: '"${ARGS}" \
           "${TMPDIR}/${base}.jpg"
   mv -f "${TMPDIR}/${base}.jpg" "${OUTDIR}"
 done
