@@ -119,6 +119,12 @@ for arg in "$@"; do
     IM_SCRIPT="convert-negafilm-lm.bash"
     shift
     continue
+  elif [[ "${arg}" == "--imagemagick-fuji" ]]; then
+    ARGS="${ARGS} ${arg}"
+    IM=TRUE
+    IM_SCRIPT="convert-negafilm-fuji.bash"
+    shift
+    continue
   elif [[ "${arg}" == "--imagemagick-positive" ]]; then
     ARGS="${ARGS} ${arg}"
     IM=TRUE
