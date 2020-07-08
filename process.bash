@@ -91,6 +91,11 @@ for arg in "$@"; do
     NORMALIZE='-contrast-stretch 0.7%,0.2%'
     shift
     continue
+  elif [[ "${arg}" == "--modulate-saturation" ]]; then
+    ARGS="${ARGS} ${arg}"
+    MODULATE="-modulate 100,110,100"
+    shift
+    continue
   elif [[ "${arg}" == "--gray" ]]; then
     ARGS="${ARGS} ${arg}"
     COLORSPACE="-colorspace Gray"
@@ -107,6 +112,12 @@ for arg in "$@"; do
     IM_SCRIPT="convert-negafilm-color.bash"
     shift
     continue
+  elif [[ "${arg}" == "--imagemagick-warm" ]]; then
+    ARGS="${ARGS} ${arg}"
+    IM=TRUE
+    IM_SCRIPT="convert-negafilm-color-warm.bash"
+    shift
+    continue
   elif [[ "${arg}" == "--imagemagick-bw" ]]; then
     ARGS="${ARGS} ${arg}"
     IM=TRUE
@@ -117,12 +128,6 @@ for arg in "$@"; do
     ARGS="${ARGS} ${arg}"
     IM=TRUE
     IM_SCRIPT="convert-negafilm-lm.bash"
-    shift
-    continue
-  elif [[ "${arg}" == "--imagemagick-fuji" ]]; then
-    ARGS="${ARGS} ${arg}"
-    IM=TRUE
-    IM_SCRIPT="convert-negafilm-fuji.bash"
     shift
     continue
   elif [[ "${arg}" == "--imagemagick-positive" ]]; then
@@ -144,16 +149,15 @@ for arg in "$@"; do
   filename="${arg##*/}"
   base="${filename%.*}"
   echo ${base}
-  echo ${ARGS} > ${OUTDIR}/opt.txt
   if [[ "${IM}" == "TRUE" ]]; then
     (cd ${TMPDIR} && ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}")
   else
     python3 process.py ${PYARGS} --out "${TMPDIR}/${base}.tif" "${arg}"
     if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
       autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-      convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+      convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
     else
-      convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+      convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
     fi
   fi
   exiftool -overwrite_original_in_place \

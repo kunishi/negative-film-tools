@@ -3,8 +3,8 @@
 SRC=$1
 BASE=`basename "$1" .dng`
 
-convert "${SRC}" -colorspace gray ${BASE}.mpc
-convert ${BASE}.mpc -auto-gamma -normalize -negate \
-  -colorspace gray -gamma 0.85 ${BASE}.jpg
+convert "${SRC}" -gamma 2.222 -colorspace lineargray ${BASE}.mpc
+convert ${BASE}.mpc -contrast-stretch 0.1%,0.1% -gamma 1.8 -negate -normalize \
+  -colorspace gray ${BASE}.jpg
 
 rm -f ${BASE}*.mpc ${BASE}*.cache
