@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SRC=$1
+DST=$2
 BASE=`basename "$1" .dng`
 
 convert "${SRC}" -colorspace rgb ${BASE}.mpc
@@ -13,6 +14,6 @@ convert ${BASE}_g.mpc -auto-gamma ${BASE}_clahe_g.mpc
 convert ${BASE}_b.mpc -auto-gamma ${BASE}_clahe_b.mpc
 
 convert ${BASE}_clahe_r.mpc ${BASE}_clahe_g.mpc ${BASE}_clahe_b.mpc -channel rgb -combine ${BASE}_clahe.mpc
-convert ${BASE}_clahe.mpc -define jpeg:extent=7M -normalize -colorspace srgb ${BASE}.jpg
+convert ${BASE}_clahe.mpc -normalize -colorspace srgb "${DST}"
 
 rm -f ${BASE}*.mpc ${BASE}*.cache

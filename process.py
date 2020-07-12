@@ -87,8 +87,23 @@ else:
 img_src = rgb
 
 if args.noadapt:
-    contrasted = util.img_as_uint(img_src)
-    if not args.positive:
+    if args.withoutrescale:
+        contrasted = util.img_as_uint(img_src)
+    elif args.globalrescale:
+        contrasted = rescale_intensity(img_src)
+    else:
+        r, g, b = cv2.split(img_src)
+        contrasted = cv2.merge((
+            rescale_intensity(r),
+            rescale_intensity(g),
+            rescale_intensity(b)))
+    if args.bw:
+        contrasted = util.invert(rgb2gray(contrasted))
+    elif args.bwhsv:
+        contrasted = util.invert(rgb2gray_hsv(contrasted))
+    elif args.bwitur:
+        contrasted = util.invert(rgb2gray_itur(contrasted))
+    elif not args.positive:
         contrasted = util.invert(contrasted)
 elif args.globalrescale or args.bwitur:
     r, g, b = cv2.split(img_src)
@@ -101,11 +116,13 @@ elif args.globalrescale or args.bwitur:
         contrasted = util.invert(rescale_intensity(cv2.merge((r_c, g_c, b_c))))
         if args.bwitur:
             contrasted = rgb2gray_itur(contrasted)
-elif args.bw or args.bwhsv:
+elif args.bw or args.bwhsv or args.bwitur:
     if args.bw:         # for bnw films
         gray = rgb2gray(img_src)
     elif args.bwhsv:
         gray = rgb2gray_hsv(img_src)
+    elif args.bwitur:
+        gray = rgb2gray_itur(img_src)
     contrasted = util.invert(rescale_intensity(adaptive_hist(gray)))
 else:
     r, g, b = cv2.split(img_src)
@@ -130,7 +147,7 @@ else:
 result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
 
 if args.out:
-    io.imsave(os.path.abspath(args.out), result)
+    io.imsave(os.path.abspath(args.out), result, check_contrast=False)
 else:
     io.imshow(result)
     io.show()

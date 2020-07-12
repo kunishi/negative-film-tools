@@ -78,7 +78,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--linear-stretch" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-linear-stretch 0.02%,0.01%'
+    NORMALIZE='-linear-stretch 0.7%,0.35%'
     shift
     continue
   elif [[ "${arg}" == "--strong-normalize" ]]; then
@@ -118,6 +118,12 @@ for arg in "$@"; do
     IM_SCRIPT="convert-negafilm-color-warm.bash"
     shift
     continue
+  elif [[ "${arg}" == "--imagemagick-cold" ]]; then
+    ARGS="${ARGS} ${arg}"
+    IM=TRUE
+    IM_SCRIPT="convert-negafilm-color-cold.bash"
+    shift
+    continue
   elif [[ "${arg}" == "--imagemagick-bw" ]]; then
     ARGS="${ARGS} ${arg}"
     IM=TRUE
@@ -150,15 +156,16 @@ for arg in "$@"; do
   base="${filename%.*}"
   echo ${base}
   if [[ "${IM}" == "TRUE" ]]; then
-    (cd ${TMPDIR} && ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}")
+    (cd ${TMPDIR} && \
+      ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}" "${TMPDIR}/${base}.tif")
   else
     python3 process.py ${PYARGS} --out "${TMPDIR}/${base}.tif" "${arg}"
-    if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
-      autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-      convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
-    else
-      convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
-    fi
+  fi
+  if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which -s autotone` -eq 0 ]]; then
+    autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+  else
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   fi
   exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
