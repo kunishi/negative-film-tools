@@ -142,6 +142,10 @@ for arg in "$@"; do
     IM_SCRIPT="convert-positive-color.bash"
     shift
     continue
+  elif [[ "${arg}" == "--fixcaption" ]]; then
+    CAPTION=TRUE
+    shift
+    continue
   elif [[ "${arg}" == "--"* ]]; then
     ARGS="${ARGS} ${arg}"
     PYARGS="${PYARGS} ${arg}"
@@ -167,9 +171,11 @@ for arg in "$@"; do
   else
     convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   fi
+  if [[ "${CAPTION}" == "TRUE" ]]; then
+    CAPTIONARGS="-iptc:caption-abstract<\$iptc:caption-abstract, \$make \$model, process options: ${ARGS}" 
+  fi
   exiftool -overwrite_original_in_place \
-        -TagsFromFile "${arg}" "-all:all>all:all" \
-        '-iptc:caption-abstract<$iptc:caption-abstract, $make $model, process options: '"${ARGS}" \
+        -TagsFromFile "${arg}" "-all:all>all:all" "${CAPTIONARGS}" \
           "${TMPDIR}/${base}.jpg"
   mv -f "${TMPDIR}/${base}.jpg" "${OUTDIR}"
 done
