@@ -14,6 +14,7 @@ opencv-python = "*"
 scikit-image = "*"
 tifffile = "*"
 numpy = "*"
+colorcorrect = "*"
 
 [requires]
 python_version = "3.8"
