@@ -78,17 +78,17 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--linear-stretch" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-linear-stretch 0.7%,0.35%'
+    NORMALIZE='-linear-stretch 0.7%,0.02%'
     shift
     continue
   elif [[ "${arg}" == "--strong-normalize" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-linear-stretch 1%,0.3%'
+    NORMALIZE='-linear-stretch 2%,0.02%'
     shift
     continue
   elif [[ "${arg}" == "--contrast-stretch" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-contrast-stretch 0.7%,0.2%'
+    NORMALIZE='-contrast-stretch 0.7%,0.02%'
     shift
     continue
   elif [[ "${arg}" == "--modulate-saturation" ]]; then
@@ -172,11 +172,15 @@ for arg in "$@"; do
     convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   fi
   if [[ "${CAPTION}" == "TRUE" ]]; then
-    CAPTIONARGS="-iptc:caption-abstract<\$iptc:caption-abstract, \$make \$model, process options: ${ARGS}" 
-  fi
-  exiftool -overwrite_original_in_place \
-        -TagsFromFile "${arg}" "-all:all>all:all" "${CAPTIONARGS}" \
+    exiftool -overwrite_original_in_place \
+        -TagsFromFile "${arg}" "-all:all>all:all" \
+        "-iptc:caption-abstract<\$iptc:caption-abstract, \$make \$model, process options: ${ARGS}" \
           "${TMPDIR}/${base}.jpg"
+  else
+    exiftool -overwrite_original_in_place \
+        -TagsFromFile "${arg}" "-all:all>all:all" \
+          "${TMPDIR}/${base}.jpg"
+  fi
   mv -f "${TMPDIR}/${base}.jpg" "${OUTDIR}"
 done
 rm -rf ${TMPDIR}

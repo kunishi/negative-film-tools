@@ -30,7 +30,7 @@ def adaptive_hist(img):
     return exposure.equalize_adapthist(img, clip_limit=0.004, kernel_size=96)
 
 def rescale_intensity(img):
-    v_min, v_max = np.percentile(img, (0.2, 99.8))
+    v_min, v_max = np.percentile(img, (0.03, 99.97))
     print(v_min, v_max)
     if not args.withoutrescale:
         return exposure.rescale_intensity(img, in_range=(v_min, v_max))
