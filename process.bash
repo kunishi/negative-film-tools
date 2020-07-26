@@ -71,6 +71,16 @@ for arg in "$@"; do
     IM_AUTOGAMMA="-negate -auto-gamma -negate"
     shift
     continue
+  elif [[ "${arg}" == "--autogamma-color" ]]; then
+    ARGS="${ARGS} ${arg}"
+    IM_AUTOGAMMA="-negate -channel rgb -auto-gamma -channel rgb,sync -negate"
+    shift
+    continue
+  elif [[ "${arg}" == "--autolevel" ]]; then
+    ARGS="${ARGS} ${arg}"
+    NORMALIZE='-auto-level'
+    shift
+    continue
   elif [[ "${arg}" == "--normalize" ]]; then
     ARGS="${ARGS} ${arg}"
     NORMALIZE='-normalize'
@@ -78,7 +88,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--linear-stretch" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-linear-stretch 0.7%,0.02%'
+    NORMALIZE='-linear-stretch 0.4%,0.02%'
     shift
     continue
   elif [[ "${arg}" == "--strong-normalize" ]]; then
@@ -89,11 +99,6 @@ for arg in "$@"; do
   elif [[ "${arg}" == "--contrast-stretch" ]]; then
     ARGS="${ARGS} ${arg}"
     NORMALIZE='-contrast-stretch 0.7%,0.02%'
-    shift
-    continue
-  elif [[ "${arg}" == "--modulate-saturation" ]]; then
-    ARGS="${ARGS} ${arg}"
-    MODULATE="-modulate 100,110,100"
     shift
     continue
   elif [[ "${arg}" == "--gray" ]]; then
