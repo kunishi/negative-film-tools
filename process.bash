@@ -93,7 +93,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--strong-normalize" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-linear-stretch 2%,0.02%'
+    NORMALIZE='-linear-stretch 2%,0.5%'
     shift
     continue
   elif [[ "${arg}" == "--contrast-stretch" ]]; then
