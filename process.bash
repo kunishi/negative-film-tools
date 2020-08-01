@@ -78,7 +78,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--autolevel" ]]; then
     ARGS="${ARGS} ${arg}"
-    NORMALIZE='-auto-level'
+    NORMALIZE='-channel rgb -auto-level -channel rgb,sync'
     shift
     continue
   elif [[ "${arg}" == "--normalize" ]]; then
