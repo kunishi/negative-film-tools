@@ -73,7 +73,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--autogamma-color" ]]; then
     ARGS+=(${arg})
-    IM_AUTOGAMMA="-channel rgb -auto-gamma -channel rgb,sync"
+    IM_AUTOGAMMA="-channel rgb,sync -auto-gamma -channel rgb -auto-gamma -channel rgb,sync"
     shift
     continue
   elif [[ "${arg}" == "--autolevel" ]]; then
