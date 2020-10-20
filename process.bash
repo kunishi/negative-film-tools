@@ -64,6 +64,12 @@ for arg in "$@"; do
     WB=""
     shift
     continue
+  elif [[ "${arg}" == "--sharpen" ]]; then
+    ARGS+=(${arg})
+    AUTOTONE=TRUE
+    SHARPNESS=""
+    shift
+    continue
   elif [[ "${arg}" == "--autogamma" ]]; then
     ARGS+=(${arg})
     #AUTOTONE=TRUE
@@ -114,6 +120,11 @@ for arg in "$@"; do
   elif [[ "${arg}" == "--lineargray" ]]; then
     ARGS+=(${arg})
     COLORSPACE="-colorspace LinearGray"
+    shift
+    continue
+  elif [[ "${arg}" == "--linearrgb" ]]; then
+    ARGS+=(${arg})
+    COLORSPACE="-colorspace rgb"
     shift
     continue
   elif [[ "${arg}" == "--imagemagick" ]]; then
