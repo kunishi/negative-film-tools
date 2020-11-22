@@ -13,7 +13,9 @@ WB="-w"
 GB="-g"
 ARGS=()
 PYARGS=()
-COLORSPACE="-colorspace sRGB"
+SRGB_ICC="/Library/ColorSync/Profiles/sRGB.icc"
+GREY_ICC='./Graytone.icc'
+COLORSPACE="-colorspace sRGB -profile ${SRGB_ICC}"
 
 for arg in "$@"; do
   if [[ "${arg}" == "--gamma="* ]]; then
@@ -114,12 +116,12 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--gray" ]]; then
     ARGS+=(${arg})
-    COLORSPACE="-colorspace Gray"
+    COLORSPACE="-colorspace Gray -profile ${GREY_ICC}"
     shift
     continue
   elif [[ "${arg}" == "--lineargray" ]]; then
     ARGS+=(${arg})
-    COLORSPACE="-colorspace LinearGray"
+    COLORSPACE="-colorspace LinearGray -profile ${GREY_ICC}"
     shift
     continue
   elif [[ "${arg}" == "--linearrgb" ]]; then
@@ -196,13 +198,14 @@ for arg in "$@"; do
     exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
         "-iptc:caption-abstract<\$iptc:caption-abstract, \$make \$model, process options: ${ARGS[*]}" \
+        -colorspace=sRGB -directory="${OUTDIR}" \
           "${TMPDIR}/${base}.jpg"
   else
     exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
+        -colorspace=sRGB -directory="${OUTDIR}" \
           "${TMPDIR}/${base}.jpg"
   fi
-  mv -f "${TMPDIR}/${base}.jpg" "${OUTDIR}"
 done
 rm -rf ${TMPDIR}
 
