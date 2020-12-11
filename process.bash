@@ -81,7 +81,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--autogamma-color" ]]; then
     ARGS+=(${arg})
-    IM_AUTOGAMMA="-channel rgb,sync -auto-gamma -channel rgb -auto-gamma -channel rgb,sync"
+    IM_AUTOGAMMA="-channel rgb -auto-gamma -channel rgb,sync"
     shift
     continue
   elif [[ "${arg}" == "--autolevel" ]]; then
@@ -190,9 +190,9 @@ for arg in "$@"; do
   fi
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which autotone >/dev/null 2>&1; echo $?` -eq 0 ]]; then
     autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace srgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -set colorspace srgb -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   else
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace srgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -set colorspace srgb -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   fi
   if [[ "${CAPTION}" == "TRUE" ]]; then
     exiftool -overwrite_original_in_place \
