@@ -63,27 +63,19 @@ if __name__ == "__main__":
     else:
         raw = rawpy.imread(args.src)
         if args.linearraw:
-            rgb = raw.postprocess(gamma=(1.0, 1.0),
-                                    half_size=False,
-                                    demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
-                                    dcb_enhance=True,
-                                    no_auto_bright=not args.useautobrightness,
-                                    auto_bright_thr=0.01,
-                                    use_camera_wb=False,
-                                    use_auto_wb=args.useautowb,
-                                    output_color=rawpy.ColorSpace.raw,
-                                    output_bps=16)
+            gamma = (1.0, 1.0)
         else:
-            rgb = raw.postprocess(gamma=(args.rawgamma, 4.5),
-                                    half_size=False,
-                                    demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
-                                    dcb_enhance=True,
-                                    no_auto_bright=not args.useautobrightness,
-                                    auto_bright_thr=0.01,
-                                    use_camera_wb=False,
-                                    use_auto_wb=args.useautowb,
-                                    output_color=rawpy.ColorSpace.raw,
-                                    output_bps=16)
+            gamma = (args.rawgamma, 4.5)
+        rgb = raw.postprocess(gamma=gamma,
+                                half_size=False,
+                                demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
+                                dcb_enhance=True,
+                                no_auto_bright=not args.useautobrightness,
+                                auto_bright_thr=0.01,
+                                use_camera_wb=False,
+                                use_auto_wb=args.useautowb,
+                                output_color=rawpy.ColorSpace.raw,
+                                output_bps=16)
 
     img_src = rgb
  
