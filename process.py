@@ -19,7 +19,6 @@ parser.add_argument("--linearraw", help="process RAW image without gamma correct
 parser.add_argument("--useautobrightness", help="disable auto brightness mode in libraw", action="store_true")
 parser.add_argument("--useautowb", help="enable auto white balance mode in libraw", action="store_true")
 parser.add_argument("--greengamma", help="gamma fix only to green channel", action="store_true")
-parser.add_argument("--bluegamma", help="gamma fix only to blue channel", action="store_true")
 parser.add_argument("--positive", help="input the positive image", action="store_true")
 parser.add_argument("--withoutrescale", help="do not process rescaling", action="store_true")
 parser.add_argument("--rgb", help="input RGB image", action="store_true")
@@ -30,10 +29,10 @@ def adaptive_hist(img):
     return exposure.equalize_adapthist(img, clip_limit=0.004, kernel_size=96)
 
 def rescale_intensity(img):
-    v_min, v_max = np.percentile(img, (0.03, 99.97))
+    v_min, v_max = np.percentile(1.0 * img, (0.03, 99.97))
     print(v_min, v_max)
     if not args.withoutrescale:
-        return exposure.rescale_intensity(img, in_range=(v_min, v_max))
+        return exposure.rescale_intensity(1.0 * img, in_range=(v_min, v_max))
     else:
         return img
 
@@ -92,11 +91,11 @@ if args.noadapt:
     elif args.globalrescale:
         contrasted = rescale_intensity(img_src)
     else:
-        r, g, b = cv2.split(img_src)
+        b, g, r = cv2.split(img_src)
         contrasted = cv2.merge((
-            rescale_intensity(r),
+            rescale_intensity(b),
             rescale_intensity(g),
-            rescale_intensity(b)))
+            rescale_intensity(r)))
     if args.bw:
         contrasted = util.invert(rgb2gray(contrasted))
     elif args.bwhsv:
@@ -106,14 +105,14 @@ if args.noadapt:
     elif not args.positive:
         contrasted = util.invert(contrasted)
 elif args.globalrescale or args.bwitur:
-    r, g, b = cv2.split(img_src)
+    b, g, r = cv2.split(img_src)
     r_c = adaptive_hist(r)
     g_c = adaptive_hist(g)
     b_c = adaptive_hist(b)
     if args.positive:
-        contrasted = rescale_intensity(cv2.merge((r_c, g_c, b_c)))
+        contrasted = rescale_intensity(cv2.merge((b_c, g_c, r_c)))
     else:
-        contrasted = util.invert(rescale_intensity(cv2.merge((r_c, g_c, b_c))))
+        contrasted = util.invert(rescale_intensity(cv2.merge((b_c, g_c, r_c))))
         if args.bwitur:
             contrasted = rgb2gray_itur(contrasted)
 elif args.bw or args.bwhsv or args.bwitur:
@@ -125,7 +124,7 @@ elif args.bw or args.bwhsv or args.bwitur:
         gray = rgb2gray_itur(img_src)
     contrasted = util.invert(rescale_intensity(adaptive_hist(gray)))
 else:
-    r, g, b = cv2.split(img_src)
+    b, g, r = cv2.split(img_src)
     r_c = rescale_intensity(adaptive_hist(r))
     if args.greengamma:
         g_c = exposure.adjust_gamma(rescale_intensity(adaptive_hist(g)), gamma=1.08)
@@ -136,18 +135,14 @@ else:
     else:
         b_c = rescale_intensity(adaptive_hist(b))
     if args.positive:
-        contrasted = cv2.merge((r_c, g_c, b_c))
-    elif args.bluegamma:
-        contrasted = cv2.merge((util.invert(r_c),
-                                util.invert(g_c),
-                                exposure.adjust_gamma(util.invert(b_c), gamma=0.93)))
+        contrasted = cv2.merge((b_c, g_c, r_c))
     else:
-        contrasted = util.invert(cv2.merge((r_c, g_c, b_c)))
+        contrasted = util.invert(cv2.merge((b_c, g_c, r_c)))
 
 result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
 
 if args.out:
-    io.imsave(os.path.abspath(args.out), result, check_contrast=False)
+    io.imsave(os.path.abspath(args.out), util.img_as_ubyte(result), check_contrast=False)
 else:
     io.imshow(result)
     io.show()

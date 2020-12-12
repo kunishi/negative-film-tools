@@ -1,12 +1,10 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c3a806ff1a059d6d8585468585cd40838506aed5b683f410896b685a92b8c313"
+            "sha256": "8f5c4eddbac498f8034e7c14b9ff985dbf1eb33466e4811a74cbfa3281e74571"
         },
         "pipfile-spec": 6,
-        "requires": {
-            "python_version": "3.8"
-        },
+        "requires": {},
         "sources": [
             {
                 "name": "pypi",
@@ -111,7 +109,7 @@
                 "sha256:e71cdd402047e657c1662073e9361106c6981e9621ab8c249388dfc3ec1de07b",
                 "sha256:eb6b6700ea454bb88333d98601e74928e06f9669c1ea231b4c4c666c1d7701b4"
             ],
-            "index": "pypi",
+            "markers": "python_version >= '3.6'",
             "version": "==3.3.3"
         },
         "networkx": {
@@ -220,7 +218,7 @@
                 "sha256:eb472586374dc66b31e36e14720747595c2b265ae962987261f044e5cce644b5",
                 "sha256:fbd922f702582cb0d71ef94442bfca57624352622d75e3be7a1e7e9360b07e72"
             ],
-            "index": "pypi",
+            "markers": "python_version >= '3.6'",
             "version": "==8.0.1"
         },
         "pyparsing": {

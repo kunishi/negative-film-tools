@@ -15,7 +15,8 @@ ARGS=()
 PYARGS=()
 SRGB_ICC="/Library/ColorSync/Profiles/sRGB.icc"
 GREY_ICC='./Graytone.icc'
-COLORSPACE="-colorspace sRGB -profile ${SRGB_ICC}"
+#COLORSPACE="-colorspace sRGB -profile ${SRGB_ICC}"
+COLORSPACE=""
 
 for arg in "$@"; do
   if [[ "${arg}" == "--gamma="* ]]; then
@@ -184,15 +185,15 @@ for arg in "$@"; do
   echo ${base}
   if [[ "${IM}" == "TRUE" ]]; then
     (cd ${TMPDIR} && \
-      ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}" "${TMPDIR}/${base}.tif")
+      ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}" "${TMPDIR}/${base}.png")
   else
-    python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.tif" "${arg}"
+    python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.png" "${arg}"
   fi
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which autotone >/dev/null 2>&1; echo $?` -eq 0 ]]; then
-    autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.tif" "${TMPDIR}/${base}.mpc"
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -set colorspace srgb -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+    autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.png" "${TMPDIR}/${base}.mpc"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -set colorspace srgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   else
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -set colorspace srgb -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.png" -set colorspace srgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   fi
   if [[ "${CAPTION}" == "TRUE" ]]; then
     exiftool -overwrite_original_in_place \
