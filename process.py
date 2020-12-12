@@ -142,7 +142,7 @@ else:
 result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
 
 if args.out:
-    io.imsave(os.path.abspath(args.out), util.img_as_ubyte(result), check_contrast=False)
+    io.imsave(os.path.abspath(args.out), util.img_as_uint(result), check_contrast=False, plugin='pil')
 else:
     io.imshow(result)
     io.show()

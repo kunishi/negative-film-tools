@@ -15,8 +15,8 @@ ARGS=()
 PYARGS=()
 SRGB_ICC="/Library/ColorSync/Profiles/sRGB.icc"
 GREY_ICC='./Graytone.icc'
-#COLORSPACE="-colorspace sRGB -profile ${SRGB_ICC}"
-COLORSPACE=""
+COLORSPACE="-colorspace sRGB -profile ${SRGB_ICC}"
+#COLORSPACE=""
 
 for arg in "$@"; do
   if [[ "${arg}" == "--gamma="* ]]; then
