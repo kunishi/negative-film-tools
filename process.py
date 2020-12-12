@@ -19,12 +19,10 @@ def parse_args():
     parser.add_argument("--linearraw", help="process RAW image without gamma correction", action="store_true")
     parser.add_argument("--useautobrightness", help="disable auto brightness mode in libraw", action="store_true")
     parser.add_argument("--useautowb", help="enable auto white balance mode in libraw", action="store_true")
-    parser.add_argument("--greengamma", help="gamma fix only to green channel", action="store_true")
     parser.add_argument("--positive", help="input the positive image", action="store_true")
     parser.add_argument("--withoutrescale", help="do not process rescaling", action="store_true")
     parser.add_argument("--rgb", help="input RGB image", action="store_true")
     parser.add_argument("--out", help="specify the destination TIFF file")
-    # args = parser.parse_args()
     return parser.parse_args()
 
 def adaptive_hist(img):
@@ -130,14 +128,8 @@ if __name__ == "__main__":
     else:
         b, g, r = cv2.split(img_src)
         r_c = rescale_intensity(adaptive_hist(r))
-        if args.greengamma:
-            g_c = exposure.adjust_gamma(rescale_intensity(adaptive_hist(g)), gamma=1.08)
-        else:
-            g_c = rescale_intensity(adaptive_hist(g))
-        if args.greengamma:
-            b_c = exposure.adjust_gamma(rescale_intensity(adaptive_hist(b)), gamma=0.96)
-        else:
-            b_c = rescale_intensity(adaptive_hist(b))
+        g_c = rescale_intensity(adaptive_hist(g))
+        b_c = rescale_intensity(adaptive_hist(b))
         if args.positive:
             contrasted = cv2.merge((b_c, g_c, r_c))
         else:
