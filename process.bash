@@ -13,9 +13,11 @@ WB="-w"
 GB="-g"
 ARGS=()
 PYARGS=()
-SRGB_ICC="/Library/ColorSync/Profiles/sRGB.icc"
-GREY_ICC='./Graytone.icc'
-COLORSPACE="-colorspace sRGB -profile ${SRGB_ICC}"
+SRGB_ICC="./Compact-ICC-Profiles/profiles/sRGB-v4.icc"
+GREY_ICC='./Compact-ICC-Profiles/profiles/sGrey-v4.icc'
+DISPLAY_P3_ICC="./Compact-ICC-Profiles/profiles/DisplayP3-v4.icc"
+PROPHOTO_ICC="./Compact-ICC-Profiles/profiles/ProPhoto-v4.icc"
+COLORSPACE="-colorspace sRGB -profile ${DISPLAY_P3_ICC}"
 #COLORSPACE=""
 
 for arg in "$@"; do
@@ -77,7 +79,7 @@ for arg in "$@"; do
     ARGS+=(${arg})
     #AUTOTONE=TRUE
     #AUTOGAMMA=""
-    IM_AUTOGAMMA="-negate -auto-gamma -negate"
+    IM_AUTOGAMMA="-auto-gamma"
     shift
     continue
   elif [[ "${arg}" == "--autogamma-color" ]]; then
@@ -191,9 +193,9 @@ for arg in "$@"; do
   fi
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which autotone >/dev/null 2>&1; echo $?` -eq 0 ]]; then
     autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.png" "${TMPDIR}/${base}.mpc"
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -set colorspace srgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${NEGATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   else
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.png" -set colorspace srgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+    convert -define jpeg:extent=7M "${TMPDIR}/${base}.png" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${NEGATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   fi
   if [[ "${CAPTION}" == "TRUE" ]]; then
     exiftool -overwrite_original_in_place \
