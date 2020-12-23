@@ -132,42 +132,6 @@ for arg in "$@"; do
     COLORSPACE="-colorspace rgb"
     shift
     continue
-  elif [[ "${arg}" == "--imagemagick" ]]; then
-    ARGS+=(${arg})
-    IM=TRUE
-    IM_SCRIPT="convert-negafilm-color.bash"
-    shift
-    continue
-  elif [[ "${arg}" == "--imagemagick-warm" ]]; then
-    ARGS+=(${arg})
-    IM=TRUE
-    IM_SCRIPT="convert-negafilm-color-warm.bash"
-    shift
-    continue
-  elif [[ "${arg}" == "--imagemagick-cold" ]]; then
-    ARGS+=(${arg})
-    IM=TRUE
-    IM_SCRIPT="convert-negafilm-color-cold.bash"
-    shift
-    continue
-  elif [[ "${arg}" == "--imagemagick-bw" ]]; then
-    ARGS+=(${arg})
-    IM=TRUE
-    IM_SCRIPT="convert-negafilm-bw.bash"
-    shift
-    continue
-  elif [[ "${arg}" == "--imagemagick-lm" ]]; then
-    ARGS+=(${arg})
-    IM=TRUE
-    IM_SCRIPT="convert-negafilm-lm.bash"
-    shift
-    continue
-  elif [[ "${arg}" == "--imagemagick-positive" ]]; then
-    ARGS+=(${arg})
-    IM=TRUE
-    IM_SCRIPT="convert-positive-color.bash"
-    shift
-    continue
   elif [[ "${arg}" == "--fixcaption" ]]; then
     CAPTION=TRUE
     shift
@@ -185,12 +149,7 @@ for arg in "$@"; do
   filename="${arg##*/}"
   base="${filename%.*}"
   echo ${base}
-  if [[ "${IM}" == "TRUE" ]]; then
-    (cd ${TMPDIR} && \
-      ${SCRIPT_DIR}/${IM_SCRIPT} "${arg}" "${TMPDIR}/${base}.png")
-  else
-    python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.png" "${arg}"
-  fi
+  python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.png" "${arg}"
   if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which autotone >/dev/null 2>&1; echo $?` -eq 0 ]]; then
     autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.png" "${TMPDIR}/${base}.mpc"
     convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${NEGATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
