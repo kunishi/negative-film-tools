@@ -41,44 +41,8 @@ for arg in "$@"; do
     PREFIX=`echo "${arg}" | sed -e 's/^.*=//'`
     shift
     continue
-  elif [[ "${arg}" == "--autotone" ]]; then
-    ARGS+=(${arg})
-    AUTOTONE=TRUE
-    SHARPNESS=""
-    CONTRAST=""
-    AUTOGAMMA=""
-    GB=""
-    WB=""
-    shift
-    continue
-  elif [[ "${arg}" == "--autocontrast" ]]; then
-    ARGS+=(${arg})
-    AUTOTONE=TRUE
-    CONTRAST=""
-    shift
-    continue
-  elif [[ "${arg}" == "--autogray" ]]; then
-    ARGS+=(${arg})
-    AUTOTONE=TRUE
-    GB=""
-    shift
-    continue
-  elif [[ "${arg}" == "--autowhite" ]]; then
-    ARGS+=(${arg})
-    AUTOTONE=TRUE
-    WB=""
-    shift
-    continue
-  elif [[ "${arg}" == "--sharpen" ]]; then
-    ARGS+=(${arg})
-    AUTOTONE=TRUE
-    SHARPNESS=""
-    shift
-    continue
   elif [[ "${arg}" == "--autogamma" ]]; then
     ARGS+=(${arg})
-    #AUTOTONE=TRUE
-    #AUTOGAMMA=""
     IM_AUTOGAMMA="-auto-gamma"
     shift
     continue
@@ -150,12 +114,7 @@ for arg in "$@"; do
   base="${filename%.*}"
   echo ${base}
   python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.png" "${arg}"
-  if [[ "${AUTOTONE}" == "TRUE" && `/usr/bin/which autotone >/dev/null 2>&1; echo $?` -eq 0 ]]; then
-    autotone -n -p ${SHARPNESS} ${CONTRAST} ${WB} ${GB} ${AUTOGAMMA} -GN a -WN a "${TMPDIR}/${base}.png" "${TMPDIR}/${base}.mpc"
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.mpc" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${NEGATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
-  else
-    convert -define jpeg:extent=7M "${TMPDIR}/${base}.png" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${NEGATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
-  fi
+  convert -define jpeg:extent=7M "${TMPDIR}/${base}.png" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${NEGATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   if [[ "${CAPTION}" == "TRUE" ]]; then
     exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
