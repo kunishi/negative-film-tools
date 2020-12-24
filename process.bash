@@ -108,8 +108,8 @@ for arg in "$@"; do
   filename="${arg##*/}"
   base="${filename%.*}"
   echo ${base}
-  python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.png" "${arg}"
-  convert -define jpeg:extent=7M "${TMPDIR}/${base}.png" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+  python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.tif" "${arg}"
+  convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${COLORSPACE} ${NORMALIZE} "${TMPDIR}/${base}.jpg"
   if [[ "${CAPTION}" == "TRUE" ]]; then
     exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
