@@ -6,11 +6,6 @@ OUTDIR_BASE=${HOME}/Dropbox/Photos/process
 PREFIX=Done
 DATE=$(date +%Y%m%d_%H%M%S)
 GAMMA='--gamma 1.0'
-SHARPNESS="-s"
-CONTRAST="-b"
-AUTOGAMMA="-G"
-WB="-w"
-GB="-g"
 ARGS=()
 PYARGS=()
 SRGB_ICC="./Compact-ICC-Profiles/profiles/sRGB-v4.icc"
@@ -114,7 +109,7 @@ for arg in "$@"; do
   base="${filename%.*}"
   echo ${base}
   python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.png" "${arg}"
-  convert -define jpeg:extent=7M "${TMPDIR}/${base}.png" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${MODULATE} ${NEGATE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
+  convert -define jpeg:extent=7M "${TMPDIR}/${base}.png" -colorspace rgb -profile ${PROPHOTO_ICC} ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${NORMALIZE} ${COLORSPACE} "${TMPDIR}/${base}.jpg"
   if [[ "${CAPTION}" == "TRUE" ]]; then
     exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
