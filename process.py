@@ -130,7 +130,7 @@ if __name__ == "__main__":
     result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
 
     if args.out:
-        io.imsave(os.path.abspath(args.out), util.img_as_uint(result), check_contrast=False, plugin='pil')
+        io.imsave(os.path.abspath(args.out), util.img_as_uint(result), check_contrast=False)
     else:
         io.imshow(result)
         io.show()

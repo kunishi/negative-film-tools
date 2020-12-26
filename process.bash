@@ -48,7 +48,7 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--autolevel" ]]; then
     ARGS+=(${arg})
-    IM_AUTOLEVEL='-channel rgb,sync -auto-level -channel rgb,sync'
+    IM_AUTOLEVEL='-auto-level'
     shift
     continue
   elif [[ "${arg}" == "--autolevel-color" ]]; then
