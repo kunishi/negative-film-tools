@@ -22,6 +22,12 @@ for arg in "$@"; do
     PYARGS+=("${GAMMA}")
     shift
     continue
+  elif [[ "${arg}" == "--imgamma="* ]]; then
+    ARGS+=(${arg})
+    GAMMA=`echo "${arg}" | sed -e 's/^.*=//'`
+    IM_GAMMA=" -gamma ${GAMMA}"
+    shift
+    continue
   elif [[ "${arg}" == "--rawgamma="* ]]; then
     ARGS+=(${arg})
     RAWGAMMA=`echo "${arg}" | sed -e 's/^=/ /'`
@@ -109,7 +115,7 @@ for arg in "$@"; do
   base="${filename%.*}"
   echo ${base}
   python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.tif" "${arg}"
-  convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${COLORSPACE} ${NORMALIZE} "${TMPDIR}/${base}.jpg"
+  convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${IM_GAMMA} ${COLORSPACE} ${NORMALIZE} "${TMPDIR}/${base}.jpg"
   if [[ "${CAPTION}" == "TRUE" ]]; then
     exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
