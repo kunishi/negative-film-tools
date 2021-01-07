@@ -44,42 +44,42 @@ for arg in "$@"; do
     continue
   elif [[ "${arg}" == "--autogamma" ]]; then
     ARGS+=(${arg})
-    IM_AUTOGAMMA="-auto-gamma"
+    IM_AUTOGAMMA+=" -auto-gamma"
     shift
     continue
   elif [[ "${arg}" == "--autogamma-color" ]]; then
     ARGS+=(${arg})
-    IM_AUTOGAMMA="-channel rgb -auto-gamma -channel rgb,sync"
+    IM_AUTOGAMMA+=" -channel rgb -auto-gamma -channel rgb,sync"
     shift
     continue
   elif [[ "${arg}" == "--autolevel" ]]; then
     ARGS+=(${arg})
-    IM_AUTOLEVEL='-auto-level'
+    IM_AUTOLEVEL*=' -auto-level'
     shift
     continue
   elif [[ "${arg}" == "--autolevel-color" ]]; then
     ARGS+=(${arg})
-    IM_AUTOLEVEL='-channel rgb -auto-level -channel rgb,sync'
+    IM_AUTOLEVEL+=' -channel rgb -auto-level -channel rgb,sync'
     shift
     continue
   elif [[ "${arg}" == "--normalize" ]]; then
     ARGS+=(${arg})
-    NORMALIZE='-normalize'
+    NORMALIZE+=' -normalize'
     shift
     continue
   elif [[ "${arg}" == "--linear-stretch" ]]; then
     ARGS+=(${arg})
-    NORMALIZE='-linear-stretch 0.7%,0.4%'
+    NORMALIZE+=' -linear-stretch 0.7%,0.4%'
     shift
     continue
   elif [[ "${arg}" == "--strong-normalize" ]]; then
     ARGS+=(${arg})
-    NORMALIZE='-linear-stretch 2%,0.5%'
+    NORMALIZE+=' -linear-stretch 2%,0.5%'
     shift
     continue
   elif [[ "${arg}" == "--contrast-stretch" ]]; then
     ARGS+=(${arg})
-    NORMALIZE='-contrast-stretch 0.7%,0.02%'
+    NORMALIZE+=' -contrast-stretch 0.7%,0.02%'
     shift
     continue
   elif [[ "${arg}" == "--gray" ]]; then
@@ -95,6 +95,11 @@ for arg in "$@"; do
   elif [[ "${arg}" == "--linearrgb" ]]; then
     ARGS+=(${arg})
     COLORSPACE="-colorspace rgb"
+    shift
+    continue
+  elif [[ "${arg}" == "--imnegate" ]]; then
+    ARGS+=(${arg})
+    NEGATE+=" -channel rgb -negate -channel rgb,sync"
     shift
     continue
   elif [[ "${arg}" == "--fixcaption" ]]; then
@@ -115,7 +120,7 @@ for arg in "$@"; do
   base="${filename%.*}"
   echo ${base}
   python3 process.py ${PYARGS[*]} --out "${TMPDIR}/${base}.tif" "${arg}"
-  convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${IM_GAMMA} ${COLORSPACE} ${NORMALIZE} "${TMPDIR}/${base}.jpg"
+  convert -define jpeg:extent=7M "${TMPDIR}/${base}.tif" -colorspace rgb ${IM_AUTOGAMMA} ${IM_AUTOLEVEL} ${IM_GAMMA} ${NEGATE} ${COLORSPACE} ${NORMALIZE} "${TMPDIR}/${base}.jpg"
   if [[ "${CAPTION}" == "TRUE" ]]; then
     exiftool -overwrite_original_in_place \
         -TagsFromFile "${arg}" "-all:all>all:all" \
