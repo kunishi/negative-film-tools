@@ -1,0 +1,5 @@
+--useautowb
+--noadapt
+--autolevel
+--imgamma
+0.7

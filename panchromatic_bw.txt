@@ -1,0 +1,7 @@
+--noadapt
+--withoutrescale
+--autogamma-color
+--autolevel
+--imgamma
+0.6
+--gray
