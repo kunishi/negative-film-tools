@@ -1,7 +1,6 @@
 --noadapt
 --withoutrescale
---autogamma-color
 --autolevel
 --imgamma
-0.6
+0.55
 --gray
