@@ -1,6 +1,3 @@
---linearraw
+--useautobrightness
 --noadapt
---withoutrescale
 --positive
---autogamma
---autolevel

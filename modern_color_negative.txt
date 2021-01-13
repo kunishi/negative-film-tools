@@ -1,6 +1,6 @@
---linearraw
 --useautowb
 --fixcaption
 --noadapt
 --autolevel
---imgamma 0.7
+--imgamma
+0.85
