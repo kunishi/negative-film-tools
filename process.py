@@ -17,6 +17,7 @@ def parse_args():
     parser.add_argument("src", help="source RAW file", nargs='+')
     parser.add_argument("--autogamma", help="apply ImageMagick autogamma", action="store_true")
     parser.add_argument("--autogamma-color", help="apply ImageMagick autogamma with each channel", action="store_true")
+    parser.add_argument("--autogamma-hsb", help="apply ImageMagick autogamma on HSB colorspace", action="store_true")
     parser.add_argument("--autolevel", help="apply ImageMagick autolevel", action="store_true")
     parser.add_argument("--autolevel-color", help="apply ImageMagick autolevel with each channel", action="store_true")
     parser.add_argument("--bw", help="run in bw mode", action="store_true")
@@ -80,17 +81,19 @@ def imagemagick_convert_command(infile, outdir):
              str(infile),
              "-colorspace", "rgb"]
     if args.autogamma:
-        command.extend(["-colorspace", "hsb", "-channel", "b", "-auto-gamma", "-channel", "rgb,sync", "-colorspace", "rgb"])
+        command.extend(["-auto-gamma"])
     if args.autogamma_color:
         command.extend(["-channel", "rgb", "-auto-gamma", "-channel", "rgb,sync"])
-    if args.autolevel:
-        command.extend(["-colorspace", "hsb", "-channel", "b", "-auto-level", "-channel", "rgb,sync", "-colorspace", "rgb"])
-    if args.autolevel_color:
-        command.extend(["-channel", "rgb", "-auto-level", "-channel", "rgb,sync"])
+    if args.autogamma_hsb:
+        command.extend(["-colorspace", "hsb", "-channel", "b", "-auto-gamma", "-channel", "rgb,sync", "-colorspace", "rgb"])
     if args.imgamma:
         command.extend(["-gamma", str(args.imgamma)])
     if args.imnegate:
         command.append("-negate")
+    if args.autolevel:
+        command.extend(["-colorspace", "hsb", "-channel", "b", "-auto-level", "-channel", "rgb,sync", "-colorspace", "rgb"])
+    if args.autolevel_color:
+        command.extend(["-channel", "rgb", "-auto-level", "-channel", "rgb,sync"])
     if args.normalize:
         command.append("-normalize")
     if args.linear_stretch:
