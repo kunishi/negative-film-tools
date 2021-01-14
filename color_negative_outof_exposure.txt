@@ -1,6 +1,3 @@
 --useautowb
---fixcaption
 --noadapt
 --autolevel
---imgamma
-0.85
