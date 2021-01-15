@@ -1,4 +1,3 @@
---linearraw
 --noadapt
---autolevel
+--globalrescale
 --lineargray
