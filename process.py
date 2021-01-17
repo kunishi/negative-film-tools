@@ -99,7 +99,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.linear_stretch:
         command.extend(["-linear-stretch", "0.7%,0.1%"])
     if args.strong_normalize:
-        command.extend(["-linear-stretch", "2%,0.5%"])
+        command.extend(["-normalize", "-normalize"])
     if args.contrast_stretch:
         command.extend(["-contrast-stretch", "0.7%,0.02%"])
     if args.gray:
