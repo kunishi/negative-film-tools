@@ -91,7 +91,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.imnegate:
         command.append("-negate")
     if args.autolevel:
-        command.extend(["-colorspace", "hsb", "-channel", "b", "-auto-level", "-channel", "rgb,sync", "-colorspace", "rgb"])
+        command.extend(["-colorspace", "lab", "-channel", "0", "-auto-level", "+channel", "-colorspace", "srgb"])
     if args.autolevel_color:
         command.extend(["-channel", "rgb", "-auto-level", "-channel", "rgb,sync"])
     if args.normalize:

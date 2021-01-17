@@ -1,7 +1,4 @@
 --useautowb
+--useautobrightness
 --noadapt
---globalrescale
---autogamma-color
---imgamma
-0.5
---strong-normalize
+--autolevel
