@@ -97,11 +97,11 @@ def imagemagick_convert_command(infile, outdir):
     if args.normalize:
         command.append("-normalize")
     if args.linear_stretch:
-        command.extend(["-linear-stretch", "0.7%,0.1%"])
+        command.extend(["-linear-stretch", "0.7%x0.1%"])
     if args.strong_normalize:
         command.extend(["-normalize", "-normalize"])
     if args.contrast_stretch:
-        command.extend(["-contrast-stretch", "0.7%,0.02%"])
+        command.extend(["-contrast-stretch", "0.7%x0.02%"])
     if args.gray:
         command.extend(["-colorspace", "gray", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/sGrey-v4.icc"))])
     if args.lineargray:
