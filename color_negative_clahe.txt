@@ -1,0 +1,7 @@
+--linearraw
+--useautowb
+--useautobrightness
+--withoutrescale
+--linearrgb
+--imgamma
+0.85

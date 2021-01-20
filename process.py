@@ -17,7 +17,7 @@ def parse_args():
     parser.add_argument("src", help="source RAW file", nargs='+')
     parser.add_argument("--autogamma", help="apply ImageMagick autogamma", action="store_true")
     parser.add_argument("--autogamma-color", help="apply ImageMagick autogamma with each channel", action="store_true")
-    parser.add_argument("--autogamma-hsb", help="apply ImageMagick autogamma on HSB colorspace", action="store_true")
+    parser.add_argument("--autogamma-lab", help="apply ImageMagick autogamma on Lab colorspace", action="store_true")
     parser.add_argument("--autolevel", help="apply ImageMagick autolevel", action="store_true")
     parser.add_argument("--autolevel-color", help="apply ImageMagick autolevel with each channel", action="store_true")
     parser.add_argument("--bw", help="run in bw mode", action="store_true")
@@ -49,30 +49,28 @@ def parse_args():
     return parser.parse_args()
 
 def adaptive_hist(img):
-    return exposure.equalize_adapthist(img, clip_limit=0.004, kernel_size=96)
+    if not args.noadapt:
+        return exposure.equalize_adapthist(img, clip_limit=0.004, kernel_size=96)
+    else:
+        return img
 
-def rescale_intensity(img, withoutrescale=False):
-    v_min, v_max = np.percentile(1.0 * img, (0.03, 99.97))
-    print(v_min, v_max)
-    if not withoutrescale:
+def rescale_intensity(img):
+    if not args.withoutrescale:
+        v_min, v_max = np.percentile(1.0 * img, (0.03, 99.97))
+        print(v_min, v_max)
         return exposure.rescale_intensity(1.0 * img, in_range=(v_min, v_max))
     else:
         return img
 
 def rgb2gray(img, gamma=1.8):
-    #linear = exposure.adjust_gamma(img, 1/gamma)
-    #bnw = color.rgb2gray(linear)
-    #return exposure.adjust_gamma(bnw, gamma)
     return color.rgb2gray(img)
 
 def rgb2gray_itur(img, gamma=1.5):
     coeffs = np.array([0.299, 0.587, 0.114], dtype=img.dtype)
-    #return exposure.adjust_gamma(img @ coeffs, gamma)
     return img @ coeffs
 
 def rgb2gray_hsv(img, gamma=1.0):
     h, s, v = cv2.split(color.rgb2hsv(img))
-    #return exposure.adjust_gamma(v, gamma)
     return v
 
 def imagemagick_convert_command(infile, outdir):
@@ -83,9 +81,9 @@ def imagemagick_convert_command(infile, outdir):
     if args.autogamma:
         command.extend(["-auto-gamma"])
     if args.autogamma_color:
-        command.extend(["-channel", "rgb", "-auto-gamma", "-channel", "rgb,sync"])
-    if args.autogamma_hsb:
-        command.extend(["-colorspace", "hsb", "-channel", "b", "-auto-gamma", "-channel", "rgb,sync", "-colorspace", "rgb"])
+        command.extend(["-channel", "rgb", "-auto-gamma", "+channel"])
+    if args.autogamma_lab:
+        command.extend(["-colorspace", "lab", "-channel", "b", "-auto-gamma", "+channel", "-colorspace", "rgb"])
     if args.imgamma:
         command.extend(["-gamma", str(args.imgamma)])
     if args.imnegate:
@@ -107,7 +105,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.lineargray:
         command.extend(["-colorspace", "lineargray", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/sGrey-v4.icc"))])
     if args.linearrgb:
-        command.extend(["-colorspace", "rgb"])
+        command.extend(["-colorspace", "rgb", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/Rec2020-v4.icc"))])
     if not(args.gray) and not(args.lineargray) and not(args.linearrgb):
         command.extend(["-colorspace", "srgb", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/DisplayP3-v4.icc"))])
     command.append(str(pathlib.Path(outdir, pathlib.Path(infile).with_suffix(".jpg").name)))
@@ -141,7 +139,7 @@ if __name__ == "__main__":
                     if args.linearraw:
                         gamma = (1.0, 1.0)
                     else:
-                        gamma = (args.rawgamma, 4.5)
+                        gamma = (args.rawgamma, 1.0)
                     rgb = raw.postprocess(gamma=gamma,
                                             half_size=False,
                                             demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
