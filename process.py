@@ -25,6 +25,7 @@ def parse_args():
     parser.add_argument("--bwhsv", help="run in bw mode based on HSV", action="store_true")
     parser.add_argument("--contrast-stretch", help="apply contrast stretch by using ImageMagick", action="store_true")
     parser.add_argument("--fixcaption", help="fix caption metadata", action="store_true")
+    parser.add_argument("--format", help="specify save format", default=".jpg")
     parser.add_argument("--gamma", help="specify gamma value", type=float, default=1.0)
     parser.add_argument("--globalrescale", help="rescaling globally", action="store_true")
     parser.add_argument("--gray", help="apply gray profile", action="store_true")
@@ -40,6 +41,7 @@ def parse_args():
     parser.add_argument("--prefix", help="prefix of the output subdir", default="Done")
     parser.add_argument("--positive", help="input the positive image", action="store_true")
     parser.add_argument("--rawgamma", help="specify gamma value in RAW processing", type=float, default=2.25)
+    parser.add_argument("--saturate", help="compensate saturation by using ImageMagick", action="store_true")
     parser.add_argument("--strong-normalize", help="apply strong normalize by using ImageMagick", action="store_true")
     parser.add_argument("--useautobrightness", help="disable auto brightness mode in libraw", action="store_true")
     parser.add_argument("--useautowb", help="enable auto white balance mode in libraw", action="store_true")
@@ -100,6 +102,8 @@ def imagemagick_convert_command(infile, outdir):
         command.extend(["-normalize", "-normalize"])
     if args.contrast_stretch:
         command.extend(["-contrast-stretch", "0.7%x0.02%"])
+    if args.saturate:
+        command.extend(["-colorspace", "hsl", "-channel", "1", "-evaluate", "multiply", "1.45", "+channel", "-colorspace", "rgb"])
     if args.gray:
         command.extend(["-colorspace", "gray", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/sGrey-v4.icc"))])
     if args.lineargray:
@@ -108,7 +112,7 @@ def imagemagick_convert_command(infile, outdir):
         command.extend(["-colorspace", "rgb", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/Rec2020-v4.icc"))])
     if not(args.gray) and not(args.lineargray) and not(args.linearrgb):
         command.extend(["-colorspace", "srgb", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/DisplayP3-v4.icc"))])
-    command.append(str(pathlib.Path(outdir, pathlib.Path(infile).with_suffix(".jpg").name)))
+    command.append(str(pathlib.Path(outdir, pathlib.Path(infile).with_suffix(args.format).name)))
     return command
 
 def exiftool_command(jpg, raw):
@@ -210,7 +214,7 @@ if __name__ == "__main__":
                 command = imagemagick_convert_command(tifffile, pathlib.Path(args.outdir, outdir))
                 print(command)
                 subprocess.run(command, stderr=subprocess.STDOUT)
-                jpg = pathlib.Path(args.outdir, outdir, pathlib.Path(tifffile).with_suffix(".jpg").name)
+                jpg = pathlib.Path(args.outdir, outdir, pathlib.Path(tifffile).with_suffix(args.format).name)
                 command = exiftool_command(jpg, src)
                 print(command)
                 subprocess.run(command, stderr=subprocess.STDOUT)
