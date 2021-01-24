@@ -1,6 +1,6 @@
 --noadapt
 --withoutrescale
---autogamma-hsb
+--autogamma-lab
 --autolevel
 --normalize
 --imgamma
