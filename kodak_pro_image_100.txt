@@ -1,8 +1,0 @@
---noadapt
---withoutrescale
---autogamma-color
---autolevel
---normalize
---imgamma
-0.7
---saturate
