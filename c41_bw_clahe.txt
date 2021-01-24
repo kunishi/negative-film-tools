@@ -1,5 +1,4 @@
 --linearraw
---useautobrightness
 --globalrescale
 --withoutrescale
 --lineargray

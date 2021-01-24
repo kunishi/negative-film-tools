@@ -1,4 +1,0 @@
---useautowb
---useautobrightness
---noadapt
---autolevel
