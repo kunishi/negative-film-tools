@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import os, sys
 import argparse
-import cv2
 import json
 import numpy as np
 import pathlib
@@ -73,10 +72,6 @@ def rgb2gray_itur(img, gamma=1.5):
     coeffs = np.array([0.299, 0.587, 0.114], dtype=img.dtype)
     return img @ coeffs
 
-def rgb2gray_hsv(img, gamma=1.0):
-    h, s, v = cv2.split(color.rgb2hsv(img))
-    return v
-
 def imagemagick_convert_command(infile, outdir):
     command=["/usr/local/bin/convert",
              "-define", "jpeg:extent=7M",
@@ -127,49 +122,46 @@ def exiftool_command(jpg, raw):
     command.append(str(pathlib.Path(jpg)))
     return command
 
-def split_image(img, r, g, b):
-    b, g, r = cv2.split(img)
-    return img, r, g, b
-
-def merge_image(img, r, g, b):
-    img = cv2.merge((b, g, r))
-    return img, r, g, b
-
-def clahe(img, r, g, b):
-    if args.adapt_hsv:
-        h, s, v = cv2.split(color.rgb2hsv(img))
-        img = color.hsv2rgb(cv2.merge((h, s, adaptive_hist(v))))
-    elif args.noadapt:
+def clahe(img):
+    if args.noadapt:
         pass
+    elif args.adapt_hsv:
+        hsv_img = color.rgb2hsv(img)
+        hsv_img[:, :, 2] = adaptive_hist(hsv_img[:, :, 2])
+        img = color.hsv2rgb(hsv_img)
     else:
-        r = adaptive_hist(r)
-        g = adaptive_hist(g)
-        b = adaptive_hist(b)
-        img = cv2.merge((b, g, r))
-    return img, r, g, b
+        tmp = img.copy()
+        img = np.array([
+            adaptive_hist(tmp[:, :, 0]),
+            adaptive_hist(tmp[:, :, 1]),
+            adaptive_hist(tmp[:, :, 2])
+        ])
+    return img
 
-def rescale(img, r, g, b):
+def rescale(img):
     if args.withoutrescale:
         pass
     elif args.globalrescale:
-        h, s, v = cv2.split(color.rgb2hsv(img))
-        img = color.hsv2rgb(cv2.merge((h, s, rescale_intensity(v))))
+        hsv_img = color.rgb2hsv(img)
+        hsv_img[:, :, 2] = rescale_intensity(hsv_img[:, :, 2])
+        img = color.hsv2rgb(hsv_img)
     else:
-        r = rescale_intensity(r)
-        g = rescale_intensity(g)
-        b = rescale_intensity(b)
-        img = cv2.merge((b, g, r))
-    return img, r, g, b
+        tmp = img.copy()
+        img = np.array([
+            rescale_intensity(tmp[:, :, 0]),
+            rescale_intensity(tmp[:, :, 1]),
+            rescale_intensity(tmp[:, :, 2])
+        ])
+    return img
 
-def gamma_image(img, r, g, b):
-    img = exposure.adjust_gamma(img, gamma=args.gamma)
-    return img, r, g, b
+def gamma_image(img):
+    return exposure.adjust_gamma(img, gamma=args.gamma)
 
-def negate(img, r, g, b):
+def negate(img):
     if not args.positive:
-        img = util.invert(img)
-        b, g, r = cv2.split(img)
-    return img, r, g, b
+        return util.invert(img)
+    else:
+        return img
 
 if __name__ == "__main__":
     with tempfile.TemporaryDirectory() as tmpdirname:
@@ -203,11 +195,10 @@ if __name__ == "__main__":
                                             output_color=rawpy.ColorSpace.raw,
                                             output_bps=16)
 
-                img, r, g, b = split_image(rgb, None, None, None)
-                img, r, g, b = clahe(img, r, g, b)
-                img, r, g, b = rescale(img, r, g, b)
-                img, r, g, b = negate(img, r, g, b)
-                img, r, g, b = gamma_image(img, r, g, b)
+                img = clahe(rgb)
+                img = rescale(img)
+                img = negate(img)
+                img = gamma_image(img)
                 result = img
 
                 os.makedirs(str(pathlib.Path(args.outdir, outdir)), exist_ok=True)
