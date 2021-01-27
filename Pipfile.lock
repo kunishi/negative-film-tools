@@ -356,11 +356,11 @@
         },
         "tifffile": {
             "hashes": [
-                "sha256:0a301490be4ff7c72142cfd637c24df22e547a6dca77d28dcdbaffbc94aecf0f",
-                "sha256:abd731e7493c320e641486e90557beb77cecbfc82bc6a0a236d41365c81c83ec"
+                "sha256:a5f8caaf672dab0dc8b2609b61d4fd23c6b6fe7e9df38750d4c872962a080ba9",
+                "sha256:b4ab56ea97755b86cdd5fbd8e49875c949dedfdfa091370366874a0f98beee8c"
             ],
             "index": "pypi",
-            "version": "==2021.1.11"
+            "version": "==2021.1.14"
         }
     },
     "develop": {}
