@@ -15,6 +15,7 @@ from skimage import color, exposure, io, util
 def parse_args():
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
     parser.add_argument("src", help="source RAW file", nargs='+')
+    parser.add_argument("--adapt-hsv", help="apply CLAHE on value channel", action="store_true")
     parser.add_argument("--autogamma", help="apply ImageMagick autogamma", action="store_true")
     parser.add_argument("--autogamma-color", help="apply ImageMagick autogamma with each channel", action="store_true")
     parser.add_argument("--autogamma-lab", help="apply ImageMagick autogamma on Lab colorspace", action="store_true")
@@ -126,6 +127,50 @@ def exiftool_command(jpg, raw):
     command.append(str(pathlib.Path(jpg)))
     return command
 
+def split_image(img, r, g, b):
+    b, g, r = cv2.split(img)
+    return img, r, g, b
+
+def merge_image(img, r, g, b):
+    img = cv2.merge((b, g, r))
+    return img, r, g, b
+
+def clahe(img, r, g, b):
+    if args.adapt_hsv:
+        h, s, v = cv2.split(color.rgb2hsv(img))
+        img = cv2.merge((h, s, adaptive_hist(v)))
+    elif args.noadapt:
+        pass
+    else:
+        r = adaptive_hist(r)
+        g = adaptive_hist(g)
+        b = adaptive_hist(b)
+        img = cv2.merge((b, g, r))
+    return img, r, g, b
+
+def rescale(img, r, g, b):
+    if args.withoutrescale:
+        pass
+    elif args.globalrescale:
+        h, s, v = cv2.split(color.rgb2hsv(img))
+        img = cv2.merge((h, s, rescale_intensity(v)))
+    else:
+        r = rescale_intensity(r)
+        g = rescale_intensity(g)
+        b = rescale_intensity(b)
+        img = cv2.merge((b, g, r))
+    return img, r, g, b
+
+def gamma_image(img, r, g, b):
+    img = exposure.adjust_gamma(img, gamma=args.gamma)
+    return img, r, g, b
+
+def negate(img, r, g, b):
+    if not args.positive:
+        img = util.invert(img)
+        b, g, r = cv2.split(img)
+    return img, r, g, b
+
 if __name__ == "__main__":
     with tempfile.TemporaryDirectory() as tmpdirname:
         try:
@@ -158,57 +203,12 @@ if __name__ == "__main__":
                                             output_color=rawpy.ColorSpace.raw,
                                             output_bps=16)
 
-                img_src = rgb
- 
-                if args.noadapt:
-                    if args.withoutrescale:
-                        contrasted = util.img_as_uint(img_src)
-                    elif args.globalrescale:
-                        contrasted = rescale_intensity(img_src)
-                    else:
-                        b, g, r = cv2.split(img_src)
-                        contrasted = cv2.merge((
-                            rescale_intensity(b),
-                            rescale_intensity(g),
-                            rescale_intensity(r)))
-                    if args.bw:
-                        contrasted = util.invert(rgb2gray(contrasted))
-                    elif args.bwhsv:
-                        contrasted = util.invert(rgb2gray_hsv(contrasted))
-                    elif args.bwitur:
-                        contrasted = util.invert(rgb2gray_itur(contrasted))
-                    elif not args.positive:
-                        contrasted = util.invert(contrasted)
-                elif args.globalrescale or args.bwitur:
-                    b, g, r = cv2.split(img_src)
-                    r_c = adaptive_hist(r)
-                    g_c = adaptive_hist(g)
-                    b_c = adaptive_hist(b)
-                    if args.positive:
-                        contrasted = rescale_intensity(cv2.merge((b_c, g_c, r_c)))
-                    else:
-                        contrasted = util.invert(rescale_intensity(cv2.merge((b_c, g_c, r_c))))
-                        if args.bwitur:
-                            contrasted = rgb2gray_itur(contrasted)
-                elif args.bw or args.bwhsv or args.bwitur:
-                    if args.bw:         # for bnw films
-                        gray = rgb2gray(img_src)
-                    elif args.bwhsv:
-                        gray = rgb2gray_hsv(img_src)
-                    elif args.bwitur:
-                        gray = rgb2gray_itur(img_src)
-                    contrasted = util.invert(rescale_intensity(adaptive_hist(gray)))
-                else:
-                    b, g, r = cv2.split(img_src)
-                    r_c = rescale_intensity(adaptive_hist(r))
-                    g_c = rescale_intensity(adaptive_hist(g))
-                    b_c = rescale_intensity(adaptive_hist(b))
-                    if args.positive:
-                        contrasted = cv2.merge((b_c, g_c, r_c))
-                    else:
-                        contrasted = util.invert(cv2.merge((b_c, g_c, r_c)))
-
-                result = exposure.adjust_gamma(contrasted, gamma=args.gamma)
+                img, r, g, b = split_image(rgb, None, None, None)
+                img, r, g, b = clahe(img, r, g, b)
+                img, r, g, b = rescale(img, r, g, b)
+                img, r, g, b = negate(img, r, g, b)
+                img, r, g, b = gamma_image(img, r, g, b)
+                result = img
 
                 os.makedirs(str(pathlib.Path(args.outdir, outdir)), exist_ok=True)
                 tifffile = pathlib.Path(tmpdirname, pathlib.Path(src).with_suffix(".tif").name)
