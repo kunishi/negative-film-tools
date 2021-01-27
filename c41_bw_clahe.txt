@@ -1,4 +1,4 @@
 --linearraw
 --adapt-hsv
---globalrescale
+--withoutrescale
 --lineargray
