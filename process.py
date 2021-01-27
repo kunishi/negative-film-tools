@@ -138,7 +138,7 @@ def merge_image(img, r, g, b):
 def clahe(img, r, g, b):
     if args.adapt_hsv:
         h, s, v = cv2.split(color.rgb2hsv(img))
-        img = cv2.merge((h, s, adaptive_hist(v)))
+        img = color.hsv2rgb(cv2.merge((h, s, adaptive_hist(v))))
     elif args.noadapt:
         pass
     else:
@@ -153,7 +153,7 @@ def rescale(img, r, g, b):
         pass
     elif args.globalrescale:
         h, s, v = cv2.split(color.rgb2hsv(img))
-        img = cv2.merge((h, s, rescale_intensity(v)))
+        img = color.hsv2rgb(cv2.merge((h, s, rescale_intensity(v))))
     else:
         r = rescale_intensity(r)
         g = rescale_intensity(g)
