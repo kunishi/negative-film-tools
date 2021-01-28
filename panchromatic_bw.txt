@@ -1,8 +1,6 @@
 --noadapt
 --withoutrescale
+--autogamma-color
 --autogamma-lab
 --autolevel
---normalize
---imgamma
-0.8
 --gray
