@@ -79,19 +79,19 @@ def imagemagick_convert_command(infile, outdir):
     if args.autogamma_color:
         command.extend(["-channel", "rgb", "-auto-gamma", "+channel"])
     if args.autogamma_lab:
-        command.extend(["-colorspace", "lab", "-channel", "b", "-auto-gamma", "+channel", "-colorspace", "rgb"])
+        command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-gamma", "+channel", "-colorspace", "rgb"])
     if args.imgamma:
         command.extend(["-gamma", str(args.imgamma)])
     if args.imnegate:
         command.append("-negate")
     if args.autolevel:
-        command.extend(["-colorspace", "lab", "-channel", "0", "-auto-level", "+channel", "-colorspace", "srgb"])
+        command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-level", "+channel", "-colorspace", "rgb"])
     if args.autolevel_color:
         command.extend(["-channel", "rgb", "-auto-level", "-channel", "rgb,sync"])
     if args.normalize:
         command.append("-normalize")
     if args.normalize_lab:
-        command.extend(["-colorspace", "lab", "-channel", "0", "-normalize", "+channel", "-colorspace", "rgb"])
+        command.extend(["-colorspace", "hsb", "-channel", "2", "-normalize", "+channel", "-colorspace", "rgb"])
     if args.linear_stretch:
         command.extend(["-linear-stretch", "0.7%x0.1%"])
     if args.strong_normalize:
@@ -192,9 +192,10 @@ if __name__ == "__main__":
                                             output_color=rawpy.ColorSpace.raw,
                                             output_bps=16)
 
-                img = clahe(rgb)
-                img = rescale(img)
+                img = rgb
                 img = negate(img)
+                img = clahe(img)
+                img = rescale(img)
                 img = gamma_image(img)
                 result = img
 
