@@ -1,6 +1,6 @@
 --noadapt
 --withoutrescale
---autogamma-color
 --autogamma-lab
---autolevel
+--white-balance
+--autolevel-color
 --gray
