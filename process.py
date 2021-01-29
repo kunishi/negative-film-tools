@@ -102,7 +102,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.contrast_stretch:
         command.extend(["-contrast-stretch", "0.7%x0.02%"])
     if args.saturate:
-        command.extend(["-colorspace", "hsl", "-channel", "1", "-evaluate", "multiply", "1.45", "+channel", "-colorspace", "rgb"])
+        command.extend(["-colorspace", "hsl", "-channel", "1", "-evaluate", "multiply", "1.3", "+channel", "-colorspace", "rgb"])
     if args.gray:
         command.extend(["-colorspace", "gray", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/sGrey-v4.icc"))])
     if args.lineargray:
