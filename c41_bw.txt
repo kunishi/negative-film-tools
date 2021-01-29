@@ -1,3 +1,4 @@
 --noadapt
 --globalrescale
+--white-balance
 --lineargray

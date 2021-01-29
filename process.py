@@ -43,6 +43,7 @@ def parse_args():
     parser.add_argument("--strong-normalize", help="apply strong normalize by using ImageMagick", action="store_true")
     parser.add_argument("--useautobrightness", help="disable auto brightness mode in libraw", action="store_true")
     parser.add_argument("--useautowb", help="enable auto white balance mode in libraw", action="store_true")
+    parser.add_argument("--white-balance", help="apply ImageMagick white-balance", action="store_true")
     parser.add_argument("--withoutrescale", help="do not process rescaling", action="store_true")
     parser.add_argument("--rgb", help="input RGB image", action="store_true")
     parser.add_argument("--out", help="specify the destination TIFF file")
@@ -84,6 +85,8 @@ def imagemagick_convert_command(infile, outdir):
         command.extend(["-gamma", str(args.imgamma)])
     if args.imnegate:
         command.append("-negate")
+    if args.white_balance:
+        command.append("-white-balance")
     if args.autolevel:
         command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-level", "+channel", "-colorspace", "rgb"])
     if args.autolevel_color:

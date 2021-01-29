@@ -1,5 +1,8 @@
 --useautowb
+--useautobrightness
 --noadapt
---autolevel
---imgamma
-0.7
+--withoutrescale
+--white-balance
+--autolevel-color
+--normalize-lab
+--saturate
