@@ -1,3 +1,3 @@
---useautobrightness
 --noadapt
+--white-balance
 --positive
