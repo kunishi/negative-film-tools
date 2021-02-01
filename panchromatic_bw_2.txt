@@ -1,0 +1,7 @@
+--noadapt
+--withoutrescale
+--autogamma-lab
+--lineargray
+--normalize-lab
+--positive
+--imnegate
