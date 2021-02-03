@@ -122,6 +122,32 @@ def exiftool_command(jpg, raw):
     command.append(str(pathlib.Path(jpg)))
     return command
 
+def read_img(imagefile):
+    image = io.imread(imagefile, as_gray=args.bw)
+    if args.positive:
+        rgb = image
+    else:
+        rgb = exposure.adjust_gamma(util.invert(image), gamma=2.222)
+    return rgb
+
+def process_raw(rawfile):
+    if args.linearraw:
+        gamma = (1.0, 1.0)
+    else:
+        gamma = (args.rawgamma, 1.0)
+    raw = rawpy.imread(rawfile)
+    rgb = raw.postprocess(gamma=gamma,
+                          half_size=False,
+                          demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
+                          dcb_enhance=True,
+                          no_auto_bright=not args.useautobrightness,
+                          auto_bright_thr=0.01,
+                          use_camera_wb=False,
+                          use_auto_wb=args.useautowb,
+                          output_color=rawpy.ColorSpace.raw,
+                          output_bps=16)
+    return rgb
+
 def clahe(img):
     if args.noadapt:
         pass
@@ -173,29 +199,10 @@ if __name__ == "__main__":
                 json.dump(args.__dict__, f, indent=4)
             for src in args.src:
                 if args.rgb:
-                    image = io.imread(src, as_gray=args.bw)
-                    if args.positive:
-                        rgb = image
-                    else:
-                        rgb = exposure.adjust_gamma(util.invert(image), gamma=2.222)
+                    img = read_img(src)
                 else:
-                    raw = rawpy.imread(src)
-                    if args.linearraw:
-                        gamma = (1.0, 1.0)
-                    else:
-                        gamma = (args.rawgamma, 1.0)
-                    rgb = raw.postprocess(gamma=gamma,
-                                            half_size=False,
-                                            demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
-                                            dcb_enhance=True,
-                                            no_auto_bright=not args.useautobrightness,
-                                            auto_bright_thr=0.01,
-                                            use_camera_wb=False,
-                                            use_auto_wb=args.useautowb,
-                                            output_color=rawpy.ColorSpace.raw,
-                                            output_bps=16)
+                    img = process_raw(src)
 
-                img = rgb
                 img = negate(img)
                 img = clahe(img)
                 img = rescale(img)
