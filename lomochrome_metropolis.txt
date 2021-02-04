@@ -1,7 +1,7 @@
 --noadapt
 --withoutrescale
 --autogamma-color
---autolevel
+--autolevel-lab
 --normalize
 --imgamma
 0.55

@@ -20,6 +20,7 @@ def parse_args():
     parser.add_argument("--autogamma-lab", help="apply ImageMagick autogamma on Lab colorspace", action="store_true")
     parser.add_argument("--autolevel", help="apply ImageMagick autolevel", action="store_true")
     parser.add_argument("--autolevel-color", help="apply ImageMagick autolevel with each channel", action="store_true")
+    parser.add_argument("--autolevel-lab", help="apply ImageMagick autolevel on Lab colorspace", action="store_true")
     parser.add_argument("--contrast-stretch", help="apply contrast stretch by using ImageMagick", action="store_true")
     parser.add_argument("--fixcaption", help="fix caption metadata", action="store_true")
     parser.add_argument("--format", help="specify save format", default=".jpg")
@@ -88,9 +89,11 @@ def imagemagick_convert_command(infile, outdir):
     if args.white_balance:
         command.append("-white-balance")
     if args.autolevel:
-        command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-level", "+channel", "-colorspace", "rgb"])
+        command.extend(["-auto-level"])
     if args.autolevel_color:
         command.extend(["-channel", "rgb", "-auto-level", "-channel", "rgb,sync"])
+    if args.autolevel_lab:
+        command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-level", "+channel", "-colorspace", "rgb"])
     if args.normalize:
         command.append("-normalize")
     if args.normalize_lab:
