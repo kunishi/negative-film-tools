@@ -4,5 +4,4 @@
 --withoutrescale
 --white-balance
 --autolevel-color
---normalize-lab
 --saturate
