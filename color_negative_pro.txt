@@ -1,0 +1,8 @@
+--useautowb
+--useautobrightness
+--noadapt
+--withoutrescale
+--white-balance
+--saturate
+--autolevel
+--linearrgb
