@@ -5,4 +5,5 @@
 --white-balance
 --saturate
 --autolevel
+--normalize
 --linearrgb
