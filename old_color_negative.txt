@@ -1,0 +1,5 @@
+--useautowb
+--useautobrightness
+--noadapt
+--white-balance
+--normalize
