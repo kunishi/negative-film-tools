@@ -1,9 +1,0 @@
---useautowb
---useautobrightness
---noadapt
---withoutrescale
---white-balance
---saturate
---autolevel
---normalize
---linearrgb

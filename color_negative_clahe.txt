@@ -1,8 +1,0 @@
---linearraw
---useautowb
---useautobrightness
---withoutrescale
---saturate
---linearrgb
---imgamma
-0.85

@@ -1,9 +1,0 @@
---linearraw
---noadapt
---withoutrescale
---autogamma-color
---imgamma
-0.75
---autolevel-color
---normalize-lab
---saturate

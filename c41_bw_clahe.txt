@@ -1,4 +1,0 @@
---linearraw
---adapt-hsv
---withoutrescale
---lineargray
