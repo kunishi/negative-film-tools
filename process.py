@@ -35,6 +35,7 @@ def parse_args():
     parser.add_argument("--linear-stretch", help="apply linear stretch by using ImageMagick", action="store_true")
     parser.add_argument("--noadapt", help="run without adaptive histogram equalization", action="store_true")
     parser.add_argument("--normalize", help="apply ImageMagick normalize", action="store_true")
+    parser.add_argument("--normalize-color", help="apply ImageMagick normalize on each RGB channels", action="store_true")
     parser.add_argument("--normalize-lab", help="apply ImageMagick normalize on Lab colorspace", action="store_true")
     parser.add_argument("--outdir", help="output directory")
     parser.add_argument("--prefix", help="prefix of the output subdir", default="Done")
@@ -96,6 +97,8 @@ def imagemagick_convert_command(infile, outdir):
         command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-level", "+channel", "-colorspace", "rgb"])
     if args.normalize:
         command.append("-normalize")
+    if args.normalize_color:
+        command.extend(["-channel", "rgb", "-normalize", "-channel", "rgb,sync"])
     if args.normalize_lab:
         command.extend(["-colorspace", "hsb", "-channel", "2", "-normalize", "+channel", "-colorspace", "rgb"])
     if args.linear_stretch:
