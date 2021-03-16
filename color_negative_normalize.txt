@@ -1,0 +1,7 @@
+--useautowb
+--useautobrightness
+--noadapt
+--withoutrescale
+--white-balance
+--normalize-color
+--saturate
