@@ -73,7 +73,17 @@ def rgb2gray_itur(img, gamma=1.5):
     return img @ coeffs
 
 def imagemagick_convert_command(infile, outdir):
-    command=["/usr/local/bin/convert",
+    commands = [
+            "/opt/homebrew/bin/convert",
+            "/usr/local/bin/convert",
+            "/usr/bin/convert"
+            ]
+    convert_command = ""
+    for c in commands:
+        if os.path.exists(c):
+            convert_command = c
+            break
+    command=[convert_command,
              "-define", "jpeg:extent=7M",
              str(infile),
              "-colorspace", "rgb"]
@@ -121,7 +131,17 @@ def imagemagick_convert_command(infile, outdir):
     return command
 
 def exiftool_command(jpg, raw):
-    command = ["/usr/local/bin/exiftool",
+    commands = [
+            "/opt/homebrew/bin/exiftool",
+            "/usr/local/bin/exiftool",
+            "/usr/bin/exiftool"
+            ]
+    exiftool_command = ""
+    for c in commands:
+        if os.path.exists(c):
+            exiftool_command = c
+            break
+    command = [exiftool_command,
                "-overwrite_original_in_place"]
     command.extend(["-TagsFromFile", str(pathlib.Path(raw))])
     command.append("-all:all>all:all")
