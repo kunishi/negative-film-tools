@@ -84,7 +84,6 @@ def imagemagick_convert_command(infile, outdir):
             convert_command = c
             break
     command=[convert_command,
-             "-define", "jpeg:extent=7M",
              str(infile),
              "-colorspace", "rgb"]
     if args.autogamma:
@@ -239,12 +238,13 @@ if __name__ == "__main__":
                 tifffile = pathlib.Path(tmpdirname, pathlib.Path(src).with_suffix(".tif").name)
                 io.imsave(str(tifffile), util.img_as_float64(result), check_contrast=False, plugin='tifffile')
 
-                command = imagemagick_convert_command(tifffile, pathlib.Path(args.outdir, outdir))
+                command = imagemagick_convert_command(tifffile, pathlib.Path(tmpdirname))
                 print(command)
                 subprocess.run(command, stderr=subprocess.STDOUT)
-                jpg = pathlib.Path(args.outdir, outdir, pathlib.Path(tifffile).with_suffix(args.format).name)
+                jpg = pathlib.Path(tmpdirname, pathlib.Path(tifffile).with_suffix(args.format).name)
                 command = exiftool_command(jpg, src)
                 print(command)
                 subprocess.run(command, stderr=subprocess.STDOUT)
+                shutil.move(str(jpg), str(pathlib.Path(args.outdir, outdir)))
         except KeyboardInterrupt:
             shutil.rmtree(tmpdirname)
