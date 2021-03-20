@@ -1,5 +1,4 @@
+--linearraw
 --useautowb
---useautobrightness
 --noadapt
---white-balance
---normalize
+--autolevel
