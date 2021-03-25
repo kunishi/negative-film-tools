@@ -1,0 +1,4 @@
+--linearraw
+--useautowb
+--useautobrightness
+--noadapt
