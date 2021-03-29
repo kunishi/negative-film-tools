@@ -2,3 +2,4 @@
 --useautowb
 --noadapt
 --autolevel
+--autogamma-color
