@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "negative-film-tools"
+version = "0.1.0"
+description = ""
+authors = ["Takeo Kunishima <t.kunishi@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.20.2"
+imageio = "^2.9.0"
+opencv-python = "^4.5.1"
+scikit-image = "^0.18.1"
+tifffile = "^2021.4.8"
+tiffile = "^2018.10.18"
+colorcorrect = "^0.9.1"
+rawpy = "^0.16.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
