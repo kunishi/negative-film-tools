@@ -160,8 +160,8 @@ def process_raw(rawfile):
         gamma = (1.0, 1.0)
     else:
         gamma = (args.rawgamma, 1.0)
-    raw = rawpy.imread(rawfile)
-    rgb = raw.postprocess(gamma=gamma,
+    with rawpy.imread(rawfile) as raw:
+        rgb = raw.postprocess(gamma=gamma,
                           half_size=False,
                           demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
                           dcb_enhance=True,
