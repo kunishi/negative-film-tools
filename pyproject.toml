@@ -5,18 +5,18 @@ description = ""
 authors = ["Takeo Kunishima <t.kunishi@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 numpy = "^1.20.2"
 imageio = "^2.9.0"
-opencv-python = "^4.5.1"
+opencv-python = {git = "https://github.com/opencv/opencv-python.git", rev = "master"}
 scikit-image = "^0.18.1"
 tifffile = "^2021.4.8"
 tiffile = "^2018.10.18"
 colorcorrect = "^0.9.1"
-rawpy = "^0.16.0"
+rawpy = {git = "https://github.com/kunishi/rawpy.git", rev = "master"}
 
 [tool.poetry.dev-dependencies]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "numpy >= 1.19.3"]
 build-backend = "poetry.core.masonry.api"
