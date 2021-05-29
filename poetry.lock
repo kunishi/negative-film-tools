@@ -236,21 +236,10 @@ numpy = ">=1.15.1"
 [package.extras]
 all = ["imagecodecs (>=2021.3.31)", "matplotlib (>=3.2)", "lxml"]
 
-[[package]]
-name = "tiffile"
-version = "2018.10.18"
-description = "The tiffile package is deprecated. Please use the tifffile package instead."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-tifffile = "*"
-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "5308f98e213b38f4984fd4d54a4497b16e702be5ac7687c9a9cc9b01b6b16266"
+content-hash = "5eafc826c13c41ee9b746f4ef3f7549cf00b1fa127675339b49aed515e59f5a7"
 
 [metadata.files]
 colorcorrect = [
@@ -476,7 +465,4 @@ six = [
 tifffile = [
     {file = "tifffile-2021.4.8-py3-none-any.whl", hash = "sha256:1cfc55f5b728e200142580a7bf108b72775c4097d007b4111876559fa1fb7432"},
     {file = "tifffile-2021.4.8.tar.gz", hash = "sha256:55aa8baad38e1567c9fe450fff52160e4a21294a612f241c5e414da80f87209b"},
-]
-tiffile = [
-    {file = "tiffile-2018.10.18-py2.py3-none-any.whl", hash = "sha256:0176e905517bb9b62c2064d7eda0c4f250360750069f1482435464cd4357b664"},
 ]
