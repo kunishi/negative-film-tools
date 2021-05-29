@@ -148,12 +148,12 @@ def exiftool_command(jpg, raw):
     return command
 
 def read_img(imagefile):
-    image = io.imread(imagefile, as_gray=args.bw)
-    if args.positive:
-        rgb = image
-    else:
-        rgb = exposure.adjust_gamma(util.invert(image), gamma=2.222)
-    return rgb
+    with io.imread(imagefile, as_gray=args.rw) as image:
+        if args.positive:
+            rgb = image
+        else:
+            rgb = exposure.adjust_gamma(util.invert(image), gamma=2.222)
+        return rgb
 
 def process_raw(rawfile):
     if args.linearraw:
