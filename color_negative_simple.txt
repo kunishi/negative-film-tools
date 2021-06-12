@@ -1,4 +1,3 @@
 --linearraw
---useautowb
---useautobrightness
 --noadapt
+--imgamma=0.77
