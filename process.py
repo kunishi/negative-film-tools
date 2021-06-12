@@ -165,9 +165,11 @@ def process_raw(rawfile):
                           half_size=False,
                           demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
                           dcb_enhance=True,
+                          four_color_rgb=True,
                           no_auto_bright=not args.useautobrightness,
-                          auto_bright_thr=0.01,
-                          use_camera_wb=False,
+                          no_auto_scale=True,
+                          auto_bright_thr=0.0,
+                          use_camera_wb=True,
                           use_auto_wb=args.useautowb,
                           output_color=rawpy.ColorSpace.raw,
                           output_bps=16)
