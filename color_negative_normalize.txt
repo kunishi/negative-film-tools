@@ -1,7 +1,7 @@
---useautowb
---useautobrightness
+--linearraw
 --noadapt
 --withoutrescale
+--autogamma-color
+--autolevel
 --white-balance
---normalize-color
---saturate
+--normalize

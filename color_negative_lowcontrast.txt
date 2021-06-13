@@ -1,6 +1,0 @@
---linearraw
---noadapt
---withoutrescale
---autogamma-color
---autolevel
---white-balance
