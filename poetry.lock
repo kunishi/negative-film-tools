@@ -107,7 +107,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "opencv-python"
-version = "4.5.2+ffd6b4b"
+version = "4.5.2.54"
 description = "Wrapper package for OpenCV python bindings."
 category = "main"
 optional = false
@@ -121,7 +121,7 @@ numpy = ">=1.19.3"
 type = "git"
 url = "https://github.com/opencv/opencv-python.git"
 reference = "master"
-resolved_reference = "ffd6b4b0f0fc4ebbd03f00aed1c196383a19e725"
+resolved_reference = "7a751f7406fb2030630d61d4a0ef271455d09185"
 
 [[package]]
 name = "pillow"
@@ -224,7 +224,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "tifffile"
-version = "2021.4.8"
+version = "2021.6.6"
 description = "Read and write TIFF files"
 category = "main"
 optional = false
@@ -234,7 +234,7 @@ python-versions = ">=3.7"
 numpy = ">=1.15.1"
 
 [package.extras]
-all = ["imagecodecs (>=2021.3.31)", "matplotlib (>=3.2)", "lxml"]
+all = ["imagecodecs (>=2021.4.28)", "matplotlib (>=3.2)", "lxml"]
 
 [metadata]
 lock-version = "1.1"
@@ -463,6 +463,6 @@ six = [
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
 tifffile = [
-    {file = "tifffile-2021.4.8-py3-none-any.whl", hash = "sha256:1cfc55f5b728e200142580a7bf108b72775c4097d007b4111876559fa1fb7432"},
-    {file = "tifffile-2021.4.8.tar.gz", hash = "sha256:55aa8baad38e1567c9fe450fff52160e4a21294a612f241c5e414da80f87209b"},
+    {file = "tifffile-2021.6.6-py3-none-any.whl", hash = "sha256:73a750277e89f1d9cb88bba03e2e31aeda1aa714d91a20c477abf3cb85fa112f"},
+    {file = "tifffile-2021.6.6.tar.gz", hash = "sha256:aa6c2afb75378432856e2ecfba8cba347b6615b541bb71f1f83a9860ebe8fa70"},
 ]
