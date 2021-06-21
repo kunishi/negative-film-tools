@@ -111,11 +111,11 @@ def imagemagick_convert_command(infile, outdir):
     if args.normalize_lab:
         command.extend(["-colorspace", "hsb", "-channel", "2", "-normalize", "+channel", "-colorspace", "rgb"])
     if args.linear_stretch:
-        command.extend(["-linear-stretch", "0.7%x0.1%"])
+        command.extend(["-linear-stretch", "0.0%x0.02%"])
     if args.strong_normalize:
         command.extend(["-normalize", "-normalize"])
     if args.contrast_stretch:
-        command.extend(["-contrast-stretch", "0.7%x0.02%"])
+        command.extend(["-contrast-stretch", "0.1%x0.0%"])
     if args.saturate:
         command.extend(["-colorspace", "hsb", "-channel", "1", "-evaluate", "multiply", "1.3", "+channel", "-colorspace", "rgb"])
     if args.gray:

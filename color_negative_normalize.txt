@@ -2,6 +2,9 @@
 --noadapt
 --withoutrescale
 --autogamma-color
---autolevel
---white-balance
---normalize
+--autolevel-color
+--saturate
+--imgamma
+0.285
+--linear-stretch
+--contrast-stretch

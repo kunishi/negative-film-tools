@@ -1,3 +1,4 @@
 --linearraw
 --noadapt
---imgamma=0.77
+--imgamma
+0.77
