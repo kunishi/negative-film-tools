@@ -1,9 +1,6 @@
---useautowb
+--linearraw
 --noadapt
 --withoutrescale
 --autogamma-lab
---white-balance
---autolevel
---autolevel-color
---normalize-lab
---gray
+--normalize
+--lineargray

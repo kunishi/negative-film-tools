@@ -21,6 +21,7 @@ def parse_args():
     parser.add_argument("--autolevel", help="apply ImageMagick autolevel", action="store_true")
     parser.add_argument("--autolevel-color", help="apply ImageMagick autolevel with each channel", action="store_true")
     parser.add_argument("--autolevel-lab", help="apply ImageMagick autolevel on Lab colorspace", action="store_true")
+    parser.add_argument("--contrast", help="apply contrast by using ImageMagick", action="store_true")
     parser.add_argument("--contrast-stretch", help="apply contrast stretch by using ImageMagick", action="store_true")
     parser.add_argument("--fixcaption", help="fix caption metadata", action="store_true")
     parser.add_argument("--format", help="specify save format", default=".jpg")
@@ -105,17 +106,19 @@ def imagemagick_convert_command(infile, outdir):
     if args.autolevel_lab:
         command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-level", "+channel", "-colorspace", "rgb"])
     if args.normalize:
-        command.append("-normalize")
+        command.extend(["-channel", "rgb,sync", "-normalize"])
     if args.normalize_color:
         command.extend(["-channel", "rgb", "-normalize", "-channel", "rgb,sync"])
     if args.normalize_lab:
         command.extend(["-colorspace", "hsb", "-channel", "2", "-normalize", "+channel", "-colorspace", "rgb"])
     if args.linear_stretch:
-        command.extend(["-linear-stretch", "0.0%x0.02%"])
+        command.extend(["-channel", "ALL,sync", "-linear-stretch", "0.00001x0.01%"])
     if args.strong_normalize:
         command.extend(["-normalize", "-normalize"])
+    if args.contrast:
+        command.extend(["-channel", "ALL,sync", "-contrast"])
     if args.contrast_stretch:
-        command.extend(["-contrast-stretch", "0.1%x0.0%"])
+        command.extend(["-channel", "ALL", "-contrast-stretch", "0.01x0.0%"])
     if args.saturate:
         command.extend(["-colorspace", "hsb", "-channel", "1", "-evaluate", "multiply", "1.3", "+channel", "-colorspace", "rgb"])
     if args.gray:
@@ -169,7 +172,7 @@ def process_raw(rawfile):
                           no_auto_bright=not args.useautobrightness,
                           no_auto_scale=True,
                           auto_bright_thr=0.0,
-                          use_camera_wb=True,
+                          use_camera_wb=not args.useautowb,
                           use_auto_wb=args.useautowb,
                           output_color=rawpy.ColorSpace.raw,
                           output_bps=16)
