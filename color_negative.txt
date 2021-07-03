@@ -1,11 +1,10 @@
 --linearraw
 --noadapt
 --withoutrescale
---autogamma
 --autogamma-color
---imgamma
-0.285
---autolevel
---autolevel-color
---linear-stretch
+--autogamma-xyz
+--autolevel-lab
+--saturate
 --normalize
+--imgamma
+0.45
