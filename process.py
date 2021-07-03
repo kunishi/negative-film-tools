@@ -18,9 +18,11 @@ def parse_args():
     parser.add_argument("--autogamma", help="apply ImageMagick autogamma", action="store_true")
     parser.add_argument("--autogamma-color", help="apply ImageMagick autogamma with each channel", action="store_true")
     parser.add_argument("--autogamma-lab", help="apply ImageMagick autogamma on Lab colorspace", action="store_true")
+    parser.add_argument("--autogamma-xyz", help="apply Imagemagick autogamma on XYZ colorspace", action="store_true")
     parser.add_argument("--autolevel", help="apply ImageMagick autolevel", action="store_true")
     parser.add_argument("--autolevel-color", help="apply ImageMagick autolevel with each channel", action="store_true")
     parser.add_argument("--autolevel-lab", help="apply ImageMagick autolevel on Lab colorspace", action="store_true")
+    parser.add_argument("--autolevel-xyz", help="apply ImageMagick autolevel on XYZ colorspace", action="store_true")
     parser.add_argument("--contrast", help="apply contrast by using ImageMagick", action="store_true")
     parser.add_argument("--contrast-stretch", help="apply contrast stretch by using ImageMagick", action="store_true")
     parser.add_argument("--fixcaption", help="fix caption metadata", action="store_true")
@@ -93,6 +95,8 @@ def imagemagick_convert_command(infile, outdir):
         command.extend(["-channel", "rgb", "-auto-gamma", "+channel"])
     if args.autogamma_lab:
         command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-gamma", "+channel", "-colorspace", "rgb"])
+    if args.autogamma_xyz:
+        command.extend(["-colorspace", "xyz", "-auto-gamma", "-colorspace", "rgb"])
     if args.imgamma:
         command.extend(["-gamma", str(args.imgamma)])
     if args.imnegate:
@@ -104,7 +108,9 @@ def imagemagick_convert_command(infile, outdir):
     if args.autolevel_color:
         command.extend(["-channel", "rgb", "-auto-level", "-channel", "rgb,sync"])
     if args.autolevel_lab:
-        command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-level", "+channel", "-colorspace", "rgb"])
+        command.extend(["-colorspace", "lab", "-channel", "0", "-auto-level", "+channel", "-colorspace", "rgb"])
+    if args.autolevel_xyz:
+        command.extend(["-colorspace", "xyz", "-auto-level", "-colorspace", "rgb"])
     if args.normalize:
         command.extend(["-channel", "rgb,sync", "-normalize"])
     if args.normalize_color:
