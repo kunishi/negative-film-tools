@@ -1,3 +1,6 @@
 --linearraw
 --noadapt
+--withoutrescale
+--autolevel-color
+--normalize
 --positive
