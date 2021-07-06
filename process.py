@@ -45,6 +45,7 @@ def parse_args():
     parser.add_argument("--positive", help="input the positive image", action="store_true")
     parser.add_argument("--rawgamma", help="specify gamma value in RAW processing", type=float, default=2.25)
     parser.add_argument("--saturate", help="compensate saturation by using ImageMagick", action="store_true")
+    parser.add_argument("--sigmoidal-contrast", help="apply ImageMagick sigmoidal contrast")
     parser.add_argument("--strong-normalize", help="apply strong normalize by using ImageMagick", action="store_true")
     parser.add_argument("--useautobrightness", help="disable auto brightness mode in libraw", action="store_true")
     parser.add_argument("--useautowb", help="enable auto white balance mode in libraw", action="store_true")
@@ -125,6 +126,8 @@ def imagemagick_convert_command(infile, outdir):
         command.extend(["-channel", "ALL,sync", "-contrast"])
     if args.contrast_stretch:
         command.extend(["-channel", "ALL", "-contrast-stretch", "0.01x0.0%"])
+    if args.sigmoidal_contrast:
+        command.extend(["+sigmoidal-contrast", args.sigmoidal_contrast])
     if args.saturate:
         command.extend(["-colorspace", "hsb", "-channel", "1", "-evaluate", "multiply", "1.3", "+channel", "-colorspace", "rgb"])
     if args.gray:
