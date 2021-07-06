@@ -1,0 +1,9 @@
+--linearraw
+--noadapt
+--withoutrescale
+--autogamma-color
+--autogamma-xyz
+--autolevel-color
+--sigmoidal-contrast
+2x50
+--lineargray
