@@ -1,4 +1,10 @@
 --linearraw
---useautowb
---useautobrightness
 --withoutrescale
+--autogamma-color
+--autolevel
+--normalize-lab
+--saturate
+--imgamma
+0.55
+--sigmoidal-contrast
+2x50
