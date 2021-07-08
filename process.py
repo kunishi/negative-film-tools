@@ -113,19 +113,19 @@ def imagemagick_convert_command(infile, outdir):
     if args.autolevel_xyz:
         command.extend(["-colorspace", "xyz", "-auto-level", "-colorspace", "rgb"])
     if args.normalize:
-        command.extend(["-channel", "rgb,sync", "-normalize"])
+        command.extend(["+channel", "rgb", "-normalize"])
     if args.normalize_color:
-        command.extend(["-channel", "rgb", "-normalize", "-channel", "rgb,sync"])
+        command.extend(["-channel", "rgb", "-normalize", "+channel"])
     if args.normalize_lab:
-        command.extend(["-colorspace", "hsb", "-channel", "2", "-normalize", "+channel", "-colorspace", "rgb"])
+        command.extend(["-colorspace", "lab", "-channel", "0", "-normalize", "+channel", "-colorspace", "rgb"])
     if args.linear_stretch:
-        command.extend(["-channel", "ALL,sync", "-linear-stretch", "0.00001x0.01%"])
+        command.extend(["-channel", "ALL,sync", "-linear-stretch", "0.0003%,0.01%"])
     if args.strong_normalize:
         command.extend(["-normalize", "-normalize"])
     if args.contrast:
         command.extend(["-channel", "ALL,sync", "-contrast"])
     if args.contrast_stretch:
-        command.extend(["-channel", "ALL", "-contrast-stretch", "0.01x0.0%"])
+        command.extend(["-channel", "ALL", "-contrast-stretch", "0.01%,0.0%"])
     if args.sigmoidal_contrast:
         command.extend(["+sigmoidal-contrast", args.sigmoidal_contrast])
     if args.saturate:
@@ -196,11 +196,11 @@ def clahe(img):
         img = color.hsv2rgb(hsv_img)
     else:
         tmp = img.copy()
-        img = np.array([
+        img = np.stack([
             adaptive_hist(tmp[:, :, 0]),
             adaptive_hist(tmp[:, :, 1]),
             adaptive_hist(tmp[:, :, 2])
-        ])
+        ], axis=-1)
     return img
 
 def rescale(img):
@@ -212,11 +212,11 @@ def rescale(img):
         img = color.hsv2rgb(hsv_img)
     else:
         tmp = img.copy()
-        img = np.array([
+        img = np.stack([
             rescale_intensity(tmp[:, :, 0]),
             rescale_intensity(tmp[:, :, 1]),
             rescale_intensity(tmp[:, :, 2])
-        ])
+        ], axis=-1)
     return img
 
 def gamma_image(img):
