@@ -6,5 +6,7 @@
 --autolevel-lab
 --saturate
 --normalize
+--sigmoidal-contrast
+2x50
 --imgamma
 0.45
