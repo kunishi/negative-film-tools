@@ -99,7 +99,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.autogamma_xyz:
         command.extend(["-colorspace", "xyz", "-auto-gamma", "-colorspace", "rgb"])
     if args.imgamma:
-        command.extend(["-gamma", str(args.imgamma)])
+        command.extend(["-channel", "ALL,sync", "-gamma", str(args.imgamma)])
     if args.imnegate:
         command.append("-negate")
     if args.white_balance:
@@ -113,7 +113,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.autolevel_xyz:
         command.extend(["-colorspace", "xyz", "-auto-level", "-colorspace", "rgb"])
     if args.normalize:
-        command.extend(["+channel", "rgb", "-normalize"])
+        command.extend(["+channel", "-normalize"])
     if args.normalize_color:
         command.extend(["-channel", "rgb", "-normalize", "+channel"])
     if args.normalize_lab:
