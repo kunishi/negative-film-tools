@@ -1,7 +1,6 @@
 --linearraw
---noadapt
 --withoutrescale
---autogamma-xyz
---autolevel-xyz
---normalize
+--autogamma-color
+--autogamma-lab
+--normalize-lab
 --lineargray
