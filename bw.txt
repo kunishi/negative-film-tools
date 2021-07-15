@@ -6,8 +6,6 @@
 --autolevel-lab
 --autolevel
 --normalize-color
---imgamma
-0.65
 --sigmoidal-contrast
 2x50
 --lineargray
