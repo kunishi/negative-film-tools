@@ -1,8 +1,0 @@
---useautowb
---useautobrightness
---noadapt
---withoutrescale
---white-balance
---normalize
---imgamma
-0.65

@@ -1,5 +1,0 @@
---linearraw
---useautowb
---noadapt
---autolevel
---autogamma-color

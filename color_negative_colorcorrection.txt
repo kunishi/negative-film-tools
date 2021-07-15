@@ -1,7 +1,0 @@
---linearraw
---noadapt
---withoutrescale
---autogamma-color
---imgamma
-0.375
---normalize
