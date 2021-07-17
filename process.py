@@ -4,6 +4,7 @@ import argparse
 import json
 import numpy as np
 import pathlib
+import piexif
 import rawpy
 import shutil
 import subprocess
@@ -54,6 +55,26 @@ def parse_args():
     parser.add_argument("--rgb", help="input RGB image", action="store_true")
     parser.add_argument("--out", help="specify the destination TIFF file")
     return parser.parse_args()
+
+def get_exif_orientation(img):
+    exif_dict = piexif.load(img)
+    if piexif.ImageIFD.Orientation in exif_dict["0th"]:
+        return exif_dict["0th"][piexif.ImageIFD.Orientation]
+    else:
+        return 1
+
+def convert_to_rawpy_flip(orientation):
+    orientation_to_flip = {
+        1: 0,
+        2: 1,
+        3: 3,
+        4: 2,
+        5: 4,
+        6: 5,
+        7: 7,
+        8: 6
+    }
+    return orientation_to_flip[orientation]
 
 def adaptive_hist(img):
     if not args.noadapt:
@@ -156,6 +177,7 @@ def exiftool_command(jpg, raw):
                "-overwrite_original_in_place"]
     command.extend(["-TagsFromFile", str(pathlib.Path(raw))])
     command.append("-all:all>all:all")
+    command.append("-orientation#=1")
     command.append(str(pathlib.Path(jpg)))
     return command
 
@@ -173,6 +195,7 @@ def process_raw(rawfile):
     else:
         gamma = (args.rawgamma, 1.0)
     with rawpy.imread(rawfile) as raw:
+        flip = convert_to_rawpy_flip(get_exif_orientation(rawfile))
         rgb = raw.postprocess(gamma=gamma,
                           half_size=False,
                           demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
@@ -183,6 +206,7 @@ def process_raw(rawfile):
                           auto_bright_thr=0.0,
                           use_camera_wb=not args.useautowb,
                           use_auto_wb=args.useautowb,
+                          user_flip=flip,
                           output_color=rawpy.ColorSpace.raw,
                           output_bps=16)
     return rgb
