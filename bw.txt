@@ -1,11 +1,11 @@
 --linearraw
 --withoutrescale
 --autogamma-color
---autolevel-xyz
+--white-balance
+--sigmoidal-contrast
+2.5x50
+--autolevel
 --autolevel-color
 --autolevel-lab
---autolevel
 --normalize-color
---sigmoidal-contrast
-2x50
 --lineargray
