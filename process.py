@@ -41,6 +41,7 @@ def parse_args():
     parser.add_argument("--normalize", help="apply ImageMagick normalize", action="store_true")
     parser.add_argument("--normalize-color", help="apply ImageMagick normalize on each RGB channels", action="store_true")
     parser.add_argument("--normalize-lab", help="apply ImageMagick normalize on Lab colorspace", action="store_true")
+    parser.add_argument("--normalize-xyz", help="apply ImageMagick normalize on XYZ colorspace", action="store_true")
     parser.add_argument("--outdir", help="output directory")
     parser.add_argument("--prefix", help="prefix of the output subdir", default="Done")
     parser.add_argument("--positive", help="input the positive image", action="store_true")
@@ -134,11 +135,13 @@ def imagemagick_convert_command(infile, outdir):
     if args.autolevel_xyz:
         command.extend(["-colorspace", "xyz", "-auto-level", "-colorspace", "rgb"])
     if args.normalize:
-        command.extend(["+channel", "-normalize"])
+        command.extend(["-channel", "rgb,sync", "-normalize", "+channel"])
     if args.normalize_color:
         command.extend(["-channel", "rgb", "-normalize", "+channel"])
     if args.normalize_lab:
         command.extend(["-colorspace", "lab", "-channel", "0", "-normalize", "+channel", "-colorspace", "rgb"])
+    if args.normalize_xyz:
+        command.extend(["-colorspace", "xyz", "-normalize", "-colorspace", "rgb"])
     if args.linear_stretch:
         command.extend(["-channel", "ALL,sync", "-linear-stretch", "0.0003%,0.01%"])
     if args.strong_normalize:
