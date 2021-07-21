@@ -1,6 +1,9 @@
 --linearraw
 --noadapt
---withoutrescale
+--globalrescale
 --autogamma-xyz
 --autolevel-xyz
+--normalize-xyz
+--sigmoidal-contrast
+2x50
 --lineargray

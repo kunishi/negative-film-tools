@@ -1,9 +1,0 @@
---linearraw
---useautowb
---noadapt
---withoutrescale
---autogamma
---autogamma-xyz
---autolevel-xyz
---autolevel-lab
---lineargray
