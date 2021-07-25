@@ -1,6 +1,6 @@
 brew "imagemagick"
 brew "exiftool"
 brew "python"
-brew "pipenv"
+brew "poetry"
 brew "tifffile"
 brew "libraw"
