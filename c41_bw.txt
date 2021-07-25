@@ -1,7 +1,5 @@
 --linearraw
 --noadapt
---globalrescale
+--withoutrescale
 --normalize-lab
---sigmoidal-contrast
-2x50
 --lineargray

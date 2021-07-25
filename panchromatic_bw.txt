@@ -3,6 +3,7 @@
 --globalrescale
 --autogamma-xyz
 --autolevel-xyz
+--normalize
 --sigmoidal-contrast
 2x50
 --lineargray
