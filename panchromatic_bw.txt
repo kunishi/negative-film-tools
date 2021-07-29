@@ -1,8 +1,9 @@
 --linearraw
+--useautobrightness
 --noadapt
---globalrescale
+--withoutrescale
 --autogamma-xyz
---autolevel-xyz
+--autolevel-color
 --normalize
 --sigmoidal-contrast
 2x50
