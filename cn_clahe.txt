@@ -1,9 +1,8 @@
 --linearraw
 --withoutrescale
 --autogamma-color
---autolevel-lab
 --normalize-lab
 --sigmoidal-contrast
 2x50
 --imgamma
-0.45
+0.55
