@@ -1,10 +1,10 @@
 --linearraw
---useautobrightness
 --noadapt
 --withoutrescale
---autogamma-xyz
+--autogamma-lab
+--autolevel
 --autolevel-color
---normalize
---sigmoidal-contrast
-2x50
---lineargray
+--autolevel-lab
+--imgamma
+0.8
+--gray
