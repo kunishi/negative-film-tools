@@ -1,7 +1,0 @@
---linearraw
---useautowb
---noadapt
---withoutrescale
---autogamma-lab
---normalize-lab
---gray

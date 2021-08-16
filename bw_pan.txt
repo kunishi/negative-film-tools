@@ -2,9 +2,7 @@
 --noadapt
 --withoutrescale
 --autogamma-lab
---autolevel
---autolevel-color
 --autolevel-lab
---imgamma
-0.8
+--sigmoidal-contrast
+1.5x50
 --gray
