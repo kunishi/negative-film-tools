@@ -117,7 +117,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.autogamma_color:
         command.extend(["-channel", "rgb", "-auto-gamma", "+channel"])
     if args.autogamma_lab:
-        command.extend(["-colorspace", "hsb", "-channel", "2", "-auto-gamma", "+channel", "-colorspace", "rgb"])
+        command.extend(["-colorspace", "lab", "-channel", "0", "-auto-gamma", "+channel", "-colorspace", "rgb"])
     if args.autogamma_xyz:
         command.extend(["-colorspace", "xyz", "-auto-gamma", "-colorspace", "rgb"])
     if args.imgamma:
@@ -161,7 +161,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.linearrgb:
         command.extend(["-colorspace", "rgb", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/Rec2020-v4.icc"))])
     if not(args.gray) and not(args.lineargray) and not(args.linearrgb):
-        command.extend(["-colorspace", "srgb", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/AdobeCompat-v2.icc"))])
+        command.extend(["-colorspace", "srgb", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/DisplayP3-v4.icc"))])
     command.append(str(pathlib.Path(outdir, pathlib.Path(infile).with_suffix(args.format).name)))
     return command
 
