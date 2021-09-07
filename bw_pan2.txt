@@ -1,0 +1,7 @@
+--rawgamma
+1.3
+--noadapt
+--withoutrescale
+--autogamma-lab
+--normalize
+--gray
