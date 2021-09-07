@@ -1,0 +1,8 @@
+--noadapt
+--withoutrescale
+--autogamma-color
+--imgamma
+0.55
+--autolevel-color
+--contrast
+--saturate
