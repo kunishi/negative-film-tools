@@ -1,9 +1,9 @@
---linearraw
 --noadapt
---globalrescale
---autogamma-xyz
---autolevel-xyz
---normalize-lab
---sigmoidal-contrast
-2x50
---lineargray
+--withoutrescale
+--imgamma
+1.8
+--autogamma-lab
+--autolevel
+--red-filter
+--linear-stretch
+--gray
