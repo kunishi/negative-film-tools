@@ -1,6 +1,6 @@
 # What is this?
 
-Generate images from RAW files scanned from negative films.  The software
+A software generating images from RAW files scanned from negative films.  The software
 uses those OSS:
 
 - [rawpy](https://github.com/letmaik/rawpy)
