@@ -24,6 +24,7 @@ def parse_args():
     parser.add_argument("--autolevel-color", help="apply ImageMagick autolevel with each channel", action="store_true")
     parser.add_argument("--autolevel-lab", help="apply ImageMagick autolevel on Lab colorspace", action="store_true")
     parser.add_argument("--autolevel-xyz", help="apply ImageMagick autolevel on XYZ colorspace", action="store_true")
+    parser.add_argument("--blue-filter", help="apply B filter", action="store_true")
     parser.add_argument("--contrast", help="apply contrast by using ImageMagick", action="store_true")
     parser.add_argument("--contrast-stretch", help="apply contrast stretch by using ImageMagick", action="store_true")
     parser.add_argument("--fixcaption", help="fix caption metadata", action="store_true")
@@ -46,6 +47,7 @@ def parse_args():
     parser.add_argument("--prefix", help="prefix of the output subdir", default="Done")
     parser.add_argument("--positive", help="input the positive image", action="store_true")
     parser.add_argument("--rawgamma", help="specify gamma value in RAW processing", type=float, default=2.25)
+    parser.add_argument("--red-filter", help="apply R filter", action="store_true")
     parser.add_argument("--saturate", help="compensate saturation by using ImageMagick", action="store_true")
     parser.add_argument("--sigmoidal-contrast", help="apply ImageMagick sigmoidal contrast")
     parser.add_argument("--strong-normalize", help="apply strong normalize by using ImageMagick", action="store_true")
@@ -143,7 +145,7 @@ def imagemagick_convert_command(infile, outdir):
     if args.normalize_xyz:
         command.extend(["-colorspace", "xyz", "-normalize", "-colorspace", "rgb"])
     if args.linear_stretch:
-        command.extend(["-channel", "ALL,sync", "-linear-stretch", "0.0003%,0.01%"])
+        command.extend(["-channel", "ALL,sync", "-linear-stretch", "0%,0.01%"])
     if args.strong_normalize:
         command.extend(["-normalize", "-normalize"])
     if args.contrast:
@@ -154,6 +156,10 @@ def imagemagick_convert_command(infile, outdir):
         command.extend(["+sigmoidal-contrast", args.sigmoidal_contrast])
     if args.saturate:
         command.extend(["-colorspace", "hsb", "-channel", "1", "-evaluate", "multiply", "1.3", "+channel", "-colorspace", "rgb"])
+    if args.blue_filter:
+        command.extend(["-colorspace", "rgb", "-channel-fx", "'blue = 100%'", "-channel", "rgb"])
+    if args.red_filter:
+        command.extend(["-colorspace", "rgb", "-channel-fx", "'red = 10%'", "-channel", "rgb"])
     if args.gray:
         command.extend(["-colorspace", "gray", "-profile", str(pathlib.Path("./Compact-ICC-Profiles/profiles/sGrey-v4.icc"))])
     if args.lineargray:
