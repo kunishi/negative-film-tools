@@ -46,7 +46,7 @@ def parse_args():
     parser.add_argument("--outdir", help="output directory")
     parser.add_argument("--prefix", help="prefix of the output subdir", default="Done")
     parser.add_argument("--positive", help="input the positive image", action="store_true")
-    parser.add_argument("--rawgamma", help="specify gamma value in RAW processing", type=float, default=2.25)
+    parser.add_argument("--rawgamma", help="specify gamma value in RAW processing", type=float, default=2.222)
     parser.add_argument("--red-filter", help="apply R filter", action="store_true")
     parser.add_argument("--saturate", help="compensate saturation by using ImageMagick", action="store_true")
     parser.add_argument("--sigmoidal-contrast", help="apply ImageMagick sigmoidal contrast")
@@ -202,7 +202,7 @@ def process_raw(rawfile):
     if args.linearraw:
         gamma = (1.0, 1.0)
     else:
-        gamma = (args.rawgamma, 1.0)
+        gamma = (args.rawgamma, 4.5)
     with rawpy.imread(rawfile) as raw:
         flip = convert_to_rawpy_flip(get_exif_orientation(rawfile))
         rgb = raw.postprocess(gamma=gamma,
@@ -211,7 +211,7 @@ def process_raw(rawfile):
                           dcb_enhance=True,
                           four_color_rgb=True,
                           no_auto_bright=not args.useautobrightness,
-                          no_auto_scale=True,
+                          no_auto_scale=False,
                           auto_bright_thr=0.0,
                           use_camera_wb=not args.useautowb,
                           use_auto_wb=args.useautowb,
