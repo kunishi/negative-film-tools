@@ -1,9 +1,3 @@
---linearraw
 --noadapt
---withoutrescale
---imgamma
-2.2
 --positive
---autolevel
---autolevel-lab
---saturate
+--imgamma=2.2
