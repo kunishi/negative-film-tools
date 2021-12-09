@@ -1,6 +1,6 @@
 [[package]]
 name = "imageio"
-version = "2.13.2"
+version = "2.13.3"
 description = "Library for reading and writing a wide range of image, video, scientific, and volumetric data formats."
 category = "main"
 optional = false
@@ -162,8 +162,8 @@ content-hash = "d292470d7c08af8bdd6d30f7008ed8f0150a59f3a0a427edf582ebadd44ff80f
 
 [metadata.files]
 imageio = [
-    {file = "imageio-2.13.2-py3-none-any.whl", hash = "sha256:4acc2a2d0210170ee109c59edc178cee818c87f0a33a2a35116a19e3ac7badc0"},
-    {file = "imageio-2.13.2.tar.gz", hash = "sha256:5b7a55d07de88a2fd70f18a1608ca05ba2b55596a942fb2c390240201009a6c3"},
+    {file = "imageio-2.13.3-py3-none-any.whl", hash = "sha256:126f10aa970f54b657bcc52f6481a2e55137fcc0f978bb6e0451bd1e22c54f17"},
+    {file = "imageio-2.13.3.tar.gz", hash = "sha256:bb87b272e1e9b05d242e11f8d88d030aefa68ca95daf3accc986d0b782ae3cd5"},
 ]
 networkx = [
     {file = "networkx-2.6.3-py3-none-any.whl", hash = "sha256:80b6b89c77d1dfb64a4c7854981b60aeea6360ac02c6d4e4913319e0a313abef"},
