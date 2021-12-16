@@ -1,3 +1,5 @@
---noadapt
+--linearraw
+--globalrescale
+--autolevel-xyz
 --positive
---imgamma=2.2
+--imgamma=1.8
