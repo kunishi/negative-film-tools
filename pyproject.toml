@@ -5,12 +5,13 @@ description = ""
 authors = ["Takeo Kunishima <t.kunishi@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.11"
 imageio = "*"
 scikit-image = "*"
 tifffile = "*"
-rawpy = "*"
 piexif = "^1.1.3"
+numpy = "^1.21.4"
+rawpy = "^0.17.0"
 
 [tool.poetry.dev-dependencies]
 
