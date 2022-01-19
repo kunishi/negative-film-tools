@@ -1,10 +1,6 @@
---linearraw
---useautowb
 --noadapt
 --withoutrescale
 --autogamma-lab
---autolevel-lab
---normalize
---sigmoidal-contrast
-1.5x50
+--autolevel
+--normalize-lab
 --gray

@@ -1,8 +1,4 @@
---linearraw
---useautowb
---useautobrightness
---imgamma
-1.4
---sigmoidal-contrast
-1.5x50
+--noadapt
+--withoutrescale
+--normalize-xyz
 --lineargray

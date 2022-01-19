@@ -1,9 +1,4 @@
 --noadapt
 --withoutrescale
---imgamma
-1.8
---autogamma-lab
---autolevel
---red-filter
---linear-stretch
+--normalize-lab
 --gray

@@ -1,5 +1,0 @@
---noadapt
---withoutrescale
---autogamma-color
---autolevel-lab
---gray
