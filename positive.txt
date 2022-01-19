@@ -1,5 +1,4 @@
---noadapt
+--linearraw
 --withoutrescale
 --positive
---autolevel
---imgamma=1.4
+--imgamma=1.8
