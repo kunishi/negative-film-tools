@@ -1,6 +1,0 @@
---linearraw
---withoutrescale
---autolevel-color
---normalize
---sigmoidal-contrast
-1.5x50

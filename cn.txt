@@ -1,8 +1,2 @@
---useautowb
---useautobrightness
 --withoutrescale
---normalize-color
---sigmoidal-contrast
-1.2x50
---imgamma
-0.65
+--normalize
