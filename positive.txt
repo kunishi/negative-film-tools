@@ -1,4 +1,6 @@
---linearraw
+--noadapt
 --withoutrescale
 --positive
---imgamma=1.8
+--gamma=0.65
+--autolevel
+--normalize
