@@ -12,7 +12,7 @@ toml = "*"
 
 [[package]]
 name = "imageio"
-version = "2.14.0"
+version = "2.14.1"
 description = "Library for reading and writing a wide range of image, video, scientific, and volumetric data formats."
 category = "main"
 optional = false
@@ -194,8 +194,8 @@ autopep8 = [
     {file = "autopep8-1.6.0.tar.gz", hash = "sha256:44f0932855039d2c15c4510d6df665e4730f2b8582704fa48f9c55bd3e17d979"},
 ]
 imageio = [
-    {file = "imageio-2.14.0-py3-none-any.whl", hash = "sha256:af6c7c89947ee9d81eab2caee3726f61e1a0d861e87e856904868d0fe7c0aa15"},
-    {file = "imageio-2.14.0.tar.gz", hash = "sha256:1a612b46c24805115701ed7c4e1f2d7feb53bb615d52bfef9713a6836e997bb1"},
+    {file = "imageio-2.14.1-py3-none-any.whl", hash = "sha256:4bc1257abe5d8c9ef89132dccd9d783c1c0bdbbcfb98c0e5fe84e8b7b9ee4975"},
+    {file = "imageio-2.14.1.tar.gz", hash = "sha256:709c18f800981e4286abe4bd86b6c9b5bb6e285b6b933b5ba0962ef8e7994058"},
 ]
 networkx = [
     {file = "networkx-2.6.3-py3-none-any.whl", hash = "sha256:80b6b89c77d1dfb64a4c7854981b60aeea6360ac02c6d4e4913319e0a313abef"},
