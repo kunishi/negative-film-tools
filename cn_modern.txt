@@ -1,0 +1,5 @@
+--noadapt
+--withoutrescale
+--autolevel
+--normalize
+--imgamma=0.4225
