@@ -1,0 +1,5 @@
+--noadapt
+--withoutrescale
+--autolevel-xyz
+--normalize
+--lineargray
