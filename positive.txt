@@ -1,6 +1,7 @@
+--linearraw
 --noadapt
 --withoutrescale
+--gamma=0.4225
+--autolevel-xyz
+--contrast-stretch
 --positive
---gamma=0.65
---autolevel
---normalize
