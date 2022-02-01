@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+imageio = "*"
+scikit-image = "*"
+tifffile = "*"
+piexif = "*"
+rawpy = {ref = "v0.17.0", git = "https://github.com/kunishi/rawpy.git"}
+
+[dev-packages]
+cython = "*"
+
+[requires]
+python_version = "3.10"
