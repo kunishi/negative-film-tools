@@ -9,7 +9,7 @@ scikit-image = "*"
 tifffile = "*"
 piexif = "*"
 cython = "*"
-rawpy = {path = "/Users/kunishi/git/rawpy"}
+rawpy = {ref = "v0.17.0", git = "https://github.com/letmaik/rawpy.git"}
 
 [dev-packages]
 cython = "*"

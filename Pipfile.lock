@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2646bd3d8666498479806aafcfd737258eb48bd87769fbb3308684ab0916dccf"
+            "sha256": "95f0bed14ea1ec4f122ee27bb89daf272e9b7ddfd1d13ac5ab20ec6b629588de"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -209,8 +209,8 @@
             "version": "==1.2.0"
         },
         "rawpy": {
-            "path": "/Users/kunishi/git/rawpy",
-            "version": "==0.17.0"
+            "git": "https://github.com/letmaik/rawpy.git",
+            "ref": "183b36ee49268d2f9097ceb88d573b552e4f5919"
         },
         "scikit-image": {
             "hashes": [
