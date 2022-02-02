@@ -219,21 +219,23 @@ def imagemagick_convert_command(infile, outdir):
     if args.red_filter:
         command.extend(["-colorspace", "rgb", "-channel-fx",
                        "'red = 10%'", "-channel", "rgb"])
+
     if args.gray:
         command.extend(["-colorspace", "gray", "-profile",
                        str(pathlib.Path("./Compact-ICC-Profiles/profiles/sGrey-v4.icc"))])
-    if args.lineargray:
+    elif args.lineargray:
         command.extend(["-colorspace", "lineargray", "-profile",
                        str(pathlib.Path("./Compact-ICC-Profiles/profiles/sGrey-v4.icc"))])
-    if args.luminance_gray:
+    elif args.luminance_gray:
         command.extend(["-colorspace", "lab", "-channel", "0", "-separate", "-profile",
                        str(pathlib.Path("./Compact-ICC-Profiles/profiles/sGrey-v4.icc"))])
-    if args.linearrgb:
+    elif args.linearrgb:
         command.extend(["-colorspace", "rgb", "-profile",
                        str(pathlib.Path("./Compact-ICC-Profiles/profiles/Rec2020-v4.icc"))])
-    if not(args.gray) and not(args.lineargray) and not(args.linearrgb) and not(args.luminance_gray):
+    else:
         command.extend(["-colorspace", "srgb", "-profile",
                        str(pathlib.Path("./Compact-ICC-Profiles/profiles/DisplayP3-v4.icc"))])
+
     command.append(
         str(pathlib.Path(outdir, pathlib.Path(infile).with_suffix(args.format).name)))
     return command
