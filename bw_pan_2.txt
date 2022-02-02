@@ -1,0 +1,6 @@
+--noadapt
+--withoutrescale
+--autogamma-lab
+--autolevel
+--normalize
+--luminance-gray
