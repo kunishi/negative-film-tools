@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ef00cb561a22f95336be958d0bd07de5174d9fcdb8d4ac59fcc21ec789b938e4"
+            "sha256": "70e26bb5e6a12e5c01924371d15742b4aac8558f08b400f78065cedea25cd9c9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -168,7 +168,7 @@
         },
         "rawpy": {
             "git": "https://github.com/kunishi/rawpy.git",
-            "ref": "183b36ee49268d2f9097ceb88d573b552e4f5919"
+            "ref": "55fc716b92a1cb7ff0d9262a28281df19c844e2b"
         },
         "scikit-image": {
             "hashes": [
