@@ -8,7 +8,8 @@ imageio = "*"
 scikit-image = "*"
 tifffile = "*"
 piexif = "*"
-rawpy = {git = "https://github.com/kunishi/rawpy.git"}
+cython = "*"
+rawpy = {path = "/Users/kunishi/git/rawpy"}
 
 [dev-packages]
 cython = "*"

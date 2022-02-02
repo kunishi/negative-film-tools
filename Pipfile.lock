@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "70e26bb5e6a12e5c01924371d15742b4aac8558f08b400f78065cedea25cd9c9"
+            "sha256": "2646bd3d8666498479806aafcfd737258eb48bd87769fbb3308684ab0916dccf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,48 @@
         ]
     },
     "default": {
+        "cython": {
+            "hashes": [
+                "sha256:00c0f379763bf5f37a2180e4943cb69d0d96e90637aba596c3d9bc061c09f44d",
+                "sha256:03e0e9164e0a279c094897c6ae1505d816da59f98d664a77911b8d33f492e3f3",
+                "sha256:0636e377ad81b8a106b12cddc57d3e69df94e03c77bdbccd0bd4394dda2484c9",
+                "sha256:0bf5182c6bf3fe73cf14f902506baa2b6ec3cea057775393f24eb66d3f2d1a51",
+                "sha256:0cb3da73547ed22d4b579990c229620b274d6935e3964f21abe15e4f7af6abf1",
+                "sha256:11e88a9826ad71a0ab7eda04d065cb34f320b2f453bc654436c42870f79a7c47",
+                "sha256:1500dce7ae102bb27243b92a8461b9f7fd08c4514886e9a0da8b266de8e5c561",
+                "sha256:179e8cf796f72df8977705c7887eee3231945f665c594ad1631fe690363bfb8e",
+                "sha256:25cb8e663dbd1e14a8f05dd6a79974ce6f0232b4dc417000fd790938face0304",
+                "sha256:2dfdb4d5f63a0ae6748592b319878cbe360b12997cd8074836ef159381955d16",
+                "sha256:3138e4f89cb7e79d35bd6cbefe2d62c4723f2184ee414905ee0981ae0fbd92d6",
+                "sha256:314280475ba4ab334e6b40e502a1b3b36ac37a710a63b0a74c6a61dde5f7593c",
+                "sha256:4b9dbe37907b6b76d9673720e848209399b48530f6ab6178fa3a49d1af4a8d00",
+                "sha256:62326774873cd1eff0cf7ca9132a1b6442541fe67c84dcfe97beb6a30f983b22",
+                "sha256:65757e10590a1fbce84135491a5b53a1dc8c792cff78db4bb76b09d6df21dc0e",
+                "sha256:6670e5643fa05112aa88ea8f54088396fe5c113383cd898100450ad156fe1e4a",
+                "sha256:6d337965a49dd52bc410685dbf63f2a95d6aa8d8be153a87c4178a06ff0e8ccd",
+                "sha256:7149835ef701f8f9a417059253f52f393e4334d3819caf8ceab4194c9c4098ce",
+                "sha256:7742cac4a5a41c73309bc1bab568e955ad35eacaedf3b00971bc44afe0b5f04e",
+                "sha256:77519bc6816a0fa648795ef0d5337c18e4b7be1c43c4944599a87004037579c5",
+                "sha256:7f3a5b826d9650268ff9bd7308bf79d8077b3b452da03337656d455bba05a9be",
+                "sha256:80ea3b60d5e5b3b13ce90a4071734bbd88cf688fcfd3c82db0b47ae1e944c6a2",
+                "sha256:8e2963153212c3e699276059095fd9e20c5c97872b6dda893e7acfc5cef64df8",
+                "sha256:8e7ced83f7a3ab619abe03fa2ae2de888cc429028263c95655189085346b8fcc",
+                "sha256:93e9f7c522f5ab3ea4e32ce6f42b123cb0bd9cdfe49726b5e43c4e5719654146",
+                "sha256:a1035e568cdc48dbd74f565828b36019fdb1b1437b3d7c1164c6f2a0757608f7",
+                "sha256:a571dcba3fbd755c187bb464a4cdaf1ce71ca7b92bdb8122c46c1812b86b6c2f",
+                "sha256:ab4301aabcd75a436df0bbe13dbd9a3a9b6d3ad6aeb3ab577606af1642e134c2",
+                "sha256:abcefbfb2c8f1b35c121a727745eb03c64cc15d0d71ebd827a6ce5c609503daa",
+                "sha256:af2b4e1e267737dae1732f02a9b567f58420a3e2f572dc4416829647ec109886",
+                "sha256:c6a442504db906dfc13a480e96850cced994ecdc076bcf492c43515b78f70da2",
+                "sha256:ca361afc6152221476bc89c335d54b8241502c57b89c760ded9f2f2de2e2a0b5",
+                "sha256:d46fef39778dfb1d62e577c02dd2bac3930b9d28419d070ee0dae297e4a90af1",
+                "sha256:f054331ed29f81cfd22335b96af9d33788b01338b1a5b7939f18412336ab06fd",
+                "sha256:f3c738662c572676883561a393c8fb6e7a807ffb8fcd286c510ed88c27f53a65",
+                "sha256:f4a01915e33a524fca2a1e2512c0afc07f9fc51637f874bed1a831b56e789374"
+            ],
+            "index": "pypi",
+            "version": "==0.29.27"
+        },
         "imageio": {
             "hashes": [
                 "sha256:4bc1257abe5d8c9ef89132dccd9d783c1c0bdbbcfb98c0e5fe84e8b7b9ee4975",
@@ -167,8 +209,8 @@
             "version": "==1.2.0"
         },
         "rawpy": {
-            "git": "https://github.com/kunishi/rawpy.git",
-            "ref": "55fc716b92a1cb7ff0d9262a28281df19c844e2b"
+            "path": "/Users/kunishi/git/rawpy",
+            "version": "==0.17.0"
         },
         "scikit-image": {
             "hashes": [
