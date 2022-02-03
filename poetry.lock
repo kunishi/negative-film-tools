@@ -122,9 +122,14 @@ description = "RAW image processing for Python, a wrapper for libraw"
 category = "main"
 optional = false
 python-versions = "*"
+develop = false
 
 [package.dependencies]
 numpy = "*"
+
+[package.source]
+type = "directory"
+url = "../rawpy"
 
 [[package]]
 name = "scikit-image"
@@ -186,7 +191,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "4fd5f782c5ee03a60716001c5a19f0295bfb92f8f7a1dee30d68e3c40405c399"
+content-hash = "60a5f8b5ef804a6b6e37aa389837a429a80ee01b26104e7c1fa7013b71593595"
 
 [metadata.files]
 autopep8 = [
@@ -315,23 +320,7 @@ pywavelets = [
     {file = "PyWavelets-1.2.0-cp39-cp39-win_amd64.whl", hash = "sha256:69cfc7f2ceb0a1097e7e8d1a026cbb2ff1afecc2d79820856f1abccb6cb59cc4"},
     {file = "PyWavelets-1.2.0.tar.gz", hash = "sha256:6cbd69b047bb4e00873097472133425f5f08a4e6bc8b3f0ae709274d4d5e9a8d"},
 ]
-rawpy = [
-    {file = "rawpy-0.17.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:893a04facbba98b5f6f145f0a3191ed627babc37964c39b6a3575bd2d42dc9f6"},
-    {file = "rawpy-0.17.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:aaa7f4bfd5837a4cb0fcc70ba77eb75d9ec5ad20dcb6e4827a6b522e34852eb1"},
-    {file = "rawpy-0.17.0-cp310-cp310-win_amd64.whl", hash = "sha256:5bbf9dd99d90d0171c27954422137dbf18a8e600bb0c7979ee75727a4d59bb3a"},
-    {file = "rawpy-0.17.0-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:679020a5d5b39a568208072d9311acee8f23b8091627af1348f3c219100dae4a"},
-    {file = "rawpy-0.17.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d72e2b922f4e258823cb93d8f26fc9f69e6737f434be79b17950be3511567360"},
-    {file = "rawpy-0.17.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:da035c02e0f828bcba3b8cf24a43c7285deff974f794768fe49c64219ac5b9af"},
-    {file = "rawpy-0.17.0-cp37-cp37m-win_amd64.whl", hash = "sha256:e26d23ec57ac75db65c631f6d594ce461394b53f071acb75b8b141ae0f6ccc8b"},
-    {file = "rawpy-0.17.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:e7d337825f4ba26c9ea27b8cc2cf17b789093a6552509609aa6e2acc2f59b3ed"},
-    {file = "rawpy-0.17.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f380a82529f9880119f673914b0efd24b99aa3982828f873903088ecf26d7e77"},
-    {file = "rawpy-0.17.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:76704ea242dd5346b5147308671b265d73755ef3ed43c28953ce781337856d93"},
-    {file = "rawpy-0.17.0-cp38-cp38-win_amd64.whl", hash = "sha256:f0b67709ff9650aa0315d5791d190d5116579e8c31942ffc701e94cdfecb9427"},
-    {file = "rawpy-0.17.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:6654270f4380d95f247a53a1ed1b518075234e28cc987850f27e83851eb2edc2"},
-    {file = "rawpy-0.17.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:79c97014bfeb2f642514e208601254da82e3cddafa4c33227a1a96a2c882c039"},
-    {file = "rawpy-0.17.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:93cab1111d61332db7ad78922e9f66363e30acbdbe5ed53733b0bcd1b080fe1b"},
-    {file = "rawpy-0.17.0-cp39-cp39-win_amd64.whl", hash = "sha256:83e4576b0034214ea5c0b489acedf52a71fbd3638e5f70294c94e5e3d861a86b"},
-]
+rawpy = []
 scikit-image = [
     {file = "scikit-image-0.19.1.tar.gz", hash = "sha256:48f00ee1e8ec2818ae6a152c72df15f4db7f566e839f5c34e1a0c3c9e5210138"},
     {file = "scikit_image-0.19.1-cp310-cp310-macosx_10_13_x86_64.whl", hash = "sha256:ce144d21792560a69536c2f64ba7ecd28542a6a8ac9fd6f856465d11a4eb8648"},
