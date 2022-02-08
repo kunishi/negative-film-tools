@@ -12,7 +12,7 @@ tifffile = "*"
 piexif = "^1.1.3"
 numpy = "^1.21.4"
 rawpy = {path = "../rawpy"}
-Pillow = "^8.3.1"
+Pillow = "^9.0.1"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"
