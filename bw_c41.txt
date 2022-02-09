@@ -1,5 +1,6 @@
---noadapt
---withoutrescale
---autolevel-xyz
---normalize
+--useautobrightness
+--adapt-hsv
+--globalrescale
+--gamma=0.425
+--normalize-lab
 --lineargray

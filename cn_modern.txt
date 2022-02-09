@@ -1,5 +1,5 @@
 --noadapt
 --withoutrescale
+--gamma=2.25
 --autolevel
 --normalize
---imgamma=0.4225

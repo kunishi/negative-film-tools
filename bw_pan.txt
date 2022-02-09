@@ -1,6 +1,9 @@
+--useautowb
+--useautobrightness
 --noadapt
 --withoutrescale
---autogamma-xyz
---autolevel
---normalize
---lineargray
+--gamma=2.25
+--normalize-lab
+--linear-stretch
+--imgamma=1.8
+--luminance-gray

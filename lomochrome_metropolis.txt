@@ -1,6 +1,6 @@
---linearraw
---useautowb
---useautobrightness
---contrast
---imgamma
-0.65
+--rawgamma=3.5
+--noadapt
+--withoutrescale
+--gamma=2.25
+--normalize
+--imgamma=0.65

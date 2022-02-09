@@ -1,4 +1,0 @@
---adapt-hsv
---withourescale
---normalize-lab
---luminance-gray
