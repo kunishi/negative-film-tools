@@ -1,7 +1,5 @@
 --useautowb
 --useautobrightness
---noadapt
 --withoutrescale
---autolevel-color
 --normalize
---imgamma=0.55
+--imgamma=0.75
