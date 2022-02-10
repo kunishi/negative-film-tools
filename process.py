@@ -55,6 +55,8 @@ def parse_args():
     parser.add_argument(
         "--imnegate", help="apply ImageMagick negate", action="store_true")
     parser.add_argument(
+        "--imscript", help="apply ImageMagick script", type=str)
+    parser.add_argument(
         "--lineargray", help="apply linear gray profile", action="store_true")
     parser.add_argument(
         "--linearraw", help="process RAW image without gamma correction", action="store_true")
@@ -161,8 +163,14 @@ def imagemagick_convert_command(infile, outdir):
             convert_command = c
             break
     command = [convert_command,
-               str(infile),
-               "-colorspace", "rgb"]
+               str(infile)]
+    if args.imscript:
+        with open(args.imscript, "r") as f:
+            for line in f:
+                command.extend(line.split())
+    else:
+        command.extend(["-colorspace", "rgb"])
+
     if args.autogamma:
         command.extend(["-auto-gamma"])
     if args.autogamma_color:
