@@ -1,0 +1,5 @@
+-set colorspace srgb
+-colorspace rgb
+-channel rgb,sync
+-auto-level
+-colorspace DisplayP3

@@ -1,0 +1,5 @@
+-set colorspace srgb
+-colorspace lineargray
+-gamma 0.4225 
+-normalize
+-gamma 1.8
