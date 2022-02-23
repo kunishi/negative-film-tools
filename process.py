@@ -287,7 +287,7 @@ def process_raw(rawfile):
         flip = convert_to_rawpy_flip(get_exif_orientation(rawfile))
         rgb = raw.postprocess(gamma=gamma,
                               half_size=False,
-                              demosaic_algorithm=rawpy.DemosaicAlgorithm.DCB,
+                              demosaic_algorithm=rawpy.DemosaicAlgorithm.DHT,
                               dcb_enhance=True,
                               four_color_rgb=True,
                               no_auto_bright=not args.useautobrightness,
