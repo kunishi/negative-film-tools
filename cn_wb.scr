@@ -1,8 +1,6 @@
 -set colorspace srgb
--colorspace rgb
--channel rgb
--normalize
--channel rgb,sync
--gamma 0.8
--colorspace DisplayP3
+-colorspace ProPhoto
 -white-balance
+-auto-level
+-channel all
+-normalize

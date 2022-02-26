@@ -1,5 +1,6 @@
 -set colorspace srgb
--colorspace rgb
--channel rgb,sync
+-colorspace ProPhoto
+-white-balance
++contrast
+-channel all
 -auto-level
--colorspace DisplayP3
