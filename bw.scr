@@ -1,0 +1,13 @@
+-define quantum:format=floating-point
+-shave 20x20
+-set colorspace srgb
+-colorspace CIELab
+-white-balance
+-auto-level
+-contrast-stretch 0x0.1%
+-channel 0
+-separate
+-auto-level
++contrast
+-gamma 0.85
+-linear-stretch 0.03x0.01%

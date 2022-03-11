@@ -1,7 +1,0 @@
--set colorspace srgb
--colorspace ProPhoto
--white-balance
--channel all
-+contrast
--gamma 0.8
--normalize

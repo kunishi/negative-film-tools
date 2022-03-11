@@ -1,7 +1,0 @@
--set colorspace srgb
--colorspace rgb
--channel rgb
--auto-level
--channel rgb,sync
--normalize
--colorspace DisplayP3

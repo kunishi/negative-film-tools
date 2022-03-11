@@ -1,5 +1,0 @@
---useautowb
---useautobrightness
---withoutrescale
---normalize
---imgamma=0.75

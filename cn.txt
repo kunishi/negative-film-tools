@@ -1,2 +1,4 @@
+--noadapt
 --withoutrescale
---normalize
+--imscript
+cn.scr

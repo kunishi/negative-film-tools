@@ -1,6 +1,0 @@
---useautobrightness
---adapt-hsv
---globalrescale
---gamma=0.425
---normalize-lab
---lineargray

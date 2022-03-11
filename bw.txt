@@ -1,4 +1,4 @@
 --noadapt
 --withoutrescale
---normalize-lab
---gray
+--imscript
+bw.scr
