@@ -1,5 +1,4 @@
 --noadapt
 --withoutrescale
---positive
 --imscript
-positive_20220305.scr
+lm.scr

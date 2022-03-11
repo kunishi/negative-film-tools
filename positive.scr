@@ -1,9 +1,7 @@
 -define quantum:format=floating-point
 -shave 20x20
 -set colorspace srgb
--negate
--colorspace YCbCr
--white-balance
-+contrast
--channel all
+-auto-gamma
 -auto-level
+-channel all,sync
+-contrast-stretch 0.01x0.01%
