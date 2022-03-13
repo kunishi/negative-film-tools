@@ -9,4 +9,8 @@
 -colorspace srgb
 -channel all,sync
 -linear-stretch 0.3x0%
--contrast-stretch 0x0.3%
+-auto-level
+-contrast-stretch 0x0.2%
+-channel all,sync
+-white-balance
+-contrast-stretch 0x0.1%
