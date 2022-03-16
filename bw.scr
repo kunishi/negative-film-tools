@@ -4,10 +4,11 @@
 -colorspace CIELab
 -white-balance
 -auto-level
+-auto-gamma
 -contrast-stretch 0x0.1%
 -channel 0
 -separate
 -auto-level
 +contrast
 -gamma 0.85
--linear-stretch 0.03x0.01%
+-linear-stretch 0.1x0.01%
