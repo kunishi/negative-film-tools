@@ -11,4 +11,4 @@
 -auto-level
 +contrast
 -gamma 0.85
--linear-stretch 0.1x0.01%
+-linear-stretch 0.2x0.01%
