@@ -9,6 +9,6 @@
 -channel 0
 -separate
 -auto-level
-+contrast
++sigmoidal-contrast 3x50%
 -gamma 0.85
 -linear-stretch 0.2x0.01%
