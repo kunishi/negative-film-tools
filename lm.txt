@@ -1,4 +1,0 @@
---noadapt
---withoutrescale
---imscript
-lm.scr
