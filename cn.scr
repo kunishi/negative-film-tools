@@ -5,5 +5,7 @@
 -channel rgb
 -auto-gamma
 -channel rgb,sync
--linear-stretch 0.01%x0.01%
--contrast-stretch 0%x0.3%
+-auto-gamma
+-sigmoidal-contrast 3x50%
+-linear-stretch 0.01%x0.03%
+-contrast-stretch 0%x0.01%
