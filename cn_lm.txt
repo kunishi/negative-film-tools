@@ -1,0 +1,4 @@
+--noadapt
+--withoutrescale
+--imscript
+cn_lm.scr
