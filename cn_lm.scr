@@ -3,5 +3,6 @@
 -set colorspace srgb
 -channel rgb,sync
 -white-balance
+-auto-gamma
 -linear-stretch 0.01%x0.01%
 -contrast-stretch 0%x0.2%
