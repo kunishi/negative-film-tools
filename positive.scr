@@ -1,11 +1,13 @@
 -define quantum:format=floating-point
 -shave 20x20
 -set colorspace srgb
--colorspace CIELab
--channel r
 -auto-gamma
--channel rgb,sync
--colorspace srgb
+-white-balance
+-linear-stretch 0.01%x0%
 -channel rgb
+-auto-level
+-channel rgb,sync
+-colorspace HSV
+-channel gb
 -auto-level
 -channel rgb,sync
