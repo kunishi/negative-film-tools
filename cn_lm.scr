@@ -6,3 +6,7 @@
 -auto-gamma
 -linear-stretch 0.01%x0.01%
 -contrast-stretch 0%x0.2%
+-colorspace HSV
+-channel gb
+-auto-level
+-channel rgb,sync
