@@ -3,13 +3,8 @@
 -shave 20x20
 -set colorspace srgb
 -colorspace CIELab
--white-balance
--auto-level
--auto-gamma
--contrast-stretch 0x0.1%
 -channel 0
 -separate
--auto-level
-+sigmoidal-contrast 3x50%
--gamma 0.85
--linear-stretch 0.2x0.01%
+-linear-stretch 0%x0.00001%
+-auto-gamma
+-linear-stretch 0.0001%x0.01%

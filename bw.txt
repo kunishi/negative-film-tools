@@ -1,4 +1,4 @@
---adapt-hsv
+--noadapt
 --withoutrescale
 --imscript
 bw.scr
