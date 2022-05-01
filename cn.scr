@@ -3,10 +3,7 @@
 -define quantum:format=floating-point
 -shave 20x20
 -channel rgb,sync
--contrast-stretch 0%x0.01%
--colorspace HSV
--channel g
--gamma 1.1
--channel b
--auto-level
--channel rgb,sync
+-linear-stretch 0%x0.0001%
+-auto-gamma
+-linear-stretch 0%x0.01%
+-normalize
