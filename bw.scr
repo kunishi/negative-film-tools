@@ -2,9 +2,9 @@
 -define quantum:format=floating-point
 -shave 20x20
 -set colorspace srgb
+-auto-gamma
 -colorspace CIELab
 -channel 0
 -separate
--linear-stretch 0%x0.00001%
--auto-gamma
--linear-stretch 0.0001%x0.01%
+-auto-level
+-linear-stretch 0%x0.03%
