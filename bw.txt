@@ -2,3 +2,4 @@
 --withoutrescale
 --imscript
 bw.scr
+--gray
