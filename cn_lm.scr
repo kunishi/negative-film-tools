@@ -3,6 +3,5 @@
 -shave 20x20
 -set colorspace srgb
 -channel rgb,sync
--linear-stretch 0%x0.0001%
 -auto-gamma
--contrast-stretch 0%x0.2%
+-normalize
