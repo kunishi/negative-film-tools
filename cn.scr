@@ -2,8 +2,9 @@
 -depth 64
 -define quantum:format=floating-point
 -shave 20x20
--channel rgb,sync
--linear-stretch 0%x0.0001%
 -auto-gamma
--linear-stretch 0%x0.01%
--normalize
+-channel rgb
+-linear-stretch 0%x0.1%
+-contrast-stretch 0.02%x0%
+-channel rgb,sync
+-negate
