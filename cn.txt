@@ -1,4 +1,6 @@
+--linearraw
 --noadapt
 --withoutrescale
+--positive
 --imscript
 cn.scr
