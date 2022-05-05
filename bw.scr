@@ -2,7 +2,8 @@
 -define quantum:format=floating-point
 -shave 20x20
 -set colorspace srgb
--linear-stretch 0%x0.001%
--colorspace Gray
 -auto-gamma
--linear-stretch 0.001%x0%
+-linear-stretch 0%x0.007%
+-colorspace Gray
+-linear-stretch 0.007%x0%
+-negate

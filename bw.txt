@@ -1,5 +1,7 @@
+--linearraw
 --noadapt
 --withoutrescale
+--positive
 --imscript
 bw.scr
 --gray
