@@ -153,9 +153,9 @@ def rgb2gray_itur(img, gamma=1.5):
 
 def imagemagick_convert_command(infile, outdir):
     commands = [
-        "/opt/homebrew/bin/convert",
-        "/usr/local/bin/convert",
-        "/usr/bin/convert"
+        "/opt/homebrew/bin/magick",
+        "/usr/local/bin/magick",
+        "/usr/bin/magick"
     ]
     convert_command = ""
     for c in commands:
