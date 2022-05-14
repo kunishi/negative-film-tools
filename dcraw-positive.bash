@@ -8,6 +8,7 @@ DST=`basename "${SRC}" .dng`.jpg
 cd "${DSTDIR}" && \
 	dcraw -v -c -o 0 -4 -T -q 1 "${SRC}" | \
 	magick tif:- \
+		-define quantum:format=floating-point \
 		-depth 16 \
 		-shave 20x20 \
 		-colorspace srgb \
