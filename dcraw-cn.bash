@@ -6,19 +6,18 @@ DST=`basename "${SRC}" .dng`.jpg
 
 [ ! -d "${DSTDIR}" ] && mkdir -p "${DSTDIR}"
 cd "${DSTDIR}" && \
-	dcraw -v -c -o 0 -6 -W -g 1 1 -H 1 -T -q 3 "${SRC}" | \
+	dcraw -v -c -o 0 -6 -W -g 2.4 12.92 -H 1 -T -q 3 "${SRC}" | \
 	magick tif:- \
-		-set colorspace rgb \
+		-set colorspace srgb \
 		-define quantum:format=floating-point \
 		-depth 16 \
 		-shave 20x20 \
-		-colorspace rgb \
+		-channel rgb \
 		-channel rgb,sync \
-		-auto-gamma \
-		-contrast-stretch 0.2%x0% \
 		-negate \
-		-channel rgb,sync \
-		-modulate 100,140,100 \
+		-contrast-stretch 0%x0.1% \
+		-linear-stretch 0.2%x0% \
+		-modulate 100,150,100 \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"
