@@ -21,9 +21,7 @@ cd "${DSTDIR}" && \
 		-auto-gamma \
 		-gamma 1.3 \
 		-colorspace LinearGray \
-		-auto-level \
-		-linear-stretch 0.01%x0.05% \
-		+level 5,98% \
+		-linear-stretch 0.005%x0.5% \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"
