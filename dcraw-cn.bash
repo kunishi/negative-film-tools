@@ -11,17 +11,14 @@ cd "${DSTDIR}" && \
 		-define quantum:format=floating-point \
 		-depth 32 \
 		-shave 20x20 \
-		-colorspace srgb \
-		-auto-gamma \
+		-set colorspace srgb \
 		-negate \
-		-channel rgb \
-		-auto-gamma \
+		-colorspace rgb \
 		-channel rgb,sync \
-		-white-balance \
 		-auto-gamma \
-		-linear-stretch 0.01%x0.01% \
-		-modulate 100,150,100 \
-		-contrast-stretch 0.05%x0.05% \
+		-contrast-stretch 0%x0% \
+		-modulate 100,130,100 \
+		-normalize \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"
