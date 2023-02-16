@@ -19,10 +19,10 @@ cd "${DSTDIR}" && \
 		-channel rgb,sync \
 		-sigmoidal-contrast 3,50% \
 		-auto-gamma \
-		-modulate 100,130,100 \
+		-modulate 100,125,100 \
 		-contrast-stretch 0.03%x0.07% \
 		+sigmoidal-contrast 2,10% \
-		-gamma 0.8 \
+		-gamma 0.85 \
 		+level 10%,95% \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
