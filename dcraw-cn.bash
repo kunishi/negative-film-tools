@@ -22,8 +22,10 @@ cd "${DSTDIR}" && \
 		-modulate 100,125,100 \
 		-contrast-stretch 0.03%x0.07% \
 		+sigmoidal-contrast 2,10% \
-		-gamma 0.85 \
-		+level 10%,95% \
+		-colorspace lab \
+		-channel red \
+		-auto-level \
+		+channel \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"
