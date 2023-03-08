@@ -2,7 +2,7 @@
 
 SRC=$1
 DSTDIR=$2
-DST=`basename "${SRC}" .dng`.jpg
+DST=`basename "${SRC}" .dng`.heic
 
 [ ! -d "${DSTDIR}" ] && mkdir -p "${DSTDIR}"
 cd "${DSTDIR}" && \
