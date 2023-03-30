@@ -2,7 +2,7 @@
 
 SRC=$1
 DSTDIR=$2
-DST=`basename "${SRC}" .dng`.heic
+DST=`basename "${SRC}" .dng`.webp
 
 [ ! -d "${DSTDIR}" ] && mkdir -p "${DSTDIR}"
 cd "${DSTDIR}" && \
