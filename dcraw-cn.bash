@@ -11,14 +11,13 @@ cd "${DSTDIR}" && \
 		-depth 16 \
 		-shave 20x20 \
 		-set colorspace srgb \
+		-channel rgb -auto-gamma -channel rgb,sync \
+		-contrast-stretch 0.01%x0% \
+		-linear-stretch 0%x0.03% \
+		-sigmoidal-contrast 3,50% \
 		-negate \
-		-channel rgb -auto-gamma -channel rgb,sync \
-		-modulate 85,105,100 \
-		-auto-level \
-		-channel rgb -auto-gamma -channel rgb,sync \
-		-linear-stretch 0.02%x0.02% \
-		-contrast-stretch 0%x0.03% \
-		-modulate 100,120,100 \
+		-gamma 1.3 \
+		-modulate 100,115,100 \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"
