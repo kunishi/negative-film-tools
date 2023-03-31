@@ -23,7 +23,9 @@ cd "${DSTDIR}" && \
 		-linear-stretch 0.01%x0.03% \
 		-sigmoidal-contrast 2,75% \
 		+level 5%,95% \
+		-sigmoidal-contrast 2,10% \
 		-colorspace gray \
+		-auto-level \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"
