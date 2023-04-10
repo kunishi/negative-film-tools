@@ -6,26 +6,19 @@ DST=`basename "${SRC}" .dng`.webp
 
 [ ! -d "${DSTDIR}" ] && mkdir -p "${DSTDIR}"
 cd "${DSTDIR}" && \
-	dcraw -v -c -o 0 -6 -g 1 1 -W -T -d -q 3 "${SRC}" | \
+	dcraw -v -c -o 0 -6 -g 1 1 -W -T -q 3 "${SRC}" | \
 	magick tif:- \
-		-define quantum:format=floating-point \
-		-depth 32 \
+		-depth 16 \
 		-shave 20x20 \
-		-white-balance \
-		-auto-gamma \
+		-set colorspace srgb \
+		-channel rgb,!sync -auto-gamma -channel rgb,sync \
+		-gamma 2.4 \
+		-auto-level \
+		-contrast-stretch 0.3%,0% \
+		-linear-stretch 0%,0.2% \
 		-negate \
-		-sigmoidal-contrast 3,50% \
-		-auto-gamma \
-		+sigmoidal-contrast 2,0% \
-		+sigmoidal-contrast 1,100% \
-		-auto-gamma \
-		-auto-level \
-		-linear-stretch 0.01%x0.03% \
-		-sigmoidal-contrast 2,75% \
-		+level 5%,95% \
-		-sigmoidal-contrast 2,10% \
+		-modulate 100,130,100 \
 		-colorspace gray \
-		-auto-level \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"
