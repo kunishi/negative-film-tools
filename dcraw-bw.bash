@@ -15,9 +15,12 @@ cd "${DSTDIR}" && \
 		-gamma 2.4 \
 		-auto-level \
 		-contrast-stretch 0.3%,0% \
-		-linear-stretch 0%,0.2% \
 		-negate \
-		-modulate 100,130,100 \
+		-colorspace lab \
+			-channel r,!sync -contrast-stretch 0.2%,0% \
+			+level 5%,100% \
+			-sigmoidal-contrast 2,90% \
+			-channel rgb,sync \
 		-colorspace gray \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
