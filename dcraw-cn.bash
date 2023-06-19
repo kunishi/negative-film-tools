@@ -2,7 +2,7 @@
 
 SRC=$1
 DSTDIR=$2
-DST=`basename "${SRC}" .dng`.webp
+DST=`basename "${SRC}" .dng`.HEIC
 
 [ ! -d "${DSTDIR}" ] && mkdir -p "${DSTDIR}"
 cd "${DSTDIR}" && \
@@ -18,6 +18,8 @@ cd "${DSTDIR}" && \
 		-linear-stretch 0%,0.2% \
 		-negate \
 		-modulate 100,130,100 \
+		-profile $(dirname $0)/Display_P3.icc \
+		-depth 10 \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"

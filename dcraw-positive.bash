@@ -2,7 +2,7 @@
 
 SRC=$1
 DSTDIR=$2
-DST=`basename "${SRC}" .dng`.webp
+DST=`basename "${SRC}" .dng`.HEIC
 
 [ ! -d "${DSTDIR}" ] && mkdir -p "${DSTDIR}"
 cd "${DSTDIR}" && \
@@ -11,8 +11,8 @@ cd "${DSTDIR}" && \
 		-define quantum:format=floating-point \
 		-depth 16 \
 		-shave 20x20 \
-		-set colorspace srgb \
-		-channel rgb,sync \
+		-profile $(dirname $0)/Display_P3.icc \
+		-depth 10 \
 		"${DST}" && \
 exiftool -overwrite_original_in_place -TagsFromFile "${SRC}" \
 	'-all:all>all:all' '-orientation#=1' "${DST}"
