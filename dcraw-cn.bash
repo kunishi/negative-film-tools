@@ -10,7 +10,6 @@ cd "${DSTDIR}" && \
 	magick tif:- \
 		-depth 16 \
 		-shave 20x20 \
-		-set colorspace srgb \
 		-channel rgb,!sync -auto-gamma -channel rgb,sync \
 		-gamma 2.4 \
 		-auto-level \
