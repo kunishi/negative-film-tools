@@ -2,7 +2,7 @@
 
 SRC=$1
 DSTDIR=$2
-DST=`basename "${SRC}" .dng`.HEIC
+DST=`basename "${SRC}" .dng`.AVIF
 
 [ ! -d "${DSTDIR}" ] && mkdir -p "${DSTDIR}"
 cd "${DSTDIR}" && \
