@@ -17,17 +17,17 @@ toml = "*"
 
 [[package]]
 name = "imageio"
-version = "2.35.0"
+version = "2.35.1"
 description = "Library for reading and writing a wide range of image, video, scientific, and volumetric data formats."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "imageio-2.35.0-py3-none-any.whl", hash = "sha256:ebfb39c0ad7acf93750d7ee151664238aaa9208f202288ea6f3ca7cb0ed719c3"},
-    {file = "imageio-2.35.0.tar.gz", hash = "sha256:e88f759803d2968e19a55fa8372e9fbe12967a8598fe042d8719ca46d03f4256"},
+    {file = "imageio-2.35.1-py3-none-any.whl", hash = "sha256:6eb2e5244e7a16b85c10b5c2fe0f7bf961b40fcb9f1a9fd1bd1d2c2f8fb3cd65"},
+    {file = "imageio-2.35.1.tar.gz", hash = "sha256:4952dfeef3c3947957f6d5dedb1f4ca31c6e509a476891062396834048aeed2a"},
 ]
 
 [package.dependencies]
-numpy = "<2.0.0"
+numpy = "*"
 pillow = ">=8.3.2"
 
 [package.extras]
@@ -352,13 +352,13 @@ test = ["array-api-strict", "asv", "gmpy2", "hypothesis (>=6.30)", "mpmath", "po
 
 [[package]]
 name = "tifffile"
-version = "2024.8.10"
+version = "2024.8.24"
 description = "Read and write TIFF files"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "tifffile-2024.8.10-py3-none-any.whl", hash = "sha256:1c224564fa92e7e9f9a0ed65880b2ece97c3f0d10029ffbebfa5e62b3f6b343d"},
-    {file = "tifffile-2024.8.10.tar.gz", hash = "sha256:fdc12124f1478a07b1524641dc6b50cf6bde0483011a63fd2a773094090c3dcf"},
+    {file = "tifffile-2024.8.24-py3-none-any.whl", hash = "sha256:40faba20cb0af05c0eb500eda63244dd81500360e1518ff4548eb61ce3943099"},
+    {file = "tifffile-2024.8.24.tar.gz", hash = "sha256:65a77e50cfcf05e3553b52dd13367caad3f88eae7f533188653ce9b2d88b7464"},
 ]
 
 [package.dependencies]
